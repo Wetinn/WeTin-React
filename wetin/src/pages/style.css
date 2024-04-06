@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+
+
+* {
+    font-family: 'Quicksand', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    background-image: url(../assets/imgs/Gif.png);
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+}
+
+.App {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    justify-content: space-evenly;
+}
+
+.div_container_header {
+    display: flex;
+    justify-content: center;
+    height: 13vh;
+    width: 100%;
+    background-color: rgba(240, 255, 255, 0);
+    z-index: 999;
+    position: fixed;
+    top: 0;
+}
+
+.div_header {
+    width: 85%;
+    height: 100%;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+}
+
+.img_logo {
+    width: 12vw;
+    height: 8vh;
+}
+
+.bt_entrar {
+    height: 6vh;
+    width: 6vw;
+    border: solid 1px #0378A6;
+    color: #025373;
+    background-color: Branco Cinza;
+    border-radius: 30px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    font-size: medium;
+}
+
+
+/* -------------------  banner --------------- */
+.container_banner {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 8%;
+}
+
+.banner {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.textos_iniciais {
+    display: flex;
+    flex-direction: column;
+}
+
+.titulo {
+
+    font-size: 50px;
+    font-weight: 700;
+    color: #FFC30E;
+    width: 70%;
+}
+
+.complemento {
+    font-size: 22.93px;
+    font-weight: 400;
+    color: #F2F2F2;
+    width: 58%;
+    margin-top: 2%;
+}
+
+.botoes_banner {
+    display: flex;
+    justify-content: space-between;
+    width: 68vh;
+    margin-top: 4%;
+}
+
+.btCad {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #025373;
+    color: #F2F2F2;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 17px;
+    box-shadow: 23px 14px 7px 0px rgba(0, 0, 0, 0.00), 14px 9px 7px 0px rgba(0, 0, 0, 0.01), 8px 5px 6px 0px rgba(0, 0, 0, 0.05), 4px 2px 4px 0px rgba(0, 0, 0, 0.09), 1px 1px 2px 0px rgba(0, 0, 0, 0.10);
+    height: 8vh;
+    width: 15vw;
+    border: none;
+}
+
+.btSm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFFFFF;
+    color: #025373;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 17px;
+    box-shadow: 23px 14px 7px 0px rgba(0, 0, 0, 0.00), 14px 9px 7px 0px rgba(0, 0, 0, 0.01), 8px 5px 6px 0px rgba(0, 0, 0, 0.05), 4px 2px 4px 0px rgba(0, 0, 0, 0.09), 1px 1px 2px 0px rgba(0, 0, 0, 0.10);
+    height: 8vh;
+    width: 15vw;
+    border: 1px solid #025373;
+}
+
+.container_menu{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 25vh;
+    margin-top: 3%;
+}
+
+.menu {
+    display: flex;
+    position: relative;
+    width: 50%;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 50%;
+    height: 17vh;
+}
+
+.bolinha {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.imgIcon {
+    width: 3vw;
+    height: 6vh;
+}
+
+/* Posicionamento das bolinhas */
+.bolinha:nth-child(1) {
+    left: 26%;
+}
+
+.bolinha:nth-child(2) {
+    left: 36%;
+}
+
+.bolinha:nth-child(3) {
+    left: 46%;
+}
+
+.bolinha:nth-child(4) {
+    left: 56%;
+}
+
+.bolinha:nth-child(5) {
+
+    left: 66%;
+}
+
+
+.bolinha:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    height: 10px;
+    width: 40vw;
+    top: 40%;
+    left: calc(8% + 10px);
+    transform: translateY(-50%);
+    z-index: -2;
+    background-color: #FFC30E;
+}
+
+.descricao_menu{
+    color: #fff;
+    font-weight: 700;
+    width: 5vw;
+    text-align: center;
+    font-size: smaller;
+}
