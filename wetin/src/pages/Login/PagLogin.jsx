@@ -33,11 +33,24 @@ export default function Login() {
                         <div className={styles["inputSenha"]}>
                             <label htmlFor="inputLoginSenha">Senha:</label>
                             <div className={styles["teste"]}>
-                            <input type="text" className={styles["inputLoginSenha"]} placeholder="Digite aqui"/>
-                            <img src={iconOlho} alt="" />
+                            <input type="password" className={styles["inputLoginSenha"]} placeholder="Digite aqui" maxLength={12}/>
+                            <img src={iconOlho} alt=""/>
+                            {/* {
+                                function mostrarSenha() {
+                                    var senhaAtiva = false
+                                    if (senhaAtiva == false) {
+                                        
+                                    }
+                                }
+                            } */}
                             </div>
-                            
+                            <div className={styles["msgEsquecerSenha"]}>
+                                <span>
+                                    <u>Esqueci minha senha</u>
+                                </span>
+                            </div>
                         </div>
+
                         <div className={styles["btEntrar"]}>
                             <button>Entrar</button>
                         </div>
