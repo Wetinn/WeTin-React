@@ -24,11 +24,11 @@
 
 .bt_entrar {
     height: 6vh;
-    width: 6vw;
+    padding: 0 1.5% 0 1.5%;
     border: solid 1px #0378A6;
     color: #025373;
     background-color: Branco Cinza;
-    border-radius: 30px;
+    border-radius: 20px;
     cursor: pointer;
     display: flex;
     justify-content: center;

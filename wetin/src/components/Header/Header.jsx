@@ -1,8 +1,7 @@
-import Logo from "../../utils/assets/imgLogo.png"
 import styles from "./Header.module.css"
 
 export default function Header({
-    doisBotoes,
+    doisBotoes, textoBotao1, textoBotao2, Logo
 }) {
     return (
         <header>
@@ -12,10 +11,10 @@ export default function Header({
                     {
                         doisBotoes ?
                             <div style={{display: "flex", gap: "1rem"}}>
-                                <button className={styles["bt_entrar"]} >Entrar</button>
-                                <button className={styles["bt_entrar"]} >Entrar</button>
+                                <button className={styles["bt_entrar"]} >{textoBotao1}</button>
+                                <button className={styles["bt_entrar"]} >{textoBotao1}</button>
                             </div> :
-                            <button className={styles["bt_entrar"]} >Entrar</button>
+                            <button className={styles["bt_entrar"]} >{textoBotao1 || "Entrar"}</button>
                     }
                 </div>
             </div>

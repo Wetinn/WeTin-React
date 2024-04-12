@@ -1,0 +1,36 @@
+
+body {
+    background-image: url(../../utils/assets/solucao.png);
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+}
+
+.imgSolucao{
+    width: 20vw;
+    height: 20vh;
+}
+
+.container_solucao{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8%;
+}
+
+.solucao{
+    width: 80%;
+    display: flex;
+}
+
+.texto_solucao{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 50%;
+}
+
+.imgSolucao{
+    width: 20vw;
+    height: 40vh;
+}

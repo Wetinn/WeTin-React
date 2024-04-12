@@ -1,12 +1,13 @@
 import styles from "./Home.module.css"
 import Header from '../../components/Header/Header';
 import Navegador from "../../components/MenuNavegador/Navegador";
-
+import Logo from "../../utils/assets/imgLogo.png"
 
 export default function App() {
     return (
         <>
-            <Header  />
+        
+            <Header Logo={Logo}/>
             <div className={styles["container-banner"]}>
                 <div className={styles["banner"]}>
                     <div className={styles["textos_iniciais"]}>
