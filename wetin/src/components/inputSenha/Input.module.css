@@ -1,0 +1,55 @@
+.inputSenha {
+    display: flex;
+    flex-direction: column;
+    height: 15vh;
+    width: 97%;
+    justify-content: space-between;
+}
+
+.inputSenha label {
+    color: #025373;
+    font-weight: 700;
+    font-size: 1.3rem;
+}
+
+.teste{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.inputSenha img{
+    width: 2vw;
+    position: fixed;
+    left: 65%;
+    top: 62%;
+    cursor: pointer;
+} 
+
+
+.inputLoginSenha {
+    height: 6vh;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    padding-left: 3%;
+    background: #E2E2E2;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+    width: 100%;
+}   
+
+input{
+    all: unset;
+    color: black;
+}
+
+.msgEsquecerSenha{
+    color: black;
+    font-size: smaller;
+    font-weight: 500;
+    display: flex;
+    width: 100%;
+    flex-direction: row-reverse;
+    margin-top: 1%;
+    cursor: pointer;
+}
