@@ -9,7 +9,7 @@ export default function criarSenha() {
         <>
 
             <div className={styles["fundoPag"]}>
-                <Header Logo={Logo} textoBotao1={"Ir para Página Inicial"} />
+                <Header Logo={Logo} />
                 <div className={styles["containner_login"]}>
                     <div className={styles["blocoLogin"]}>
                         <div className={styles["tituloBloco"]}>

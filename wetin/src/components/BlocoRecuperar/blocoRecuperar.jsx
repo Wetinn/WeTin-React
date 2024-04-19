@@ -32,7 +32,7 @@ export default function name(props) {
                                     
                                 </div>
                         }
-                        <BtLogin textoBotao={props.textoBotao} />
+                        <BtLogin textoBotao={props.textoBotao} pagDesejada={props.pagDesejada}/>
                     </div>
                 </div>
             </div>

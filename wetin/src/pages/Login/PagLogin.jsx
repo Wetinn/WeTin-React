@@ -4,12 +4,16 @@ import Logo from "../../utils/assets/imgLogoPreta.svg";
 import Senha from "../../components/inputSenha/InputSenha";
 import BtLogin from "../../components/botaoLogin/BtLogin";
 
+
+
+
 export default function Login() {
+    
     return (
 
         <>
             <div className={styles["fundoPag"]}>
-                <Header textoBotao1={"Ir para Página Inicial"} Logo={Logo} />
+                <Header textoBotao1={"Ir para Página Inicial"} Logo={Logo} pagDesejada="/"/>
 
                 <div className={styles["containner_login"]}>
                     <div className={styles["blocoLogin"]}>

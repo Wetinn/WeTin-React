@@ -1,0 +1,101 @@
+.fundoPag {
+    width: 100%;
+    height: 100vh;
+    background-image: url(../../utils/assets/solucao.png);
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.containner {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.blocoEscolha {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: #F2F2F2;
+    box-shadow: 48px 163px 48px 0px rgba(0, 0, 0, 0.00), 31px 104px 43px 0px rgba(0, 0, 0, 0.01), 17px 59px 37px 0px rgba(0, 0, 0, 0.05), 8px 26px 27px 0px rgba(0, 0, 0, 0.09), 2px 7px 15px 0px rgba(0, 0, 0, 0.10);
+    height: 70vh;
+    width: 43%;
+    border-radius: 30px;
+}
+
+.tituloBloco {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #025373;
+    font-weight: 800;
+    font-size: 1.5rem;
+    width: 65%;
+    height: 20vh;
+}
+
+.selecao {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 40vh;
+    width: 85%;
+}
+
+.cadastroCandidato {
+    height: 40vh;
+    width: 37%;
+    display: flex;
+    flex-direction: column;
+    background-color: #025373;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 8%;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.cadastroCandidato img {
+    width: 6vw;
+}
+
+.cadastroCandidato span {
+    color: #F2F2F2;
+    font-weight: 700;
+    font-size: 1.1rem;
+    width: 45%;
+    font-feature-settings: 'clig' off, 'liga' off;
+}
+
+.cadastroRecrutador {
+    height: 40vh;
+    width: 37%;
+    display: flex;
+    flex-direction: column;
+    background-color: #F2B705;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 8%;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.cadastroRecrutador img {
+    width: 6vw;
+}
+
+.cadastroRecrutador span {
+    color: #373E41;
+    font-weight: 1000;
+    font-size: 1.1rem;
+    width: 45%;
+    font-feature-settings: 'clig' off, 'liga' off;
+}

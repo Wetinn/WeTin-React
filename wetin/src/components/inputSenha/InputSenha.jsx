@@ -1,7 +1,11 @@
-import iconOlho from "../../utils/assets/iconOlho.png"
-import styles from "./Input.module.css"
+import iconOlho from "../../utils/assets/iconOlho.png";
+import styles from "./Input.module.css";
+import { useNavigate } from "react-router-dom";
+
 
 export default function InputSenha(props) {
+
+    const navigate = useNavigate();
 
     const mostrarSenha = () => {
         const senhaInput = document.getElementById('inputLoginSenha');
@@ -22,7 +26,7 @@ export default function InputSenha(props) {
                 {
                     props.esqueciSenha ?
                         <div className={styles["msgEsquecerSenha"]}>
-                            <span>
+                            <span onClick={() => navigate("/recuperarSenha")}>
                                 <u>Esqueci minha senha</u>
                             </span>
                         </div>

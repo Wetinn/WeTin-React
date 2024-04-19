@@ -1,13 +1,16 @@
 import styles from "./Home.module.css"
 import Header from '../../components/Header/Header';
 import Navegador from "../../components/MenuNavegador/Navegador";
-import Logo from "../../utils/assets/imgLogo.png"
+import Logo from "../../utils/assets/imgLogo.png";
+import { useNavigate } from "react-router-dom";
+
 
 export default function App() {
+    const navigate = useNavigate();
     return (
         <>
             <div className={styles["fundoPag"]}>
-                <Header Logo={Logo} />
+                <Header Logo={Logo} textoBotao1={"Entrar"} pagDesejada="/login" />
                 <div className={styles["container-banner"]}>
                     <div className={styles["banner"]}>
                         <div className={styles["textos_iniciais"]}>
@@ -20,8 +23,8 @@ export default function App() {
 
                         </div>
                         <div className={styles["botoes_banner"]}>
-                            <button className={styles["btCad"]}>Se Cadastrar</button>
-                            <button className={styles["btSm"]}>Saiba Mais</button>
+                            <button className={styles["btCad"]} onClick={() => navigate("/cadastro")}>Se Cadastrar</button>
+                            <button className={styles["btSm"]} onClick={() => navigate("/solucao")}>Saiba Mais</button>
                         </div>
                     </div>
                 </div>
