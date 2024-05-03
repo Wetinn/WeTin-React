@@ -21,7 +21,7 @@ export default function SelecaoCadastro() {
                             </span>
                         </div>
                         <div className={styles["selecao"]}>
-                            <div className={styles["cadastroCandidato"]} onClick={() => navigate("/cadastro")}>
+                            <div className={styles["cadastroCandidato"]} onClick={() => navigate("/candidato")}>
                                 <img src={iconCandidato} alt="" />
                                 <span>
                                     Sou um Candidato!

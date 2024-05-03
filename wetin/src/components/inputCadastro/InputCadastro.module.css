@@ -1,0 +1,27 @@
+.InputDiv{
+    display: flex;
+    width: 80%;
+    flex-direction: column;
+}
+
+.labelDiv{
+    color: #000000;
+    width: 80%;
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: flex;
+    gap: 5px;
+}
+
+.labelDiv span{
+    color: red;
+    display: flex;
+}
+
+.input{
+    background: #e2e2e200;
+    border-radius: 5px;
+    height: 6vh;
+    padding-left: 3%;
+}
+

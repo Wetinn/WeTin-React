@@ -16,10 +16,10 @@ export default function Header({
                         <div></div>:
                         doisBotoes ?
                             <div style={{display: "flex", gap: "1rem"}}>
-                                <button className={styles["bt_entrar"]} onClick={() => navigate(pagDesejada)}>{textoBotao1}</button>
-                                <button className={styles["bt_entrar"]} onClick={() => navigate(pagDesejada2)}>{textoBotao2}</button>
+                                <button className={styles["primeiroBotao"]} onClick={() => navigate(pagDesejada)}>{textoBotao1}</button>
+                                <button className={styles["segundoBotao"]} onClick={() => navigate(pagDesejada2)}>{textoBotao2}</button>
                             </div> :
-                            <button className={styles["bt_entrar"]} onClick={() => navigate(pagDesejada)}>{textoBotao1}</button>
+                            <button className={styles["primeiroBotao"]} onClick={() => navigate(pagDesejada)}>{textoBotao1}</button>
                     }
                 </div>
             </div>

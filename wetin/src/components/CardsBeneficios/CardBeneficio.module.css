@@ -1,0 +1,36 @@
+.caixa_card{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 47vh;
+    width: 25%;
+}
+
+.imagem_card{
+    height: 20vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.titulo_card{
+    height: 5vh;
+    font-size: 1.2rem;
+    width: 80%;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: black;
+}
+
+.conteudo_card{
+    height: 15vh;
+    width: 85%;
+    text-align: center;
+    color: black;
+    font-size: 0.9rem;
+}

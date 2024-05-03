@@ -1,7 +1,7 @@
 .fundoPag {
     width: 100%;
     height: 100vh;
-    background-image: url(../..//utils/assets/solucao.png);
+    background-image: url(../../../utils/assets/solucao.png);
     background-repeat: no-repeat;
     background-size: 100% auto;
     display: flex;
@@ -10,6 +10,7 @@
     z-index: -9999;
     position: fixed;
 }
+
 
 .container {
     display: flex;
@@ -33,11 +34,13 @@
 
 .tituloBloco {
     color: #025373;
-    font-weight: 800;
+    font-weight: 600;
     font-size: 1.3rem;
     height: 10vh;
+    width: 75%;
     display: flex;
     align-items: center;
+    text-align: center;
 }
 
 .inputsBloco {

@@ -1,21 +1,16 @@
 import IconNavegacao from "./SecaoCadastro";
-import IconHome from "../../utils/assets/iconHome.svg";
-import IconSolucao from "../../utils/assets/iconSolucao.svg";
-import IconBeneficio from "../../utils/assets/iconBeneficio.svg";
-import IconSobreNos from "../../utils/assets/iconSobreNos.svg";
-import IconDepoimentos from "../../utils/assets/iconDepoimentos.svg";
-
 import styles from "./MenuCadastro.module.css"
+import { useNavigate } from "react-router-dom";
 
 export default function Navegador(props) {
-
+    const navigate = useNavigate();
 
     return (
         <div className={styles["container_menu"]}>
             <div className={styles["menu"]}>
-                <IconNavegacao cor={props.ativa}  descricao = "Criando perfil" n="1" color={props.textoAtivo}/>
-                <IconNavegacao cor="#F2B705"  descricao = "Endereço" n="2" color=""/>
-                <IconNavegacao cor="#F2B705"  descricao = "Pagamento" n="3" color=""/>
+                <IconNavegacao cor={props.ativa}  descricao = {props.descricao1} n="1" color={props.textoAtivo} onClick={() => navigate(props.bolinha1)}/>
+                <IconNavegacao cor="#F2B705"  descricao = {props.descricao2} n="2" color="" onClick={() => navigate(props.bolinha2)}/>
+                <IconNavegacao cor="#F2B705"  descricao = {props.descricao3} n="3" color="" onClick={() => navigate(props.bolinha3)}/>
             </div>
         </div>
 

@@ -18,6 +18,7 @@
     display: flex;
     justify-content: center;
     margin-top: 8%;
+    margin-bottom: 3%;
 }
 
 .banner {
@@ -93,4 +94,12 @@
 
 .btSm:hover {
     background: linear-gradient(0deg, #b4b4b4 0%, #b4b4b4 100%);
+}
+
+.Navegador{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 2.5%;
 }

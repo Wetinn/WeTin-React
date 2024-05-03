@@ -28,7 +28,9 @@ export default function App() {
                         </div>
                     </div>
                 </div>
-                <Navegador />
+                <div className={styles["Navegador"]}>
+                    <Navegador  cor1="#025373" cor2="#F2B705" cor3="#F2B705" cor4="#F2B705" cor5="#F2B705"/>
+                </div>
             </div>
         </>
 

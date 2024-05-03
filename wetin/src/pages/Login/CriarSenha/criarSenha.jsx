@@ -1,10 +1,11 @@
 import styles from './criarSenha.module.css';
-import Header from '../../components/Header/Header';
-import Logo from "../../utils/assets/imgLogoPreta.svg";
-import Senha from '../../components/inputSenha/InputSenha'
-import BtLogin from '../../components/botaoLogin/BtLogin';
+import Header from '../../../components/Header/Header';
+import Logo from "../../../utils/assets/imgLogoPreta.svg";
+import Senha from '../../../components/inputSenha/InputSenha';
+import BtLogin from '../../../components/botaoLogin/BtLogin';
 
-export default function criarSenha() {
+export default function CriarSenha() {
+    
     return (
         <>
 

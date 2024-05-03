@@ -8,16 +8,16 @@ import IconDepoimentos from "../../utils/assets/iconDepoimentos.svg";
 import styles from "./MenuNavegacao.module.css"
 
 export default function Navegador(props) {
-
+    
 
     return (
         <div className={styles["container_menu"]}>
             <div className={styles["menu"]}>
-                <IconNavegacao cor="#025373" icon={IconHome} descricao = "Home"/>
-                <IconNavegacao cor="#F2B705" icon={IconSolucao} descricao = "Solução"/>
-                <IconNavegacao cor="#F2B705" icon={IconBeneficio} descricao = "Benefícios"/>
-                <IconNavegacao cor="#F2B705" icon={IconSobreNos} descricao = "Sobre nós"/>
-                <IconNavegacao cor="#F2B705" icon={IconDepoimentos} descricao = "Depoimentos"/>
+                <IconNavegacao pag="/" cor={props.cor1} icon={IconHome} descricao = "Home" fonte={props.fonte}/>
+                <IconNavegacao pag="/solucao" cor={props.cor2} icon={IconSolucao} descricao = "Solução" fonte={props.fonte}/>
+                <IconNavegacao pag="/beneficios" cor={props.cor3} icon={IconBeneficio} descricao = "Benefícios" fonte={props.fonte}/>
+                <IconNavegacao pag="/" cor={props.cor4} icon={IconSobreNos} descricao = "Sobre nós" fonte={props.fonte}/>
+                <IconNavegacao pag="/" cor={props.cor5} icon={IconDepoimentos} descricao = "Depoimentos" fonte={props.fonte}/>
             </div>
         </div>
 

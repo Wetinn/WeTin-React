@@ -22,12 +22,11 @@
     height: 8vh;
 }
 
-.bt_entrar {
+.primeiroBotao {
     height: 6vh;
-    padding: 0 1.5% 0 1.5%;
+    padding: 0 1.5rem 0 1.5rem;
     border: solid 1px #0378A6;
     color: #025373;
-    background-color: Branco Cinza;
     border-radius: 20px;
     cursor: pointer;
     display: flex;
@@ -35,4 +34,19 @@
     align-items: center;
     font-weight: 600;
     font-size: medium;
+}
+
+.segundoBotao {
+    height: 6vh;
+    color: #fff;
+    border: none;
+    background-color: #025373;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    font-size: medium;
+    width: 10vw;
 }

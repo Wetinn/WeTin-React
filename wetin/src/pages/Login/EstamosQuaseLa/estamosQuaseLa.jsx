@@ -1,7 +1,7 @@
 import styles from "./estamosQuaseLa.module.css"
-import BlocoRecuperar from "../../components/BlocoRecuperar/blocoRecuperar"
-import Header from "../../components/Header/Header";
-import Logo from "../../utils/assets/imgLogoPreta.svg";
+import BlocoRecuperar from "../../../components/BlocoRecuperar/blocoRecuperar"
+import Header from "../../../components/Header/Header";
+import Logo from "../../../utils/assets/imgLogoPreta.svg";
 
 
 export default function criarSenha() {

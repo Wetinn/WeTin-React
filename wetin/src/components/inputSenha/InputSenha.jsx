@@ -21,8 +21,12 @@ export default function InputSenha(props) {
         <>
             <div className={styles["inputSenha"]}>
                 <label htmlFor="inputLoginSenha">{props.textoLabel}</label>
-                <input id="inputLoginSenha" type="password" className={styles["inputLoginSenha"]} placeholder="Digite aqui" maxLength={12} />
-                <img src={iconOlho} alt="Mostrar senha" onClick={mostrarSenha} />
+                <div className={styles["input"]}>
+                    <input id="inputLoginSenha" type="password" className={styles["inputLoginSenha"]} placeholder="Digite aqui" maxLength={12} />
+                    <div className={styles["divImg"]}>
+                    <img src={iconOlho} alt="Mostrar senha" onClick={mostrarSenha} />
+                    </div>
+                </div>
                 {
                     props.esqueciSenha ?
                         <div className={styles["msgEsquecerSenha"]}>
@@ -31,7 +35,7 @@ export default function InputSenha(props) {
                             </span>
                         </div>
                         :
-                        <div style={{height: "3vh"}}></div>
+                        <div style={{ height: "3vh" }}></div>
                 }
             </div>
         </>
