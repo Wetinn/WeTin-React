@@ -7,6 +7,7 @@ import Solucao from './pages/Solucao/PagSolucao';
 import SelecaoCadastro from './pages/SelecaoCadastro/SelecaoCadastro';
 import Beneficios1 from './pages/Beneficios/pagBeneficio1';
 import Beneficios2 from './pages/Beneficios/pagBeneficios';
+import SobreNos from "./pages/SobreNos/SobreNos";
 
 //pags de login
 import Login from './pages/Login/PagLogin';
@@ -36,6 +37,7 @@ function Rotas() {
                     <Route path="/solucao" element={<Solucao />} />
                     <Route path="/beneficios" element={<Beneficios1 />} />
                     <Route path="/segundaPartebeneficios" element={<Beneficios2 />} />
+                    <Route path="/sobreNos" element={<SobreNos />} />
                     
                     <Route path="/login" element={<Login />} />
                     <Route path="/recuperarSenha" element={<RecuperarSenha />} />
