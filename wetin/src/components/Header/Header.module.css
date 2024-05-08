@@ -1,7 +1,7 @@
 .div_container_header {
     display: flex;
     justify-content: center;
-    height: 13vh;
+    height: 12vh;
     width: 100%;
     background-color: rgba(240, 255, 255, 0);
     z-index: 999;

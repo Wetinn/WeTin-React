@@ -2,9 +2,12 @@ import styles from './pagamento.module.css';
 import Header from "../../../components/Header/Header";
 import Logo from "../../../utils/assets/imgLogoPreta.svg";
 import Navegador from "../../../components/NavegadorCadastro/NavegadorCadastro"
-import BotaoCadastro from "../../../components/botaoCadastro/BotaoCadastro";
+// import { useNavigate } from "react-router-dom";
+import BotaoCadastro from '../../../components/botaoCadastro/BotaoCadastro';
+
 
 export default function Pagamento() {
+
     return (
         <>
             <div className={styles["fundoPag"]}>
@@ -18,39 +21,44 @@ export default function Pagamento() {
                             <span className={styles["infos"]}>Para finalizar seu cadastro precisamos que você coloque as informações do seu melhor cartão de crédito onde será cobrada a mensalidade da nossa plataforma <b>(R$50,00)</b></span>
                         </div>
                         <div className={styles["inputsBloco"]}>
-                            <div className={styles["InputDiv"]}>
-                                <div className={styles["labelDiv"]}>
-                                    <label htmlFor="">Nome no cartão:</label>
-                                    <span>*</span>
+                            <form>
+                                <div className={styles["InputDiv"]}>
+                                    <div className={styles["labelDiv"]}>
+                                        <label htmlFor="">Número do cartão: </label>
+                                        <span>*</span>
+                                    </div>
+                                    <input type="text" className={styles["input"]} style={{ width: "75%" }} placeholder="Digite o número do cartão" />
                                 </div>
-                                <input type="text" className={styles["input"]}/>
-                            </div>
-
-                            <div className={styles["InputDiv"]}>
-                                <div className={styles["labelDiv"]}>
-                                    <label htmlFor="">Número do cartão:</label>
-                                    <span>*</span>
+                                <div className={styles["InputDiv"]}>
+                                    <div className={styles["labelDiv"]}>
+                                        <label htmlFor="">Nome no cartão: </label>
+                                        <span>*</span>
+                                    </div>
+                                    <input type="text" className={styles["input"]} style={{ width: "75%" }} placeholder="Digite o nome no cartão" />
                                 </div>
-                                <input type="text" className={styles["input"]}/>
-                            </div>
-
-                            <div className={styles["InputDiv"]}>
-                                <div className={styles["labelDiv"]}>
-                                    <label htmlFor="">Data de Validade</label>
-                                    <span>*</span>
+                                <div className={styles["InputDiv"]}>
+                                    <div className={styles["labelDiv"]}>
+                                        <label htmlFor="">CVV: </label>
+                                        <span>*</span>
+                                    </div>
+                                    <input type="text" className={styles["input"]} style={{ width: "75%" }} placeholder="Digite o código de segurança do cartão (CVV)" />
                                 </div>
-                                <input type="text" className={styles["input"]} style={{width:"30%"}}/>
-                            </div>
-
-                            <div className={styles["InputDiv"]}>
-                                <div className={styles["labelDiv"]}>
-                                    <label htmlFor="">CVV</label>
-                                    <span>*</span>
+                                <div className={styles["InputDiv"]}>
+                                    <div className={styles["labelDiv"]}>
+                                        <label htmlFor="">Data de validade: </label>
+                                        <span>*</span>
+                                    </div>
+                                    <input type="text" className={styles["input"]} style={{ width: "75%" }} placeholder="Digite a data de validade do cartão" />
                                 </div>
-                                <input type="text" className={styles["input"]} style={{width:"30%"}}/>
-                            </div>
+                            </form>
                         </div>
-                        <BotaoCadastro textoBt2="Próximo" pagDesejada1="/recrutadorEndereco" pagDesejada2="/login" />
+                        {/* <div className={styles["botoes"]}>
+                            <button className={styles["btVoltar"]} onClick>Voltar</button>
+                            <button className={styles["btProximo"]} onClick>Próximo</button>
+                        </div> */}
+
+                        <BotaoCadastro textoBt2="Concluir" pagDesejada1="/recrutadorDescricao" pagDesejada2="/login" />
+
                     </div>
                 </div>
 

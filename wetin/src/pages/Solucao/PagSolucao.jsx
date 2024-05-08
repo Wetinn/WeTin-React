@@ -9,7 +9,7 @@ export default function solucao() {
     return (
         <>
             <div className={styles["fundoPag"]}>
-                <Header textoBotao1={"Entrar"} textoBotao2={"Se Cadastrar"} Logo={Logo} pagDesejada="/" doisBotoes />
+                <Header textoBotao1={"Entrar"} textoBotao2={"Se Cadastrar"} Logo={Logo} pagDesejada="/login" pagDesejada2="/cadastro" doisBotoes />
                 <div className={styles["container_solucao"]}>
                     <div className={styles["solucao"]}>
 

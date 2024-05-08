@@ -1,0 +1,41 @@
+.caixaCard{
+    display: flex;
+    flex-direction: column;
+    height: 55vh;
+    width: 30%;
+    background-color: #F2F2F2;
+    box-shadow: -121px 142px 52px 0px rgba(0, 0, 0, 0.00), -77px 91px 48px 0px rgba(0, 0, 0, 0.01), -44px 51px 40px 0px rgba(0, 0, 0, 0.05), -19px 23px 30px 0px rgba(0, 0, 0, 0.09), -5px 6px 16px 0px rgba(0, 0, 0, 0.10);
+    border-radius: 20px;
+}
+
+.imagemCard{
+    height: 24vh;
+    border-radius: 20px 20px 0px 0px;
+}
+
+.imagemCard img{
+    width: 100%;
+}
+
+.informacoesCard{
+    height: 30vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.titulo{
+    width: 90%;
+    height: 5vh;
+    color: #025373;
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.comentario{
+    width: 85%;
+    height: 24vh;
+    display: flex;
+    color: black;
+}

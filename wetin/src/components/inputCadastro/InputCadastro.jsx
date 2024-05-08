@@ -9,7 +9,7 @@ export default function InputCadastro(props){
             <label htmlFor="">{props.label}</label>
             <span>*</span>
             </div>
-            <input type="text" className={styles["input"]} style={{width: props.tamanhoInput}} placeholder={props.textoPlaceHolder}/>
+            <input type="text" className={styles["input"]} style={{width: props.tamanhoInput}} placeholder={props.textoPlaceHolder} value={props.value} onChange={props.onchange}/>
         </div>
         </>
     );

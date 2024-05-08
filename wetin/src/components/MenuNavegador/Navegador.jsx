@@ -17,7 +17,7 @@ export default function Navegador(props) {
                 <IconNavegacao pag="/solucao" cor={props.cor2} icon={IconSolucao} descricao = "Solução" fonte={props.fonte}/>
                 <IconNavegacao pag="/beneficios" cor={props.cor3} icon={IconBeneficio} descricao = "Benefícios" fonte={props.fonte}/>
                 <IconNavegacao pag="/sobreNos" cor={props.cor4} icon={IconSobreNos} descricao = "Sobre nós" fonte={props.fonte}/>
-                <IconNavegacao pag="/" cor={props.cor5} icon={IconDepoimentos} descricao = "Depoimentos" fonte={props.fonte}/>
+                <IconNavegacao pag="/depoimentos" cor={props.cor5} icon={IconDepoimentos} descricao = "Depoimentos" fonte={props.fonte}/>
             </div>
         </div>
 

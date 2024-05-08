@@ -16,7 +16,7 @@ export default function PagBeneficio1() {
 
         <>
             <div className={styles["fundoPag"]}>
-                <Header textoBotao1={"Entrar"} textoBotao2={"Se Cadastrar"} Logo={Logo} pagDesejada="/" doisBotoes />
+            <Header textoBotao1={"Entrar"} textoBotao2={"Se Cadastrar"} Logo={Logo} pagDesejada="/login" pagDesejada2="/cadastro" doisBotoes />
 
                 <div className={styles["conteudo"]}>
                     <div className={styles["div_navegacao_bolinha"]}>

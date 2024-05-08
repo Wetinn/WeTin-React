@@ -15,17 +15,17 @@ export default function SobreNos() {
 
             <div className={styles["fundoPag"]}>
 
-                <Header textoBotao1={"Entrar"} textoBotao2={"Se Cadastrar"} Logo={Logo} pagDesejada="/" doisBotoes />
+                <Header textoBotao1={"Entrar"} textoBotao2={"Se Cadastrar"} Logo={Logo} pagDesejada="/login" pagDesejada2="/cadastro" doisBotoes />
 
                 <div className={styles["conteudo"]}>
                     <div className={styles["div_navegacao_bolinha"]}>
                         <div className={styles["pag1"]}>
 
                         </div>
-                        <div className={styles["pag2"]} onClick={() => navigate("/segundaPartebeneficios")}>
+                        <div className={styles["pag2"]} onClick={() => navigate("/valores")}>
 
                         </div>
-                        <div className={styles["pag3"]} onClick={() => navigate("/segundaPartebeneficios")}>
+                        <div className={styles["pag3"]} onClick={() => navigate("/contato")}>
 
                         </div>
                     </div>
@@ -56,7 +56,7 @@ export default function SobreNos() {
                             </div>
 
                             <div className={styles["caixa_seta"]}>
-                                <img src={IconeSeta} alt="" onClick={() => navigate("/segundaPartebeneficios")} />
+                                <img src={IconeSeta} alt="" onClick={() => navigate("/valores")} />
                             </div>
                         </div>
                     </div>

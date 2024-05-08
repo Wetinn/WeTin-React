@@ -1,7 +1,7 @@
 .fundoPag {
     width: 100%;
     height: 100vh;
-    background-image: url(../../utils/assets/fundoBeneficio.png);
+    background-image: url(../../../utils/assets/fundoValores.png);
     background-repeat: no-repeat;
     background-size: 100% auto;
     display: flex;
@@ -47,15 +47,27 @@
 }
 
 .div_seta{
-    width: 52.5%;
-    height: 10vh;
+    height: 13vh;
     display: flex;
-    align-items: end;
+    justify-content: end;
+    align-items: center;
+    flex-direction: column;
 }
 
-.div_seta img{
-    height: 7vh;
+.setaHeader{
+    height: 6vh;
     cursor: pointer;
+}
+
+.header span{
+    color: #025373;
+    font-weight: 700;
+    font-size: 2rem;
+    height: 11vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
 }
 
 .conteudo{
@@ -90,52 +102,37 @@
     background-color: #025373;
 }
 
-.container_beneficios{
+.pag3{
+    background-color: #373E41;
+}
+
+.container_valores{
     width: 97%;
-    height: 70vh;
-    display: flex;
-    align-items: center;
+    height: 75vh;
     margin-top: 5%;
+    display: flex;
+    align-items: center;
 }
 
-.beneficios{
-    width: 95%;
+.valores{
+    width: 100%;
     height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.caixa_cards{
+    height: 70vh;
+    width: 90%;
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
 
-.beneficios img{
-    width: 25vw;
-    height: 55vh;
-    margin-left: 5%;
-}
-
-.textos_beneficios{
-    width: 50%;
-    height: 50vh;
-    display: flex;
-    justify-content: space-around;
-    flex-direction: column;
-}
-
-.titulo_beneficios{
-    color: #025373;
-    font-weight: 700;
-    font-size: 2.7rem;
-    display: flex;
-    width: 85%;
-}
-
-.lista_beneficios{
-    display: flex;
-    flex-direction: column;
-    height: 30vh;
-    justify-content: space-around;
-    color: black;
-    font-size: large;
-    width: 85%;
+.caixa_seta img{
+    cursor: pointer;
 }
 
 .Navegador{
@@ -146,3 +143,4 @@
     align-items: center;
     margin-left: 2.5%;
 }
+

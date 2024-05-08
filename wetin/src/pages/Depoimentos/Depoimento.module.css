@@ -1,0 +1,49 @@
+.fundoPag {
+    width: 100%;
+    height: 100vh;
+    background-image: url(../../utils/assets/fundoDepoimentos.png);
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: fixed;
+    z-index: -1;
+}
+
+.containerDepoimentos{
+    width: 100%;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+}
+
+.depoimentos{
+    width: 85%;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.titulo{
+    width: 100%;
+    color: #025373;
+    font-weight: 700;
+    font-size: 2rem;
+    display: flex;
+    justify-content: flex-start;
+    height: 8vh;
+    align-items: center;
+}
+
+.caixaCards{
+    height: 68vh;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}

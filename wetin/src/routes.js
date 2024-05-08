@@ -8,6 +8,9 @@ import SelecaoCadastro from './pages/SelecaoCadastro/SelecaoCadastro';
 import Beneficios1 from './pages/Beneficios/pagBeneficio1';
 import Beneficios2 from './pages/Beneficios/pagBeneficios';
 import SobreNos from "./pages/SobreNos/SobreNos";
+import Valores from "./pages/SobreNos/Valores/Valores";
+import Contato from "./pages/SobreNos/Contato/Contato";
+import Depoimento from "./pages/Depoimentos/Depoimento";
 
 //pags de login
 import Login from './pages/Login/PagLogin';
@@ -18,7 +21,8 @@ import CriarSenha from './pages/Login/CriarSenha/criarSenha';
 
 //pags cadastro recrutador
 import CadastroRecrutador from './pages/CadastroRecrutador/CadastroRecrutador'
-import CadastroEndereco from './pages/CadastroRecrutador/CadastroEndereco/CadastroEndereco';
+// import CadastroEndereco from './pages/CadastroRecrutador/CadastroEndereco/CadastroEndereco';
+import Descricao from "./pages/CadastroRecrutador/NovoCadastro/CadastroImg";
 import Pagamento from "./pages/CadastroRecrutador/Pagamento/pagamento";
 
 //pags cadastro de candidato
@@ -38,6 +42,9 @@ function Rotas() {
                     <Route path="/beneficios" element={<Beneficios1 />} />
                     <Route path="/segundaPartebeneficios" element={<Beneficios2 />} />
                     <Route path="/sobreNos" element={<SobreNos />} />
+                    <Route path="/valores" element={<Valores />} />
+                    <Route path="/contato" element={<Contato />} />
+                    <Route path="/depoimentos" element={<Depoimento />} />
                     
                     <Route path="/login" element={<Login />} />
                     <Route path="/recuperarSenha" element={<RecuperarSenha />} />
@@ -47,7 +54,8 @@ function Rotas() {
                     <Route path="/cadastro" element={<SelecaoCadastro />} />
 
                     <Route path="/recrutador" element={<CadastroRecrutador />} />
-                    <Route path="/recrutadorEndereco" element={<CadastroEndereco/>} />
+                    {/* <Route path="/recrutadorEndereco" element={<CadastroEndereco/>} /> */}
+                    <Route path="/recrutadorDescricao" element={<Descricao/>} />
                     <Route path="/recrutadorPagamento" element={<Pagamento/>} />
 
 
