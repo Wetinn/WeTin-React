@@ -1,0 +1,16 @@
+.option {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+.option h1 {
+    margin: auto 0;
+    color: #FFF;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Quicksand;
+    font-size: 22.93px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+}
