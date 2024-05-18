@@ -1,0 +1,128 @@
+.card {
+    width: 100%;
+    position: relative;
+    border-radius: 20px;
+    background-color: #f2f2f2;
+    height: 390px;
+    max-width: 275px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 23px 14px 7px rgba(0, 0, 0, 0), 14px 9px 7px rgba(0, 0, 0, 0.01), 8px 5px 6px rgba(0, 0, 0, 0.05), 4px 2px 4px rgba(0, 0, 0, 0.09), 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.recomendacao {
+    border: 5px solid #228e26;
+    box-sizing: border-box;
+}
+
+.textoRecomendacao {
+    position: absolute;
+    z-index: 1;
+    border-radius: 10px 0px 15px 0px;
+    background-color: #228e26;
+    width: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 6px 14px;
+}
+
+.textoRecomendacao h3 {
+    margin: 0px;
+    position: relative;
+    font-size: 14.68px;
+    font-family: Quicksand;
+    color: #f2f2f2;
+    text-align: left;
+}
+
+.favorito {
+    border: 5px solid #f2b705;
+    box-sizing: border-box;
+}
+
+.textoFavorito {
+    display: flex;
+    gap: 5px;
+    position: absolute;
+    z-index: 1;
+    border-radius: 10px 0px 15px 0px;
+    background-color: #f2b705;
+    width: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 6px 14px;
+}
+
+.textoFavorito h3 {
+    margin: 0px;
+    position: relative; 
+    font-size: 14.68px;
+    font-family: Quicksand;
+    color: #373e41;
+    text-align: left;
+    font-weight: 800;
+}
+
+.fotoUsuario {
+    width: 100%;
+    position: relative;
+    border-radius: 20px 20px 0px 0px;
+    max-width: 100%;
+    overflow: hidden;
+    height: 149px;
+    object-fit: cover;
+    object-position: top;
+}
+
+.card h2 {
+    width: calc(275px - 48px);
+    position: relative;
+    font-size: 22.93px;
+    line-height: 20px;
+    font-family: Quicksand;
+    color: #000;
+    text-align: left;
+    display: inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 12px 12px 8px 16px;
+}
+
+.info {
+    margin-left: 16px;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    height: 45px;
+}
+
+.info:last-child{
+    margin-bottom: 8px;
+}
+
+.info img {
+    height: 25px;
+    max-width: 100%;
+}
+
+.info p {
+    width: calc(275px - 48px);  
+    position: relative;
+    font-size: 18.35px;
+    line-height: 20px;
+    font-family: Quicksand;
+    color: #000;
+    text-align: left;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
