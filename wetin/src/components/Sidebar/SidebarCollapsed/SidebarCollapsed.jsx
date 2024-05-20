@@ -24,7 +24,7 @@ export default function SidebarCollapsed() {
         <Icon src={helpIcon} alt="Help" />
       </div>
 
-      <Icon src="./imagens/icons/LogoutIcon.png" alt="Logout" />
+      <Icon src={logoutIcon} alt="Logout" />
     </div>
     </>
   );

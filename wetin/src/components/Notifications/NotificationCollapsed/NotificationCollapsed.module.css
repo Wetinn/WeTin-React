@@ -1,0 +1,55 @@
+.card{
+    width: 923px;
+    height: 92px;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 20px;
+    padding: 16px;
+    color: black;
+    background-color: white;
+    box-shadow: 75px 89px 33px rgba(0, 0, 0, 0), 48px 57px 30px rgba(0, 0, 0, 0.02), 27px 32px 25px rgba(0, 0, 0, 0.06), 12px 14px 19px rgba(0, 0, 0, 0.1), 3px 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.simbolo-nova-notificacao{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 1;
+    background-color: #F2B705;
+    margin-bottom: 80px;
+    margin-left: -20px;
+}
+
+.titulo-notificacao{
+    font-family: Quicksand;
+    font-size: 22.93px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-left: 16px;
+    margin-right: 8px;
+    text-wrap: nowrap;
+}
+
+.corpo-notificacao{
+    font-family: Quicksand;
+    font-size: 22.93px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-wrap: nowrap;
+    margin-right: 16px;
+}
+
+.icone-expandir{
+    margin-right: 16px;
+    height: 15px;
+    max-width: 100%;
+    flex-shrink: 0;
+}
