@@ -1,0 +1,27 @@
+.button-outline {
+    border-style: none;
+    display: inline-flex;
+    padding: 16px 50px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    border: 2px solid var(--Allports-800, #0D5B7D);
+    background: #FFF;
+    box-shadow: 23px 14px 7px 0px rgba(0, 0, 0, 0.00), 14px 9px 7px 0px rgba(0, 0, 0, 0.01), 8px 5px 6px 0px rgba(0, 0, 0, 0.05), 4px 2px 4px 0px rgba(0, 0, 0, 0.09), 1px 1px 2px 0px rgba(0, 0, 0, 0.10);
+}
+
+.button-outline {
+    color: var(--Allports-800, #0D5B7D);
+    text-align: center;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Quicksand;
+    font-size: var(--text_size_xs, 18.35px);
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;    
+}
+
+.button-outline:hover {
+    transition: background-color 0.2s ease-in;
+    background-color: #f2f2f2;
+}

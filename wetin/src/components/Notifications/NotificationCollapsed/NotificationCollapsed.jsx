@@ -9,8 +9,10 @@ export default function NotificationCollapsed(props) {
         {props.novo &&(
             <div className={styles["simbolo-nova-notificacao"]}></div>
         )}
-        <h2 className={styles["titulo-notificacao"]}>{props.titulo}</h2>
-        <p className={styles["corpo-notificacao"]}>{props.corpo}</p>
+        <div className={styles["conteudo"]}>
+          <h2 className={styles["titulo-notificacao"]}>{props.titulo}</h2>
+          <p className={styles["corpo-notificacao"]}>{props.corpo}</p>
+        </div>
         <img className={styles["icone-expandir"]} alt="Expandir" src={expandIconBlack}></img>
     </div>
     </>
