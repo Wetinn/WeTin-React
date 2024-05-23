@@ -1,0 +1,14 @@
+.span{
+    width: 100%;
+    color: black;
+    margin-right: 30px;
+    margin-bottom: 5px;
+}
+
+.div-org{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}

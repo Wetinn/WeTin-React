@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import Teste from './pages/Teste/Teste'
+
 //pages
 import Home from './pages/Home/PagHome';
 import Solucao from './pages/Solucao/PagSolucao';
@@ -32,11 +34,15 @@ import Questionario from "./pages/CadastroCandidato/Questionario/questionario";
 import Questionario2 from "./pages/CadastroCandidato/Questionario/questionario2";
 import Anexo from "./pages/CadastroCandidato/Anexo/anexo";
 
+//pags dashboard 
+import DashboardHome from "./pages/Dashboard/DashboardHome/DashboardHome";
+
 function Rotas() {
     return (
         <>
             <BrowserRouter>
                 <Routes>
+                    <Route path="/testes" element={<Teste/>} />
                     <Route path="/" element={<Home />} />
                     <Route path="/solucao" element={<Solucao />} />
                     <Route path="/beneficios" element={<Beneficios1 />} />
@@ -64,6 +70,8 @@ function Rotas() {
                     <Route path="/candidatoQuestionario" element={<Questionario/>} />
                     <Route path="/candidatoQuestionario2" element={<Questionario2/>} />
                     <Route path="/candidatoAnexo" element={<Anexo/>} />
+
+                    <Route path="/dashboard" element={<DashboardHome/>}/>
                 </Routes>
             </BrowserRouter>
         </>

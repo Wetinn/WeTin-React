@@ -1,0 +1,28 @@
+.button-favorite{
+    border-style: none;
+    border-radius: 10px;
+    padding: 12px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 180px;  
+    background-color: #FFF;
+    box-shadow: 23px 14px 7px 0px rgba(0, 0, 0, 0.00), 14px 9px 7px 0px rgba(0, 0, 0, 0.01), 8px 5px 6px 0px rgba(0, 0, 0, 0.05), 4px 2px 4px 0px rgba(0, 0, 0, 0.09), 1px 1px 2px 0px rgba(0, 0, 0, 0.10);
+}
+
+.button-image{
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+}
+
+.button-text{
+    margin-top: 4px;
+    color: #373e41;
+    font-feature-settings: "clig" off, "liga" off;
+    font-size: 18.35px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
