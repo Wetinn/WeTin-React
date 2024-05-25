@@ -9,6 +9,8 @@
     padding: 30px 30px;
     margin: 8px;
     width: 308px;
+    position: absolute;
+    z-index: 1002;
 }
 
 .cluster-icons {

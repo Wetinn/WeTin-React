@@ -8,15 +8,23 @@ import userIcon from '../../../utils/assets/icons/UserIcon.png'
 import notificationIcon from '../../../utils/assets/icons/NotificationIcon.png'
 import helpIcon from '../../../utils/assets/icons/HelpIcon.png'
 import logoutIcon from '../../../utils/assets/icons/LogoutIcon.png'
+import { useNavigate } from 'react-router-dom';
 
-export default function SidebarCollapsed() {
+export default function SidebarCollapsed(props) {
+
+  const navigate = useNavigate();
+
+  const handleNavigation = (path) => {
+    navigate(path)
+  }
+
   return (
     <>
     <div className={styles["side-bar"]}>
-      <Icon src={expandIcon} alt="Expand" />
+      <Icon src={expandIcon} alt="Expand" onClick={() => props.funcaoExpandir()}/>
 
       <div className={styles["cluster-icons"]}>
-        <Icon src={homeIcon} alt="Home" />
+        <Icon src={homeIcon} alt="Home" onClick={() => handleNavigation("/dashboard")}/>
         <Icon src={publishIcon} alt="Publish" />
         <Icon src={favoriteIcon} alt="Favorite" />
         <Icon src={userIcon} alt="User" />
@@ -24,7 +32,7 @@ export default function SidebarCollapsed() {
         <Icon src={helpIcon} alt="Help" />
       </div>
 
-      <Icon src={logoutIcon} alt="Logout" />
+      <Icon src={logoutIcon} alt="Logout" onClick={() => handleNavigation("/")} />
     </div>
     </>
   );

@@ -36,6 +36,7 @@ import Anexo from "./pages/CadastroCandidato/Anexo/anexo";
 
 //pags dashboard 
 import DashboardHome from "./pages/Dashboard/DashboardHome/DashboardHome";
+import VagasPublicadas from "./pages/Dashboard/VagasPublicadas/VagasPublicadas";
 
 function Rotas() {
     return (
@@ -72,6 +73,7 @@ function Rotas() {
                     <Route path="/candidatoAnexo" element={<Anexo/>} />
 
                     <Route path="/dashboard" element={<DashboardHome/>}/>
+                    <Route path="/dashboard/vagas-publicadas" element={<VagasPublicadas/>}/>
                 </Routes>
             </BrowserRouter>
         </>
