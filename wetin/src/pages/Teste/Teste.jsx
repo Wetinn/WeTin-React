@@ -1,5 +1,6 @@
 import React, {useState} from "react";
-import BarraPesquisa from "../../components/BarraPesquisa/BarraPesquisa";
+import NotificationIcon from "../../components/Icon/NotificationIcon/NotificationIcon"
+import notificationIcon from "../../utils/assets/icons/NotificationIcon.png"
 
 
 export default function Teste() {
@@ -17,7 +18,7 @@ export default function Teste() {
    
     return (
         <>
-        <BarraPesquisa />
+        <NotificationIcon src={notificationIcon} alt="Notification"/>
         </>
     );
 }

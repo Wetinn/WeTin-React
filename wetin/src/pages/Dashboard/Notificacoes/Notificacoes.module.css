@@ -1,0 +1,29 @@
+.caixa-central {
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: fit-content;
+    box-sizing: border-box;
+}
+
+.caixa-notificacoes{
+    width: fit-content;
+    overflow-y: scroll;
+    padding: 0px 8px;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+.caixa-lateral{
+    flex: 1;
+    height: calc(100vh - 16px);
+    border-radius: 20px;
+    margin: 8px 8px 8px 0px ;
+    background: var(--Blumine-900, #025373);
+    width: 100%;
+    box-shadow: 23px 14px 7px rgba(0, 0, 0, 0), 14px 9px 7px rgba(0, 0, 0, 0.01), 8px 5px 6px rgba(0, 0, 0, 0.05), 4px 2px 4px rgba(0, 0, 0, 0.09), 1px 1px 2px rgba(0, 0, 0, 0.1);
+    
+}

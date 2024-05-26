@@ -1,0 +1,42 @@
+.caixa-icone{
+    width: min(5vw, 5vh); 
+    height: min(5vw, 5vh); 
+    max-width: 40px;
+    max-height: 40px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    align-items: center;
+    flex-shrink: 0;  
+    position: relative;
+    display: inline-block;
+}
+
+.icon{
+    width: min(5vw, 5vh); 
+    height: min(5vw, 5vh); 
+    max-width: 40px;
+    max-height: 40px;
+}
+
+.contador-notificacoes{
+    min-width: fit-content;
+    padding: 0px 4px;
+    max-width: min(3vw, 3vh); 
+    height: min(3vw, 3vh);
+    cursor: pointer;
+    max-height: 20px;
+    background: #f2b705;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 14.68px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 1;
+    position: absolute;
+    margin-left: 4px;
+    margin-top: 2px;
+}

@@ -26,9 +26,9 @@ export default function SidebarExpanded(props) {
       <div className={styles["cluster-icons"]}>
         <Option src={homeIcon} alt="Home" titulo="Home" onClick={() => handleNavigation("/dashboard")}/>
         <Option src={publishIcon} alt="Publish" titulo="Publicar Vaga" />
-        <Option src={favoriteIcon} alt="Favorite" titulo="Favoritos" />
-        <Option src={userIcon} alt="User" titulo="Perfil da empresa" />
-        <Option src={notificationIcon} alt="Notification" titulo="Notificações" />
+        <Option src={favoriteIcon} alt="Favorite" titulo="Favoritos" onClick={() => handleNavigation("/dashboard/candidatos-favoritos")}/>
+        <Option src={userIcon} alt="User" titulo="Perfil da empresa" onClick={() => handleNavigation("/dashboard/perfil-empresa")}/>
+        <Option notificacoes  src={notificationIcon} alt="Notification" titulo="Notificações"  onClick={() => handleNavigation("/dashboard/notificacoes")}/>
         <Option src={helpIcon} alt="Help" titulo="Ajuda" />
       </div>
 

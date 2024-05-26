@@ -4,10 +4,12 @@
     border-radius: 20px;
     background-color: #f2f2f2;
     height: 390px;
-    max-width: 275px;
+    max-width: 325px;
     display: flex;
     flex-direction: column;
     box-shadow: 23px 14px 7px rgba(0, 0, 0, 0), 14px 9px 7px rgba(0, 0, 0, 0.01), 8px 5px 6px rgba(0, 0, 0, 0.05), 4px 2px 4px rgba(0, 0, 0, 0.09), 1px 1px 2px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 35px;
 }
 
 .recomendacao {
@@ -70,10 +72,8 @@
 }
 
 .fotoUsuario {
-    width: 100%;
-    position: relative;
-    border-radius: 20px 20px 0px 0px;
     max-width: 100%;
+    position: relative;
     overflow: hidden;
     height: 149px;
     object-fit: cover;
@@ -81,9 +81,9 @@
 }
 
 .card h2 {
-    width: calc(275px - 48px);
+    width: calc(100% - 36px);
     position: relative;
-    font-size: 22.93px;
+    font-size: 18.65px;
     line-height: 20px;
     font-family: Quicksand;
     color: #000;
@@ -117,7 +117,6 @@
     width: calc(275px - 48px);  
     position: relative;
     font-size: 18.35px;
-    line-height: 20px;
     font-family: Quicksand;
     color: #000;
     text-align: left;

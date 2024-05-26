@@ -1,5 +1,6 @@
 import styles from './SidebarCollapsed.module.css';
 import Icon from '../../Icon/Icon'
+import NotificationIcon from '../../Icon/NotificationIcon/NotificationIcon'
 import expandIcon from '../../../utils/assets/icons/ExpandIcon.png'
 import homeIcon from '../../../utils/assets/icons/HomeIcon.png'
 import publishIcon from '../../../utils/assets/icons/PublishIcon.png'
@@ -26,9 +27,9 @@ export default function SidebarCollapsed(props) {
       <div className={styles["cluster-icons"]}>
         <Icon src={homeIcon} alt="Home" onClick={() => handleNavigation("/dashboard")}/>
         <Icon src={publishIcon} alt="Publish" />
-        <Icon src={favoriteIcon} alt="Favorite" />
-        <Icon src={userIcon} alt="User" />
-        <Icon src={notificationIcon} alt="Notification" />
+        <Icon src={favoriteIcon} alt="Favorite" onClick={() => handleNavigation("/dashboard/candidatos-favoritos")}/>
+        <Icon src={userIcon} alt="User" onClick={() => handleNavigation("/dashboard/perfil-empresa")}/>
+        <NotificationIcon src={notificationIcon} alt="Notification" onClick={() => handleNavigation("/dashboard/notificacoes")}/>
         <Icon src={helpIcon} alt="Help" />
       </div>
 

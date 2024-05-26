@@ -1,9 +1,14 @@
 import styles from './ButtonOutline.module.css'
+import { useNavigate } from 'react-router-dom';
 
 export default function ButtonOutline(props) {
+
+    const handleNavigation = (path) => {
+        props.navigate(path)
+    }
     return(
         <>
-            <button className={styles["button-outline"]}>{props.texto}</button>
+            <button className={styles["button-outline"]} onClick={() => handleNavigation(props.path)}>{props.texto}</button>
         </>
     )
 }

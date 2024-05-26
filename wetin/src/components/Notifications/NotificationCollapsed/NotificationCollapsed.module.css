@@ -12,14 +12,13 @@
     color: black;
     background-color: white;
     box-shadow: 75px 89px 33px rgba(0, 0, 0, 0), 48px 57px 30px rgba(0, 0, 0, 0.02), 27px 32px 25px rgba(0, 0, 0, 0.06), 12px 14px 19px rgba(0, 0, 0, 0.1), 3px 4px 10px rgba(0, 0, 0, 0.12);
-    overflow: hidden;
 }
 
 .simbolo-nova-notificacao{
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    position: absolute;
+    position: relative;
     z-index: 1;
     background-color: #F2B705;
     margin-bottom: 80px;
@@ -42,14 +41,13 @@
     font-weight: 700;
     line-height: normal;
     margin-left: 16px;
-    margin-right: 8px;
+    margin-right: 16px;
     text-wrap: nowrap;
     min-width: fit-content;
     max-width: 800px;
     overflow: hidden;
     text-overflow: ellipsis;
     flex-shrink: 1;
-    flex-grow: 1;
 }
 
 .corpo-notificacao{

@@ -44,10 +44,15 @@
 }
 
 .caixa-cards::-webkit-scrollbar {
-    width: 0.3em;
-    height: 0.3em;
+    width: 0.5em;
+    height: 0.5em;
 }
-
+.caixa-cards::-webkit-scrollbar-track {
+    background: #373e41;
+    box-shadow: inset 0.05em 0 0 #838383;
+    border-radius: 20px;
+    margin: 0px 40px;
+}
 .secao-graficos {
     display: flex;
     gap: 8px;
