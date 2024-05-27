@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "name": "wetin",
   "version": "0.1.0",
   "private": true,
