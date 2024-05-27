@@ -41,7 +41,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "wetin" # Caminho ajustado para o diretório do código-fonte
-          output_location: "wetin/build" 
+          output_location: "wetin" 
           
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
