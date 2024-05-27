@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from './PerfilEmpresa.module.css'
 import SidebarCollapsed from "../../../components/Sidebar/SidebarCollapsed/SidebarCollapsed";
 import SidebarExtended from "../../../components/Sidebar/SidebarExtended/SidebarExtended";

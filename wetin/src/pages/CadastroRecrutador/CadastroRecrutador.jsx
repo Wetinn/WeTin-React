@@ -1,11 +1,11 @@
-import api from "../../api";
-import { toast } from "react-toastify";
+//import api from "../../api";
+//import { toast } from "react-toastify";
 import styles from "./CadastroRecrutador.module.css";
 import Header from "../../components/Header/Header";
 import Logo from "../../utils/assets/imgLogoPreta.svg";
 import Navegador from "../../components/NavegadorCadastro/NavegadorCadastro"
-import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+//import { useNavigate } from "react-router-dom";
+import React from "react";
 import BotaoCadastro from "../../components/botaoCadastro/BotaoCadastro";
 
 

@@ -1,10 +1,10 @@
 // import api from "../../api";
-import { toast } from "react-toastify";
+//import { toast } from "react-toastify";
 import styles from "./CadastroImg.module.css";
 import Header from "../../../components/Header/Header";
 import Logo from "../../../utils/assets/imgLogoPreta.svg";
 import Navegador from "../../../components/NavegadorCadastro/NavegadorCadastro";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 // import React, { useState } from "react"; 
 import BotaoCadastro from "../../../components/botaoCadastro/BotaoCadastro";
 import IconImgAnexo from "../../../utils/assets/iconImagemAnexa.svg"
@@ -12,7 +12,7 @@ import IconImgAnexo from "../../../utils/assets/iconImagemAnexa.svg"
 
 
 export default function CadastroRecrutador() {
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     return (
         <>
             <div className={styles["fundoPag"]}>

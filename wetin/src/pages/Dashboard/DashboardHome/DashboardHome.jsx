@@ -34,11 +34,13 @@ export default function DashboardHome() {
             } catch (err) {
                 setError(err);
                 setLoading(false);
+                console.log(loading)
+                console.log(error)
             }
         };
 
         fetchCandidatos();
-    }, []);
+    });
 
     const buscarCidadePorCep = async (cep) => {
         try {

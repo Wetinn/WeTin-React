@@ -43,7 +43,9 @@ export default function VagasPublicadas() {
     // getCandidatos alimenta a variável que vai mostrar os cards
     // Funciona para qualquer tipo de lista?
 
-    const [Vagas, setVagas] = useState([
+    const [Vagas, setVagas] = useState()
+
+    setVagas([
         { "imagem": "https://cdnm.westwing.com.br/glossary/uploads/br/2015/03/02025025/escrit%C3%B3rio-moderno-com-estande-grade-de-metal-e-plantas_c-a1495.jpg", "titulo": "Desenvolvedor Back-End", "descricao": "Descricao" },
         { "imagem": "https://cdnm.westwing.com.br/glossary/uploads/br/2015/03/02025025/escrit%C3%B3rio-moderno-com-estande-grade-de-metal-e-plantas_c-a1495.jpg", "titulo": "Desenvolvedor Back-End", "descricao": "Descricao" },
         { "imagem": "https://cdnm.westwing.com.br/glossary/uploads/br/2015/03/02025025/escrit%C3%B3rio-moderno-com-estande-grade-de-metal-e-plantas_c-a1495.jpg", "titulo": "Desenvolvedor Back-End", "descricao": "Descricao" },
@@ -51,7 +53,8 @@ export default function VagasPublicadas() {
         { "imagem": "https://cdnm.westwing.com.br/glossary/uploads/br/2015/03/02025025/escrit%C3%B3rio-moderno-com-estande-grade-de-metal-e-plantas_c-a1495.jpg", "titulo": "Desenvolvedor Back-End", "descricao": "Descricao" },
         { "imagem": "https://cdnm.westwing.com.br/glossary/uploads/br/2015/03/02025025/escrit%C3%B3rio-moderno-com-estande-grade-de-metal-e-plantas_c-a1495.jpg", "titulo": "Desenvolvedor Back-End", "descricao": "Descricao" },
     ])
-    const [TextoQuantidade, setTextoQuantidade] = useState(`${Vagas.length} Vagas publicadas`)
+    const [TextoQuantidade, setTextoQuantidade] = useState()
+    setTextoQuantidade(`${Vagas.length} Vagas publicadas`)
 
     const getVaga = () => {
         //Faz a requisição para o backend
