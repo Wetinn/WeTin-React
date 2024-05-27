@@ -1,78 +1,106 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import styles from './DashboardHome.module.css'
-import Filters from "../../../components/Filters/Filters";
+import CardCandidatoSimples from "../../../components/Cards/CardCandidatoSimples/CardCandidatoSimples";
 import SidebarCollapsed from "../../../components/Sidebar/SidebarCollapsed/SidebarCollapsed";
-import ButtonFilled from "../../../components/Buttons/ButtonFilled/ButtonFilled";
-import BarraPesquisa from "../../../components/BarraPesquisa/BarraPesquisa";
-import CardVaga from "../../../components/Cards/CardVaga/CardVaga"
-
-const cidades = [
-    { "_id": 1, "nome": "São Paulo" },
-    { "_id": 2, "nome": "Rio de Janeiro" },
-    { "_id": 3, "nome": "Manaus" },
-    { "_id": 4, "nome": "Brasília" },
-    { "_id": 5, "nome": "São Caetano" },
-]
-
-const especialidades = [
-    {"_id": 1, "nome": "Desenvolvedor"},
-    {"_id": 2, "nome": "Caixa de supermercado"},
-    {"_id": 3, "nome": "Jogador de futebol"},
-    {"_id": 4, "nome": "Açougueiro"},
-]
-
-const filtros = [cidades, especialidades]
-const tituloFiltros = [
-    {"id": 1, "titulo": "Cidades"},
-    {"id": 2, "titulo": "Especialidades"}]
+import SidebarExtended from "../../../components/Sidebar/SidebarExtended/SidebarExtended";
+import Overlay from "../../../components/Overlay/Overlay";
+import ButtonGhosted from "../../../components/Buttons/ButtonGhosted/ButtonGhosted";
+import axios from "axios";
 
 export default function DashboardHome() {
 
-    // HIPÓTESES DE USO DESSES FILTROS
-    // getCandidatos vai ser chamado quando o usuário entra na página para procurar os canididatos davaga
-    // Enviamos a função para o componente Filters para que quando for modificado o filtro ele possa chamar essa função novamente
-    // Essa função vai receber os filtros e vai fazer a chamada de acordo com os filtros selecionados
-    // getCandidatos alimenta a variável que vai mostrar os cards
-    // Funciona para qualquer tipo de lista?
 
-    const [Vagas, setVagas] = useState([
-        {"imagem":"https://cdnm.westwing.com.br/glossary/uploads/br/2015/03/02025025/escrit%C3%B3rio-moderno-com-estande-grade-de-metal-e-plantas_c-a1495.jpg", "titulo": "Desenvolvedor Back-End", "descricao": "Descricao"},
-        {"imagem":"https://cdnm.westwing.com.br/glossary/uploads/br/2015/03/02025025/escrit%C3%B3rio-moderno-com-estande-grade-de-metal-e-plantas_c-a1495.jpg", "titulo": "Desenvolvedor Back-End", "descricao": "Descricao"},
-        {"imagem":"https://cdnm.westwing.com.br/glossary/uploads/br/2015/03/02025025/escrit%C3%B3rio-moderno-com-estande-grade-de-metal-e-plantas_c-a1495.jpg", "titulo": "Desenvolvedor Back-End", "descricao": "Descricao"},
-        {"imagem":"https://cdnm.westwing.com.br/glossary/uploads/br/2015/03/02025025/escrit%C3%B3rio-moderno-com-estande-grade-de-metal-e-plantas_c-a1495.jpg", "titulo": "Desenvolvedor Back-End", "descricao": "Descricao"},
-        {"imagem":"https://cdnm.westwing.com.br/glossary/uploads/br/2015/03/02025025/escrit%C3%B3rio-moderno-com-estande-grade-de-metal-e-plantas_c-a1495.jpg", "titulo": "Desenvolvedor Back-End", "descricao": "Descricao"},
-        {"imagem":"https://cdnm.westwing.com.br/glossary/uploads/br/2015/03/02025025/escrit%C3%B3rio-moderno-com-estande-grade-de-metal-e-plantas_c-a1495.jpg", "titulo": "Desenvolvedor Back-End", "descricao": "Descricao"},
-    ])
-    const [TextoQuantidade, setTextoQuantidade] = useState(`${Vagas.length} Vagas publicadas`)
+    const [Candidato, setCandidato] = useState([])
+    const [ExpandirSideBar, setExpandirSideBar] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const getVaga = () => {
-        //Faz a requisição para o backend
-        renderVagas();
+    const toggleExpandirSideBar = () => {
+        setExpandirSideBar(!ExpandirSideBar)
+    }
+    //Faz a requisição para o backend
+    useEffect(() => {
+        const fetchCandidatos = async () => {
+            try {
+                const response = await axios.get('/candidatos');
+                const candidatosComCidade = await Promise.all(
+                    response.data.map(async candidato => {
+                        const cidade = await buscarCidadePorCep(candidato.cep);
+                        return { ...candidato, cidade };
+                    }))
+
+                setCandidato(candidatosComCidade)
+                setLoading(false);
+            } catch (err) {
+                setError(err);
+                setLoading(false);
+            }
+        };
+
+        fetchCandidatos();
+    }, []);
+
+    const buscarCidadePorCep = async (cep) => {
+        try {
+            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+
+            return response.data.localidade; // "localidade" é o campo que contém a cidade na resposta da ViaCEP
+        } catch (error) {
+            console.error('Erro ao buscar cidade pelo CEP:', error);
+            return 'Cidade desconhecida'; // ou outro valor padrão
+        }
     }
 
-    const renderVagas = () => Vagas.map(vaga => (
-            <React.Fragment key={vaga.id}>
-                <CardVaga titulo={vaga.titulo} descricao={vaga.descricao} imagem={vaga.imagem}/>
-            </React.Fragment>
+    const renderCandidatosFavoritos = () => Candidato.map(candidato => (
+        <React.Fragment key={candidato.id}>
+            <CardCandidatoSimples nome={candidato.nome} localizacao={candidato.cidade} telefone={candidato.telefone} imagem={candidato.imagem} />
+        </React.Fragment>
     ))
 
-   
+    const renderCandidatosRecomendados = () => Candidato.map(candidato => (
+        <React.Fragment key={candidato.id}>
+            <CardCandidatoSimples nome={candidato.nome} localizacao={candidato.cidade} telefone={candidato.telefone} imagem={candidato.imagem} recomendacao />
+        </React.Fragment>
+    ))
+
     return (
         <>
-            <div style={{ height: "100vh", width: "100vw",gap: '8px', display: 'flex', flexDirection: 'row', alignItems: "center"}}>
-                <SidebarCollapsed/>
-            <div style={{ gap: '8px', display: 'flex', flexDirection: 'column', height: "100%", width: "71.5vw" }}>
-                <BarraPesquisa placeholder="Eu tentei"/>
-                <div className={styles["caixa-vagas"]}>
-                    <h3>{TextoQuantidade}</h3>
-                    <div className={styles["caixa-cards"]}>
-                        {renderVagas()}
+            {ExpandirSideBar && <Overlay />}
+            {ExpandirSideBar && <SidebarExtended funcaoColapsar={toggleExpandirSideBar} />}
+            <div style={{ height: "100vh", width: "100vw", gap: '8px', display: 'flex', flexDirection: 'row', alignItems: "center" }}>
+                <SidebarCollapsed funcaoExpandir={toggleExpandirSideBar} />
+                <div className={styles["caixa-central"]}>
+
+                    <div className={styles["caixa-candidatos"]}>
+                        <h3>Candidatos Recomendados</h3>
+                        <div className={styles["caixa-cards"]}>
+                            {renderCandidatosRecomendados()}
+                        </div>
+                    </div>
+
+                    <div className={styles["caixa-candidatos"]}>
+                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                            <h3>Candidatos Favoritados</h3>
+                            <ButtonGhosted texto="MAIS +" path={"/dashboard/candidatos-favoritos"} />
+                        </div>
+                        <div className={styles["caixa-cards"]}>
+                            {renderCandidatosFavoritos()}
+                        </div>
                     </div>
                 </div>
-                </div>
-                <div style={{ gap: '8px', display: 'flex', flexDirection: 'column'  }}>
-                    <ButtonFilled texto="Adicionar vaga" height="72"/>
-                    <Filters getObjects={getVaga} tituloFiltros={tituloFiltros} filtros={filtros}/>
+                <div className={styles["secao-graficos"]}>
+                    <div className={styles["caixa-grafico"]}>
+                        <h3>Aderência das vagas</h3>
+                        <div className={styles["grafico"]}>
+                        </div>
+                        <p>
+                            Para melhorar a aderência das vagas, considere otimizar os títulos e descrições das vagas com palavras-chave relevantes, promover as vagas em redes sociais e atualizar regularmente o conteúdo para manter o interesse dos candidatos
+                        </p>
+                    </div>
+                    <div className={styles["caixa-grafico"]}>
+                        <h3>Relação candidato vaga</h3>
+                        <div className={styles["grafico"]}></div>
+                    </div>
                 </div>
             </div>
         </>

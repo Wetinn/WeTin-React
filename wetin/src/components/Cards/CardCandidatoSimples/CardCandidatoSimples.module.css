@@ -3,7 +3,9 @@
     position: relative;
     border-radius: 20px;
     background-color: #f2f2f2;
-    height: 300px;
+    max-height: 280px;
+    height: 35vh;
+    width: 20vw;
     max-width: 320px;
     display: flex;
     flex-direction: column;
@@ -36,12 +38,13 @@
     font-family: Quicksand;
     color: #f2f2f2;
     text-align: left;
+
 }
 
 .fotoUsuario {
     width: 100%;
     position: relative;
-    border-radius: 20px 20px 0px 0px;
+    border-radius: 16px 16px 0px 0px;
     max-width: 100%;
     overflow: hidden;
     height: 184px;
@@ -50,8 +53,9 @@
 }
 
 .card h2 {
-    width: 308px;
-    height: 30px;
+    width: calc(20vw - 32px);
+    max-height: 40px;
+    height: 5vh;
     position: relative;
     font-size: 22.93px;
     line-height: 20px;
@@ -95,5 +99,5 @@
     font-family: Quicksand;
     color: #000;
     text-align: left;
-    font-weight: 500;
+    font-weight: 500;   
 }

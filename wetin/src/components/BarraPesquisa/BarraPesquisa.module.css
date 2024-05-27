@@ -1,7 +1,7 @@
 .search-bar {
     height: 72px;
     min-width: 927;
-    width: 71   vw;
+    flex: 1;
     flex-shrink: 0;
     border-radius: 20px;
     background: var(--95, #F2F2F2);
@@ -12,7 +12,6 @@
     flex-direction: row;
     align-items: center;
     margin-top: 8px;
-    margin-right: 8px;
 }
 
 .search-icon {

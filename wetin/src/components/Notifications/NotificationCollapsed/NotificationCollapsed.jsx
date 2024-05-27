@@ -5,7 +5,7 @@ import expandIconBlack from '../../../utils/assets/icons/ExpandIconBlack.png'
 export default function NotificationCollapsed(props) {
   return (
     <>
-    <div className={styles["card"]}>
+    <div className={styles["card"]} onClick={props.onExpand}>
         {props.novo &&(
             <div className={styles["simbolo-nova-notificacao"]}></div>
         )}
