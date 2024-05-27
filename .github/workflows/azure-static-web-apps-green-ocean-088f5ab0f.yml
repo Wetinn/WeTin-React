@@ -40,7 +40,7 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GREEN_OCEAN_088F5AB0F }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "wetin/src" # Caminho ajustado para o diretório do código-fonte
+          app_location: "wetin" # Caminho ajustado para o diretório do código-fonte
           output_location: "wetin/build" 
           
   close_pull_request_job:
