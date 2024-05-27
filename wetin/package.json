@@ -6,7 +6,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/plugin-transform-class-properties": "^7.24.6",
     "@babel/plugin-transform-nullish-coalescing-operator": "^7.24.6",
     "@babel/plugin-transform-numeric-separator": "^7.24.6",
@@ -50,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }
