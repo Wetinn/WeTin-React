@@ -2,11 +2,67 @@ import styles from './pagamento.module.css';
 import Header from "../../../components/Header/Header";
 import Logo from "../../../utils/assets/imgLogoPreta.svg";
 import Navegador from "../../../components/NavegadorCadastro/NavegadorCadastro"
-// import { useNavigate } from "react-router-dom";
-import BotaoCadastro from '../../../components/botaoCadastro/BotaoCadastro';
+import { useNavigate } from "react-router-dom";
+import api from '../../../api'
 
 
 export default function Pagamento() {
+    const navigate = useNavigate();
+
+    var editadoJSON = sessionStorage.getItem('editado');
+    var continuacaoJSON = sessionStorage.getItem('continuacao');
+
+    var editado = JSON.parse(editadoJSON);
+    var continuacao = JSON.parse(continuacaoJSON);
+
+    var nome = editado.nome;
+    var email = editado.email
+    var telefone = editado.telefone
+    var cep = continuacao.cep
+    var senha = editado.senha
+    var imagem = "testeImagem"
+    var cnpj = editado.cnpj
+    var descricao = continuacao.descricao
+    var linkedin = continuacao.linkedin
+    const handleSave = () => {
+        const recrutadorCadastrado = {
+            nome,
+            email,
+            telefone,
+            cep,
+            senha,
+            imagem,
+            cnpj,
+            descricao,
+            linkedin
+        };
+
+        api.post(`/recrutador`, {
+            nome,
+            email,
+            telefone,
+            cep,
+            senha,
+            imagem,
+            cnpj,
+            descricao,
+            linkedin
+        }).then(() => {
+            // toast.success("Novo Card criado com sucesso!");
+            alert("Cadastrado")
+            sessionStorage.setItem("recrutador",
+                JSON.stringify(recrutadorCadastrado));
+            navigate("/login")
+        }).catch(() => {
+            console.log(recrutadorCadastrado)
+            // toast.error("Ocorreu um erro ao salvar os dados, por favor, tente novamente.");
+            alert("deu ruim")
+        })
+    };
+
+    const handleBack = () => {
+        navigate("/recrutadorDescricao");
+    };
 
     return (
         <>
@@ -52,12 +108,12 @@ export default function Pagamento() {
                                 </div>
                             </form>
                         </div>
-                        {/* <div className={styles["botoes"]}>
-                            <button className={styles["btVoltar"]} onClick>Voltar</button>
-                            <button className={styles["btProximo"]} onClick>Próximo</button>
-                        </div> */}
+                        <div className={styles["botoes"]}>
+                            <button className={styles["btVoltar"]} onClick={handleBack}>Voltar</button>
+                            <button className={styles["btProximo"]} onClick={handleSave}>Próximo</button>
+                        </div>
 
-                        <BotaoCadastro textoBt2="Concluir" pagDesejada1="/recrutadorDescricao" pagDesejada2="/login" />
+                        {/* <BotaoCadastro textoBt2="Concluir" pagDesejada1="/recrutadorDescricao" pagDesejada2="/login" /> */}
 
                     </div>
                 </div>

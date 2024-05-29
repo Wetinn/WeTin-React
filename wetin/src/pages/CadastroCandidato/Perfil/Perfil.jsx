@@ -22,7 +22,7 @@ export default function Perfil() {
                             <InputCadastro label="Nome Completo:" tamanhoInput="75%" textoPlaceHolder="Digite aqui seu nome"/>
                             <InputCadastro label="E-mail:" tamanhoInput="75%" textoPlaceHolder="Digite aqui seu e-mail"/>
                             <InputCadastro label= "Telefone:" tamanhoInput="75%" textoPlaceHolder="Digite aqui seu telefone"/>
-                            <InputCadastro label= "CPF:" tamanhoInput="75%" textoPlaceHolder="Digite aqui seu CPF"/>
+                            <InputCadastro label= "CEP:" tamanhoInput="75%" textoPlaceHolder="Digite aqui seu CEP"/>
                         </div>
                         <BotaoCadastro textoBt2 = "Próximo" pagDesejada1="/cadastro" pagDesejada2="/candidatoEndereco"/>
                     </div>
