@@ -1,0 +1,15 @@
+.caixa-candidatos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.texto-contador {
+    color: #000;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-size: 18.65px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    margin: 0px 0px 24px 12px;
+}

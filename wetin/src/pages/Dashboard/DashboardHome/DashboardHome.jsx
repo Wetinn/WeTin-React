@@ -6,6 +6,7 @@ import SidebarExtended from "../../../components/Sidebar/SidebarExtended/Sidebar
 import Overlay from "../../../components/Overlay/Overlay";
 import ButtonGhosted from "../../../components/Buttons/ButtonGhosted/ButtonGhosted";
 import axios from "axios";
+import Loading from "../../../components/Loading/Loading";
 
 export default function DashboardHome() {
 
@@ -67,6 +68,7 @@ export default function DashboardHome() {
 
     return (
         <>
+            {loading && <Loading />}
             {ExpandirSideBar && <Overlay />}
             {ExpandirSideBar && <SidebarExtended funcaoColapsar={toggleExpandirSideBar} />}
             <div style={{ height: "100vh", width: "100vw", gap: '8px', display: 'flex', flexDirection: 'row', alignItems: "center" }}>

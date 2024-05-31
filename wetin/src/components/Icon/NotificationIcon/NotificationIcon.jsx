@@ -29,9 +29,9 @@ export default function Icon(props){
 
     return(
         <>
-        <div className={styles["caixa-icone"]}>
+        <div className={styles["caixa-icone"]} onClick={props.onClick}>
             <div className={styles["contador-notificacoes"]}>{Texto}</div>
-            <img className={styles["icon"]} src={props.src} alt={props.alt} onClick={props.onClick}/>
+            <img className={styles["icon"]} src={props.src} alt={props.alt} />
         </div>
         </>
     );

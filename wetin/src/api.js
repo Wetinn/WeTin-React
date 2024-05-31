@@ -7,6 +7,7 @@ const api = axios.create({
     // o que torna o código mais seguro e flexível, já que a URL pode ser facilmente alterada sem necessidade de modificar o código.
     baseURL: process.env.REACT_APP_API_URL
 });
+
     
 // Exporta a instância criada para que possa ser utilizada em outras partes do projeto.
 export default api;

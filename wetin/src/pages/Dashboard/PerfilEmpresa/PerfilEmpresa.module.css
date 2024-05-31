@@ -1,0 +1,72 @@
+.caixa-perfil {
+    height: calc(100vh - 16px);
+    margin: 8px 0px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    box-shadow: 0px 87px 24px 0px rgba(0, 0, 0, 0.00), 0px 56px 22px 0px rgba(0, 0, 0, 0.01), 0px 31px 19px 0px rgba(0, 0, 0, 0.05), 0px 14px 14px 0px rgba(0, 0, 0, 0.09), 0px 3px 8px 0px rgba(0, 0, 0, 0.10);
+    border-radius: 20px;
+    background-color: #f2f2f2;
+    flex: 1;
+    padding: 40px 80px;
+}
+
+.caixa-central {
+    height: 100vh;
+    width: 100%;
+}
+
+.foto-e-nome {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 40px;
+}
+
+.container-foto{
+    width: 175px;
+    height: 175px;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0px 87px 24px 0px rgba(0, 0, 0, 0.00), 0px 56px 22px 0px rgba(0, 0, 0, 0.01), 0px 31px 19px 0px rgba(0, 0, 0, 0.05), 0px 14px 14px 0px rgba(0, 0, 0, 0.09), 0px 3px 8px 0px rgba(0, 0, 0, 0.10);
+}
+
+.foto-perfil {
+    width: 175px;
+    max-width: 100%;
+}
+
+.nome-empresa {
+    color: var(--Preto, #000);
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Quicksand;
+    font-size: 35.84px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.subtopico {
+    margin-bottom: 16px;
+    color: var(--Preto, #000);
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Quicksand;
+    font-size: 22.93px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.corpo {
+    margin-bottom: 16px;
+    width: 80%;
+    color: var(--Preto, #000);
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Quicksand;
+    font-size: 18.35px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}

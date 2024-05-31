@@ -1,18 +1,25 @@
 import styles from "./CardVaga.module.css"
 import React from "react";
 import classNames from 'classnames';
+import { useNavigate } from "react-router-dom";
 
 export default function CardVaga(props) {
 
     const cardClass = classNames(styles.card, {
         [styles.rascunho]: props.rascunho,
-    }
+        }
     )
+
+    const navigate = useNavigate();
+
+    const redirectInformacoesVaga = () =>{
+        navigate(`/dashboard/informacoes-vaga/${props.info.id}`)
+    }
 
     return (
         <>
 
-            <div className={cardClass}>
+            <div className={cardClass} onClick={() => redirectInformacoesVaga()}>
                 {props.rascunho && (
                     <div className={styles['textoRascunho']}>
                         <h3>Rascunho</h3>

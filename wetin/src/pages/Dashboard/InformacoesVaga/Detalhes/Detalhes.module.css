@@ -1,0 +1,35 @@
+.caixa-descricao-vaga {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+
+
+.card {
+    height: auto;
+    padding: 24px;
+    background-color: #FFF;
+    border-radius: 20px 20px 20px 20px;
+    box-shadow: 0px 87px 24px 0px rgba(0, 0, 0, 0.00), 0px 56px 22px 0px rgba(0, 0, 0, 0.01), 0px 31px 19px 0px rgba(0, 0, 0, 0.05), 0px 14px 14px 0px rgba(0, 0, 0, 0.09), 0px 3px 8px 0px rgba(0, 0, 0, 0.10);
+}
+
+.card h2 {
+    color: black;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-size: 18.65px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+
+    margin-bottom: 16px;
+}
+
+.card p {
+    color: var(--Cinza-azulado-Escuro, var(--Outer-Space-900, #373E41));
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-size: 18.65px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
