@@ -1,6 +1,5 @@
 .search-bar {
-    height: 72px;
-    min-width: 927;
+    max-height: 64px;
     flex: 1;
     flex-shrink: 0;
     border-radius: 20px;

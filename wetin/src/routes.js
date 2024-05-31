@@ -40,6 +40,8 @@ import VagasPublicadas from "./pages/Dashboard/VagasPublicadas/VagasPublicadas";
 import CandidatosFavoritos from "./pages/Dashboard/CandidatosFavoritos/CandidatosFavoritos";
 import Notificacoes from "./pages/Dashboard/Notificacoes/Notificacoes";
 import PerfilEmpresa from "./pages/Dashboard/PerfilEmpresa/PerfilEmpresa";
+import InformacoesVaga from "./pages/Dashboard/InformacoesVaga/InformacoesVaga";
+import PerfilCandidato from "./pages/Dashboard/PerfilCandidato/PerfilCandidato";
 
 function Rotas() {
     return (
@@ -80,6 +82,8 @@ function Rotas() {
                     <Route path="/dashboard/candidatos-favoritos" element={<CandidatosFavoritos/>}/>
                     <Route path="/dashboard/notificacoes" element={<Notificacoes/>}/>
                     <Route path="/dashboard/perfil-empresa" element={<PerfilEmpresa/>}/>
+                    <Route path="/dashboard/informacoes-vaga/:id" element={<InformacoesVaga/>}/>
+                    <Route path="/dashboard/perfil-candidato/:id" element={<PerfilCandidato/>}/>
                 </Routes>
             </BrowserRouter>
         </>

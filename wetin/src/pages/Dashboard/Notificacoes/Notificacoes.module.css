@@ -11,7 +11,7 @@
 
 .caixa-notificacoes{
     width: fit-content;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding: 0px 8px;
     box-sizing: border-box;
     height: 100%;

@@ -90,6 +90,7 @@
 }
 
 .caixa-grafico:first-child h3 {
+    color: #FFF;
     font-feature-settings: 'clig' off, 'liga' off;
     font-size: 22.93px;
     font-style: normal;
@@ -109,6 +110,7 @@
 }
 
 .caixa-grafico p {
+    color: #FFF;
     font-feature-settings: 'clig' off, 'liga' off;
     font-size: 16px;
     font-style: normal;

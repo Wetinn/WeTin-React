@@ -8,6 +8,7 @@
     border-radius: 20px;
     background: #0D5B7D;
     box-shadow: 23px 14px 7px 0px rgba(0, 0, 0, 0.00), 14px 9px 7px 0px rgba(0, 0, 0, 0.01), 8px 5px 6px 0px rgba(0, 0, 0, 0.05), 4px 2px 4px 0px rgba(0, 0, 0, 0.09), 1px 1px 2px 0px rgba(0, 0, 0, 0.10);
+    cursor: pointer;
 }
 
 .button-filled {
