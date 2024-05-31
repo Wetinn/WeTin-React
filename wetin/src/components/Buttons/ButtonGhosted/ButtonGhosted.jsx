@@ -10,7 +10,7 @@ export default function ButtonGhosted(props){
 
     return(
         <>
-            <a href="#" onClick={() => handleNavigation(props.path)}>{props.texto}</a>
+            <a href="##" onClick={() => handleNavigation(props.path)}>{props.texto}</a>
         </>
     )
 }

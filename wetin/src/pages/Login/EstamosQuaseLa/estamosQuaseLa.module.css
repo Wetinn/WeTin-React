@@ -8,3 +8,76 @@
     flex-direction: column;
     justify-content: space-around;
 }
+
+
+.containner_login {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.blocoLogin {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    background: #F2F2F2;
+    box-shadow: 48px 163px 48px 0px rgba(0, 0, 0, 0.00), 31px 104px 43px 0px rgba(0, 0, 0, 0.01), 17px 59px 37px 0px rgba(0, 0, 0, 0.05), 8px 26px 27px 0px rgba(0, 0, 0, 0.09), 2px 7px 15px 0px rgba(0, 0, 0, 0.10);
+    height: 55vh;
+    width: 44%;
+    border-radius: 30px;
+}
+
+.tituloBloco {
+    color: #025373;
+    font-weight: 800;
+    font-size: 2.0rem;
+}
+
+.textoExplicativo{
+    width: 80%;
+    color: black;
+    width: 400;
+    font-size: 1.1rem;
+}
+
+.inputsBloco {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 30vh;
+    justify-content: space-around;
+}
+
+.inputEmail {
+    display: flex;
+    flex-direction: column;
+    height: 12vh;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.inputEmail label {
+    color: #025373;
+    font-weight: 700;
+    font-size: 1.3rem;
+}
+
+.inputLoginEmail {
+    height: 6vh;
+    width: 20vw;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    padding-left: 3%;
+    background: #E2E2E2;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+}
+
+.labelCodigo{
+    color: #025373;
+    font-weight: 700;
+    font-size: 1.3rem;
+}

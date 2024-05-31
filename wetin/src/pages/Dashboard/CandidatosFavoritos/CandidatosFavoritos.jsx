@@ -43,7 +43,8 @@ export default function CandidatosFavoritos() {
     // getCandidatos alimenta a variável que vai mostrar os cards
     // Funciona para qualquer tipo de lista?
 
-    const [Candidatos, setCandidatos] = useState([
+    const [Candidatos, setCandidatos] = useState()
+    setCandidatos([
         {
             id: 1,
             nome: "João Silva",
@@ -101,7 +102,8 @@ export default function CandidatosFavoritos() {
             email: "gmail@gmail.com",
         }
     ])
-    const [TextoQuantidade, setTextoQuantidade] = useState(`${Candidatos.length} Candidatos favoritos`)
+    const [TextoQuantidade, setTextoQuantidade] = useState()
+    setTextoQuantidade(`${Candidatos.length} Candidatos favoritos`)
 
     const getCandidatos= () => {
         //Faz a requisição para o backend

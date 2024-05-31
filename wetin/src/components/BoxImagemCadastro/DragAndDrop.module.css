@@ -1,0 +1,11 @@
+.arrasteAqui{
+    width: 85%;
+    border-radius: 5px;
+    height: 11vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.7rem;
+    padding: auto;
+    cursor: pointer;
+}

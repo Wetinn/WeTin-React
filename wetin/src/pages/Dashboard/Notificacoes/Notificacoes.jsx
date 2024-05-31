@@ -51,17 +51,15 @@ export default function Notificacoes() {
           notificacao.id === id ? { ...notificacao, expandida: false } : notificacao,
         ));
         setNotificacoes(notificacoesMock.map(notificacao => 
-            notificacao.novo && notificacao.id == id ? { ...notificacao, novo: false } : notificacao,
+            notificacao.novo && notificacao.id === id ? { ...notificacao, novo: false } : notificacao,
           ));
       };
     
-    const getNotificacoes = () => {
-        //Faz a requisição para o backend
+    // const getNotificacoes = () => {
+    //     //Faz a requisição para o backend
         
-        setNotificacoes = [0, 0, 0]
-        
-        renderNotificacoes();
-    }
+    //     renderNotificacoes();
+    // }
 
     const renderNotificacoes = () => Notificacoes.map(notificacao => (
         <React.Fragment key={notificacao.id}>

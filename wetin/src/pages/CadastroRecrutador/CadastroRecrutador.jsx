@@ -1,48 +1,54 @@
-import api from "../../api";
-import { toast } from "react-toastify";
+//import api from "../../api";
+//import { toast } from "react-toastify";
 import styles from "./CadastroRecrutador.module.css";
 import Header from "../../components/Header/Header";
 import Logo from "../../utils/assets/imgLogoPreta.svg";
 import Navegador from "../../components/NavegadorCadastro/NavegadorCadastro"
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import BotaoCadastro from "../../components/botaoCadastro/BotaoCadastro";
 
 
 
 export default function CadastroRecrutador() {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
-    // const [nome, setNome] = useState("");
-    // const [cnpj, setCnpj] = useState("");
-    // const [email, setEmail] = useState("");
-    // const [telefone, setTelefone] = useState("");
+    const [nome, setNome] = useState("");
+    const [cnpj, setCnpj] = useState("");
+    const [email, setEmail] = useState("");
+    const [telefone, setTelefone] = useState("");
+    const [senha, setSenha] = useState("");
+    const [confirmarSenha, setConfirmarSenha] = useState("");
 
-    // const handleSave = () => {
-    //     const cadastroRecrutador = {
-    //         nome,
-    //         cnpj,
-    //         email,
-    //         telefone
-    //     };
+    const handleSave = () => {
+        const cadastroRecrutador = {
+            nome,
+            cnpj,
+            email,
+            telefone,
+            senha
+        };
+
+        if (senha === confirmarSenha) {
+            // Atribuindo o valor de 'senha' à propriedade 'senha' do objeto 'continuacao'
+            cadastroRecrutador.senha = senha;
+
+            console.log(cadastroRecrutador)
+            sessionStorage.setItem("editado", JSON.stringify(cadastroRecrutador));
+            navigate("/recrutadorDescricao");
+        } else {
+            alert("Senhas não coincidem");
+        }
 
 
-    //     api.post(`/recrutador`, cadastroRecrutador).then(() => {
-    //         toast.success("Cadastrado com sucesso!");
-    //         sessionStorage.setItem("editado", JSON.stringify(cadastroRecrutador));
-    //         navigate("/recrutadorEndereco");
-    //     }).catch(() => {
-    //         toast.error("Ocorreu um erro ao salvar os dados, por favor, tente novamente.");
-    //     })
-    // };
+    };
 
-    // const handleInputChange = (event, setStateFunction) => {
-    //     setStateFunction(event.target.value);
-    // }
+    const handleInputChange = (event, setStateFunction) => {
+        setStateFunction(event.target.value);
+    }
 
-    // const handleBack = () => {
-    //     navigate("/cadastro");
-    // };
+    const handleBack = () => {
+        navigate("/cadastro");
+    };
 
     return (
         <>
@@ -63,14 +69,14 @@ export default function CadastroRecrutador() {
                                             <label htmlFor="">Nome da empresa: </label>
                                             <span>*</span>
                                         </div>
-                                        <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o nome da empresa"  />
+                                        <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o nome da empresa" value={nome} onChange={(e) => handleInputChange(e, setNome)} />
                                     </div>
                                     <div className={styles["InputDiv"]}>
                                         <div className={styles["labelDiv"]}>
                                             <label htmlFor="">CNPJ: </label>
                                             <span>*</span>
                                         </div>
-                                        <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o CNPJ da empresa"  />
+                                        <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o CNPJ da empresa" value={cnpj} onChange={(e) => handleInputChange(e, setCnpj)} />
                                     </div>
                                 </div>
 
@@ -80,42 +86,39 @@ export default function CadastroRecrutador() {
                                             <label htmlFor="">E-mail: </label>
                                             <span>*</span>
                                         </div>
-                                        <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o e-mail da empresa"  />
+                                        <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o e-mail da empresa" value={email} onChange={(e) => handleInputChange(e, setEmail)} />
                                     </div>
                                     <div className={styles["InputDiv"]}>
                                         <div className={styles["labelDiv"]}>
                                             <label htmlFor="">Telefone: </label>
                                             <span>*</span>
                                         </div>
-                                        <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o telefone da empresa"  />
+                                        <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o telefone da empresa" value={telefone} onChange={(e) => handleInputChange(e, setTelefone)} />
                                     </div>
                                 </div>
 
                                 <div className={styles["informacoes"]}>
                                     <div className={styles["InputDiv"]}>
                                         <div className={styles["labelDiv"]}>
-                                            <label htmlFor="">Linkedin: </label>
+                                            <label htmlFor="">Senha: </label>
                                             <span>*</span>
                                         </div>
-                                        <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o linkedin da empresa"  />
+                                        <input type="password" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui a senha" value={senha} onChange={(e) => handleInputChange(e, setSenha)} />
                                     </div>
                                     <div className={styles["InputDiv"]}>
                                         <div className={styles["labelDiv"]}>
-                                            <label htmlFor="">CEP: </label>
+                                            <label htmlFor="">Confirmar Senha: </label>
                                             <span>*</span>
                                         </div>
-                                        <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o CEP da empresa"  />
+                                        <input type="password" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite sua senha novamente" value={confirmarSenha} onChange={(e) => handleInputChange(e, setConfirmarSenha)} />
                                     </div>
                                 </div>
                             </form>
                         </div>
-                        {/* <div className={styles["botoes"]}>
+                        <div className={styles["botoes"]}>
                             <button className={styles["btVoltar"]} onClick={handleBack}>Voltar</button>
                             <button className={styles["btProximo"]} onClick={handleSave}>Próximo</button>
-                        </div> */}
-
-                        <BotaoCadastro textoBt2="Próximo" pagDesejada1="/cadastro" pagDesejada2="/recrutadorDescricao" />
-
+                        </div>
                     </div>
                 </div>
             </div>
