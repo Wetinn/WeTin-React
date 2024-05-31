@@ -71,7 +71,7 @@ export default function PublicarVaga() {
         <>
             <div style={{ height: "100vh", width: "100vw", gap: '8px', display: 'flex', flexDirection: 'row', alignItems: "center" }}>
                 <SidebarCollapsed />
-                <div className="deixaEuVer" style={{ width: "90vw", height: "90vh", display: "flex", alignItems: "center", flexDirection: "column" }}>
+                <div className={styles["deixaEuVer"]} style={{ width: "90vw", height: "97vh", display: "flex", alignItems: "center", flexDirection: "column", borderRadius:"20px",backgroundColor:"#F2F2F2" }}>
                     <div className={styles["titulo"]}>
                         <span>Editar Vaga </span>
                     </div>
@@ -176,6 +176,7 @@ export default function PublicarVaga() {
                                 </button>
                             </div>
                         </form>
+                        
                     </div>
                 </div>
             </div>

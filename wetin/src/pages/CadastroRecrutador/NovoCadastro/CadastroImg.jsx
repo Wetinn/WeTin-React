@@ -6,7 +6,6 @@ import Logo from "../../../utils/assets/imgLogoPreta.svg";
 import Navegador from "../../../components/NavegadorCadastro/NavegadorCadastro";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import BotaoCadastro from "../../../components/botaoCadastro/BotaoCadastro";
 import IconImgAnexo from "../../../utils/assets/iconImagemAnexa.svg"
 import DragAndDrop from "../../../components/BoxImagemCadastro/DragAndDrop";
 
@@ -75,7 +74,7 @@ export default function CadastroRecrutador() {
                                             <label htmlFor="">Descrição: </label>
                                             <span>*</span>
                                         </div>
-                                        <input type="text" className={styles["inputDescricao"]} placeholder="Digite uma descrição sobre a empresa" value={descricao} onChange={(e) => handleInputChange(e, setDescricao)} />
+                                        <textarea type="text" className={styles["inputDescricao"]} placeholder="Digite uma descrição sobre a empresa" value={descricao} onChange={(e) => handleInputChange(e, setDescricao)} />
                                     </div>
                                 </div>
 

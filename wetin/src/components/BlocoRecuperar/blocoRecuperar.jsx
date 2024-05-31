@@ -22,17 +22,20 @@ export default function name(props) {
                     <div className={styles["inputsBloco"]}>
                         {
                             props.temInput ?
-                                <div id="teste" style={{display: "flex"}}>
+                                <div id="teste" style={{ display: "flex" }}>
                                     <div className={styles["inputEmail"]}>
                                         <label htmlFor="inputLoginEmail">E-mail:</label>
                                         <input type="text" className={styles["inputLoginEmail"]} placeholder="Digite aqui" />
                                     </div>
                                 </div> :
-                                <div id="teste" style={{display: "flex",height: "5vh"}}>
-                                    
+                                <div id="teste" style={{ display: "flex", height: "5vh",width:"100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                    <div style={{with:"100%",textAlign:"start"}}>
+                                        <label htmlFor="inputLoginEmail">E-mail:</label>
+                                        <input type="text" className={styles["inputLoginEmail"]} placeholder="Digite aqui" />
+                                    </div>
                                 </div>
                         }
-                        <BtLogin textoBotao={props.textoBotao} pagDesejada={props.pagDesejada}/>
+                        <BtLogin textoBotao={props.textoBotao} pagDesejada={props.pagDesejada} />
                     </div>
                 </div>
             </div>

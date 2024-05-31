@@ -1,3 +1,5 @@
+
+
 .titulo{
     width: 90%;
     height: 10vh;
@@ -25,7 +27,7 @@
 }
 
 .caixaFormulario{
-    background-color: #fff;
+    background-color: #F2F2F2;
     width: 90%;
     height: 80vh;
     display: flex;

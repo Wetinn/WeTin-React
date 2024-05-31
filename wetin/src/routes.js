@@ -13,6 +13,7 @@ import SobreNos from "./pages/SobreNos/SobreNos";
 import Valores from "./pages/SobreNos/Valores/Valores";
 import Contato from "./pages/SobreNos/Contato/Contato";
 import Depoimento from "./pages/Depoimentos/Depoimento";
+import NotFound from "./pages/404/Pag404"
 
 //pags de login
 import Login from './pages/Login/PagLogin';
@@ -40,6 +41,7 @@ import VagasPublicadas from "./pages/Dashboard/VagasPublicadas/VagasPublicadas";
 import CandidatosFavoritos from "./pages/Dashboard/CandidatosFavoritos/CandidatosFavoritos";
 import Notificacoes from "./pages/Dashboard/Notificacoes/Notificacoes";
 import PerfilEmpresa from "./pages/Dashboard/PerfilEmpresa/PerfilEmpresa";
+import EditarPerfilEmpresa from "./pages/Dashboard/EditarEmpresa/EditarEmpresa";
 import DashboardPublicarVaga from "./pages/Dashboard/PublicarVaga/PublicarVaga";
 import DashboardEditarVaga from "./pages/Dashboard/EditarVaga/EditarVaga";
 
@@ -58,6 +60,7 @@ function Rotas() {
                     <Route path="/valores" element={<Valores />} />
                     <Route path="/contato" element={<Contato />} />
                     <Route path="/depoimentos" element={<Depoimento />} />
+                    <Route path="*" element={<NotFound />} />
                     
                     <Route path="/login" element={<Login />} />
                     <Route path="/recuperarSenha" element={<RecuperarSenha />} />
@@ -85,6 +88,7 @@ function Rotas() {
                     <Route path="/dashboard/perfil-empresa" element={<PerfilEmpresa/>}/>
                     <Route path="/publicarVaga" element={<DashboardPublicarVaga/>}/>
                     <Route path="/editarVaga" element={<DashboardEditarVaga/>}/>
+                    <Route path="/editarEmpresa" element={<EditarPerfilEmpresa/>}/>
                 </Routes>
             </BrowserRouter>
         </>
