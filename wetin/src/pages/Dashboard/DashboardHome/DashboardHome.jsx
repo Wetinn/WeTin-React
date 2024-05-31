@@ -7,6 +7,7 @@ import Overlay from "../../../components/Overlay/Overlay";
 import ButtonGhosted from "../../../components/Buttons/ButtonGhosted/ButtonGhosted";
 import axios from "axios";
 import Loading from "../../../components/Loading/Loading";
+import HalfDoughnutChart from "../../../components/HalfDougnutChart/HalfDougnutChart";
 
 export default function DashboardHome() {
 
@@ -94,6 +95,8 @@ export default function DashboardHome() {
                     <div className={styles["caixa-grafico"]}>
                         <h3>Aderência das vagas</h3>
                         <div className={styles["grafico"]}>
+                            <h2>72.5%</h2>
+                            <HalfDoughnutChart data={72.5}/>
                         </div>
                         <p>
                             Para melhorar a aderência das vagas, considere otimizar os títulos e descrições das vagas com palavras-chave relevantes, promover as vagas em redes sociais e atualizar regularmente o conteúdo para manter o interesse dos candidatos

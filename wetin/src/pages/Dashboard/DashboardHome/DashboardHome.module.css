@@ -123,9 +123,20 @@
 .caixa-grafico:first-child .grafico {
     width: 100%;
     margin: 0px auto;
-    height: 210px;
-    background-color: gray;
+    height: 130px;
+    overflow: hidden;
     border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding-top: 10px;
+}
+
+.grafico h2{
+    margin-bottom: -50px;
+    color: #FFF;
 }
 
 .caixa-grafico:last-child .grafico {
