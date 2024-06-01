@@ -9,11 +9,15 @@ import CaixaCandidatos from "./CaixaCandidatos/CaixaCandidatos";
 import axios from "axios";
 import ButtonFilled from "../../../components/Buttons/ButtonFilled/ButtonFilled";
 import { useParams } from "react-router-dom";
+import Loading from "../../../components/Loading/Loading";
+import ErrorWarning from "../../../components/ErrorWarning/ErrorWarning";
 
 export default function InformacoesVaga() {
 
     // Secao Lógica SideBar 
     const [ExpandirSideBar, setExpandirSideBar] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
 
     const toggleExpandirSideBar = () => {
         setExpandirSideBar(!ExpandirSideBar)
@@ -40,8 +44,11 @@ export default function InformacoesVaga() {
                 console.log(response)
                 setInformacoesVaga(response.data)
 
-            } catch (e) {
-                console.log(e)
+                setLoading(false);
+            } catch (err) {
+                //setError(true);
+                setLoading(false);
+                console.log(err)
             }
         };
 
@@ -53,32 +60,32 @@ export default function InformacoesVaga() {
     const renderSectionConteudo = () => {
         switch (SectionOperator) {
             case "detalhes":
-                return <Detalhes descricao={InformacoesVaga.descricao} requisitos={InformacoesVaga.requisitos} responsabilidades={InformacoesVaga.responsabilidades}/>
+                return <Detalhes descricao={InformacoesVaga.descricao} requisitos={InformacoesVaga.requisitos} responsabilidades={InformacoesVaga.responsabilidades} />
             case "candidatos":
-                return <CaixaCandidatos listaCandidatos={InformacoesVaga}/>
+                return <CaixaCandidatos listaCandidatos={InformacoesVaga} />
             default:
-                return <Detalhes descricao={InformacoesVaga.descricao} requisitos={InformacoesVaga.requisitos} responsabilidades={InformacoesVaga.responsabilidades}/>
+                return <Detalhes descricao={InformacoesVaga.descricao} requisitos={InformacoesVaga.requisitos} responsabilidades={InformacoesVaga.responsabilidades} />
         }
     }
     const renderColunaLateral = () => {
         switch (SectionOperator) {
             case "detalhes":
                 return (
-                <div className={styles["caixa-informacoes"]}>
-                    <div className={styles["informacoes"]}>
-                        <h1>Informações</h1>
-                        <h2>Localização</h2>
-                        <p>{InformacoesVaga.cidade}</p>
-                        <h2>Período e carga horária</h2>
-                        <p>{`${InformacoesVaga.periodo}, ${InformacoesVaga.cargaHoraria} por dia`}</p>
-                        <h2>Beneficios</h2>
-                        <p>{InformacoesVaga.beneficios}</p>
-                        <h2>Status</h2>
-                        <p>{InformacoesVaga.status}</p>
-                    </div>
-                    <ButtonFilled texto="Editar Vaga" />
-                </div>)
-                
+                    <div className={styles["caixa-informacoes"]}>
+                        <div className={styles["informacoes"]}>
+                            <h1>Informações</h1>
+                            <h2>Localização</h2>
+                            <p>{InformacoesVaga.cidade}</p>
+                            <h2>Período e carga horária</h2>
+                            <p>{`${InformacoesVaga.periodo}, ${InformacoesVaga.cargaHoraria} por dia`}</p>
+                            <h2>Beneficios</h2>
+                            <p>{InformacoesVaga.beneficios}</p>
+                            <h2>Status</h2>
+                            <p>{InformacoesVaga.status}</p>
+                        </div>
+                        <ButtonFilled texto="Editar Vaga" />
+                    </div>)
+
             case "candidatos":
                 return (
                     <div style={{ gap: '8px', display: 'flex', flexDirection: 'column', margin: "8px 8px 8px 0px" }}>
@@ -89,19 +96,19 @@ export default function InformacoesVaga() {
             default:
                 return (
                     <div className={styles["caixa-informacoes"]}>
-                    <div className={styles["informacoes"]}>
-                    <h1>Informações</h1>
-                        <h2>Localização</h2>
-                        <p>{InformacoesVaga.cidade}</p>
-                        <h2>Período e carga horária</h2>
-                        <p>{`${InformacoesVaga.periodo}, ${InformacoesVaga.cargaHoraria} por dia`}</p>
-                        <h2>Beneficios</h2>
-                        <p>{InformacoesVaga.beneficios}</p>
-                        <h2>Status</h2>
-                        <p>{InformacoesVaga.status}</p>
+                        <div className={styles["informacoes"]}>
+                            <h1>Informações</h1>
+                            <h2>Localização</h2>
+                            <p>{InformacoesVaga.cidade}</p>
+                            <h2>Período e carga horária</h2>
+                            <p>{`${InformacoesVaga.periodo}, ${InformacoesVaga.cargaHoraria} por dia`}</p>
+                            <h2>Beneficios</h2>
+                            <p>{InformacoesVaga.beneficios}</p>
+                            <h2>Status</h2>
+                            <p>{InformacoesVaga.status}</p>
+                        </div>
+                        <ButtonFilled texto="Editar Vaga" />
                     </div>
-                    <ButtonFilled texto="Editar Vaga"/>
-                </div>
                 )
         }
     }
@@ -109,6 +116,8 @@ export default function InformacoesVaga() {
 
     return (
         <>
+            {error && <ErrorWarning />}
+            {loading && <Loading />}
             {ExpandirSideBar && <Overlay />}
             {ExpandirSideBar && <SidebarExtended funcaoColapsar={toggleExpandirSideBar} />}
             <div style={{ height: "100vh", width: "100vw", gap: '8px', display: 'flex', flexDirection: 'row', alignItems: "center" }}>

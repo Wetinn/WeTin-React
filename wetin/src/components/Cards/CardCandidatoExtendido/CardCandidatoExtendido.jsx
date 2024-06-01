@@ -1,5 +1,6 @@
 import styles from "./CardCandidatoExtendido.module.css"
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import classNames from 'classnames';
 import localIcon from '../../../utils/assets/icons/LocalIcon.png'
 import callIcon from '../../../utils/assets/icons/CallIcon.png'
@@ -13,11 +14,17 @@ export default function CardCandidatoExtendido(props) {
         [styles.favorito]: props.favorito,
     }
     )
+    
+    const navigate = useNavigate();
+
+    const redirectPerfilCandidato = () =>{
+        navigate(`/dashboard/perfil-candidato/${props.id}`)
+    }
 
     return(
         <>
         
-        <div className={cardClass}>
+        <div className={cardClass} onClick={() => redirectPerfilCandidato()}>
             {props.recomendacao && (
                 <div className={styles['textoRecomendacao']}>
                     <h3>Recomendado</h3>

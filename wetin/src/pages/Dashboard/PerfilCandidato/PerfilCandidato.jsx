@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styles from './PerfilCandidato.module.css'
 import SidebarExtended from "../../../components/Sidebar/SidebarExtended/SidebarExtended";
 import Overlay from "../../../components/Overlay/Overlay";
@@ -7,20 +8,96 @@ import ButtonFavorite from "../../../components/Buttons/ButtonFavorite/ButtonFav
 import LocalIcon from "../../../utils/assets/icons/LocalIcon.png"
 import EmailIcon from "../../../utils/assets/icons/EmailIcon.png"
 import CallIcon from "../../../utils/assets/icons/CallIcon.png"
+import Loading from "../../../components/Loading/Loading";
+import ErrorWarning from "../../../components/ErrorWarning/ErrorWarning";
 import axios from "axios";
 
 export default function PerfilCandidato() {
 
     // Secao Lógica SideBar 
+    const { id } = useParams();
     const [ExpandirSideBar, setExpandirSideBar] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
 
     const toggleExpandirSideBar = () => {
         setExpandirSideBar(!ExpandirSideBar)
     }
 
+    const [PerfilCandidato, setPerfilCandidato] = useState();
+
+    useEffect(() => {
+        const fetchNotificacoes = async () => {
+            try {
+                const response = await axios.get(`/candidatos/${id}`);
+                const endereco = await buscarCidadePorCep(response.data.cep);
+                const perfilCandidatoComEndereco = { ...response.data, endereco };
+
+                setPerfilCandidato(perfilCandidatoComEndereco)
+                setLoading(false);
+
+            } catch (err) {
+                setError(true);
+                setLoading(false);
+                console.log(err);
+
+            }
+        };
+        fetchNotificacoes();
+    }, []);
+
+    const buscarCidadePorCep = async (cep) => {
+        try {
+            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+            console.log(response)
+
+            return {
+                "cidade": response.data.localidade,
+                "bairro": response.data.bairro,
+                "logradouro": response.data.logradouro,
+                "uf": response.data.uf
+            };
+        } catch (error) {
+            console.error('Erro ao buscar cidade pelo CEP:', error);
+            return 'Cidade desconhecida';
+        }
+    }
+
+    // Renderização experiencias
+    const renderExperiencias = () => PerfilCandidato?.experiencias.map((experiencia, index) => (
+        <React.Fragment key={index}>
+            <div className={styles["item-cluster"]}>
+                <div className={styles["bola"]}></div>
+                <div className={styles["hgroup-experiencia"]}>
+                    <h3 className={styles["experiencia-titulo"]}>{experiencia.cargo}</h3>
+                    <h4 className={styles["experiencia-tempo"]}>{experiencia.dtInicio} a {experiencia.dtFim}</h4>
+                </div>
+            </div>
+        </React.Fragment>
+    ))
+    // Renderização habilidades
+    const renderHabilidades = () => PerfilCandidato?.habilidades.map((habilidade, index) => (
+        <React.Fragment key={index}>
+            <div className={styles["item-cluster"]}>
+                <div className={styles["bola"]}></div>
+                <h3 className={styles["texto-habilidade"]}>{habilidade.habilidade}</h3>
+            </div>
+        </React.Fragment >
+    ))
+    // Renderização quiz
+    const renderQuiz = () => PerfilCandidato?.quizz.map((pergunta, index) => (
+        <React.Fragment key={index}>
+            <div className={styles["item-quiz"]}>
+                <h2 className={styles["texto-pergunta"]}>{pergunta.pergunta}</h2>
+                <h3 className={styles["texto-resposta"]}>{pergunta.resposta}</h3>
+            </div>
+        </React.Fragment>
+    ))
 
     return (
         <>
+            {error && <ErrorWarning />}
+            {loading && <Loading />}
             {ExpandirSideBar && <Overlay />}
             {ExpandirSideBar && <SidebarExtended funcaoColapsar={toggleExpandirSideBar} />}
             <div style={{ height: "100vh", width: "100vw", gap: '8px', display: 'flex', flexDirection: 'row', alignItems: "center" }}>
@@ -37,111 +114,42 @@ export default function PerfilCandidato() {
                         <div className={styles["caixa-informacoes"]}>
                             <div className={styles["card"]}>
                                 <hgroup className={styles["introducao"]}>
-                                    <h1 className={styles["nome-usuario"]}>Maria Eduarda Almeida Carvalho</h1>
-                                    <h2 className={styles["descricao"]}>Atendente de caixa</h2>
-                                    <h3 className={styles["sobre"]}>Olá! Me chamo Maria Eduarda, sou muito dedicada e esforçada.
-                                        Adoro conversar com as pessoas e sou muito proativa!<br />Palavra que me define: Esforço!</h3>
+                                    <h1 className={styles["nome-usuario"]}>{PerfilCandidato?.nome}</h1>
+                                    <h2 className={styles["descricao"]}>{PerfilCandidato?.especialidade}</h2>
+                                    <h3 className={styles["sobre"]}>{PerfilCandidato?.descricao}</h3>
                                 </hgroup>
                                 <div className={styles["listaInformacoes"]}>
                                     <h2 className={styles["subtitulo"]}>Informações</h2>
                                     <div className={styles["informacoes-icones"]}>
                                         <img className={styles["icone"]} src={LocalIcon} alt="Localização" />
-                                        <h4>São Caetano do Sul - Bairro Santa Paula</h4>
+                                        <h4>{PerfilCandidato?.endereco.cidade} - Bairro {PerfilCandidato?.endereco.bairro}</h4>
                                     </div>
                                     <div className={styles["informacoes-icones"]}>
                                         <img className={styles["icone"]} src={EmailIcon} alt="Email" />
-                                        <h4>maria@gmail.com</h4>
+                                        <h4>{PerfilCandidato?.email}</h4>
                                     </div>
                                     <div className={styles["informacoes-icones"]}>
                                         <img className={styles["icone"]} src={CallIcon} alt="Telefone" />
-                                        <h4>+55 (11) 94255-5543</h4>
+                                        <h4>{PerfilCandidato?.telefone}</h4>
                                     </div>
+                                </div>
+                            </div>
+                            <div className={styles["card"]}>
+                                <h1 className={styles["topico"]}>Experiências</h1>
+                                <div className={styles["lista-itens"]}>
+                                    {renderExperiencias()}
                                 </div>
                             </div>
                             <div className={styles["card"]}>
                                 <h1 className={styles["topico"]}>Habilidades</h1>
                                 <div className={styles["lista-itens"]}>
-                                    <div className={styles["item-cluster"]}>
-                                        <div className={styles["bola"]}></div>
-                                        <div className={styles["hgroup-experiencia"]}>
-                                            <h3 className={styles["experiencia-titulo"]}>Atendente de caixa na empresa XPTO.LTDA</h3>
-                                            <h4 className={styles["experiencia-tempo"]}>Julho 2023 a Março 2024 - 10 meses</h4>
-                                        </div>
-                                    </div>
-                                    <div className={styles["item-cluster"]}>
-                                        <div className={styles["bola"]}></div>
-                                        <div className={styles["hgroup-experiencia"]}>
-                                            <h3 className={styles["experiencia-titulo"]}>Atendente de caixa na empresa XPTO.LTDA</h3>
-                                            <h4 className={styles["experiencia-tempo"]}>Julho 2023 a Março 2024 - 10 meses</h4>
-                                        </div>
-                                    </div>
-                                    <div className={styles["item-cluster"]}>
-                                        <div className={styles["bola"]}></div>
-                                        <div className={styles["hgroup-experiencia"]}>
-                                            <h3 className={styles["experiencia-titulo"]}>Atendente de caixa na empresa XPTO.LTDA</h3>
-                                            <h4 className={styles["experiencia-tempo"]}>Julho 2023 a Março 2024 - 10 meses</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles["card"]}>
-                                <h1 className={styles["topico"]}>Habilidades</h1>
-                                <div className={styles["lista-itens"]}>
-                                    <div className={styles["item-cluster"]}>
-                                        <div className={styles["bola"]}></div>
-                                        <h3 className={styles["texto-habilidade"]}>Excel</h3>
-                                    </div>
-                                    <div className={styles["item-cluster"]}>
-                                        <div className={styles["bola"]}></div>
-                                        <h3 className={styles["texto-habilidade"]}>Excel</h3>
-                                    </div>
-                                    <div className={styles["item-cluster"]}>
-                                        <div className={styles["bola"]}></div>
-                                        <h3 className={styles["texto-habilidade"]}>Excel</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles["card"]}>
-                                <h1 className={styles["topico"]}>Habilidades</h1>
-                                <div className={styles["lista-itens"]}>
-                                    <div className={styles["item-cluster"]}>
-                                        <div className={styles["bola"]}></div>
-                                        <div className={styles["hgroup-experiencia"]}>
-                                            <h3 className={styles["experiencia-titulo"]}>Atendente de caixa na empresa XPTO.LTDA</h3>
-                                            <h4 className={styles["experiencia-tempo"]}>Julho 2023 a Março 2024 - 10 meses</h4>
-                                        </div>
-                                    </div>
-                                    <div className={styles["item-cluster"]}>
-                                        <div className={styles["bola"]}></div>
-                                        <div className={styles["hgroup-experiencia"]}>
-                                            <h3 className={styles["experiencia-titulo"]}>Atendente de caixa na empresa XPTO.LTDA</h3>
-                                            <h4 className={styles["experiencia-tempo"]}>Julho 2023 a Março 2024 - 10 meses</h4>
-                                        </div>
-                                    </div>
-                                    <div className={styles["item-cluster"]}>
-                                        <div className={styles["bola"]}></div>
-                                        <div className={styles["hgroup-experiencia"]}>
-                                            <h3 className={styles["experiencia-titulo"]}>Atendente de caixa na empresa XPTO.LTDA</h3>
-                                            <h4 className={styles["experiencia-tempo"]}>Julho 2023 a Março 2024 - 10 meses</h4>
-                                        </div>
-                                    </div>
+                                    {renderHabilidades()}
                                 </div>
                             </div>
                             <div className={styles["card"]}>
                                 <h1 className={styles["topico"]}>Quiz</h1>
                                 <div className={styles["lista-itens"]}>
-                                    <div className={styles["item-quiz"]}>
-                                        <h2 className={styles["texto-pergunta"]}>Pergunta 1: Eu consigo manter a calma, mesmo em situações que estou sob muita pressão.</h2>
-                                        <h3 className={styles["texto-resposta"]}>Resposta:</h3>
-                                    </div>
-                                    <div className={styles["item-quiz"]}>
-                                        <h2 className={styles["texto-pergunta"]}>Pergunta 1: Eu consigo manter a calma, mesmo em situações que estou sob muita pressão.</h2>
-                                        <h3 className={styles["texto-resposta"]}>Resposta:</h3>
-                                    </div>
-                                    <div className={styles["item-quiz"]}>
-                                        <h2 className={styles["texto-pergunta"]}>Pergunta 1: Eu consigo manter a calma, mesmo em situações que estou sob muita pressão.</h2>
-                                        <h3 className={styles["texto-resposta"]}>Resposta:</h3>
-                                    </div>
+                                    {renderQuiz()}
                                 </div>
                             </div>
                         </div>

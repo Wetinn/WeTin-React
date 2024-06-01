@@ -1,74 +1,86 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import styles from './DashboardHome.module.css'
 import CardCandidatoSimples from "../../../components/Cards/CardCandidatoSimples/CardCandidatoSimples";
 import SidebarCollapsed from "../../../components/Sidebar/SidebarCollapsed/SidebarCollapsed";
 import SidebarExtended from "../../../components/Sidebar/SidebarExtended/SidebarExtended";
 import Overlay from "../../../components/Overlay/Overlay";
 import ButtonGhosted from "../../../components/Buttons/ButtonGhosted/ButtonGhosted";
-import axios from "axios";
 import Loading from "../../../components/Loading/Loading";
+import ErrorWarning from "../../../components/ErrorWarning/ErrorWarning";
+import BarChart from "../../../components/BarChart/BarChart";
 import HalfDoughnutChart from "../../../components/HalfDougnutChart/HalfDougnutChart";
 
 export default function DashboardHome() {
 
-
-    const [Candidato, setCandidato] = useState([])
     const [ExpandirSideBar, setExpandirSideBar] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState(false);
+
+    const [Candidato, setCandidato] = useState([])
+    const [CandidatosAux, setCandidatoAux] = useState([])
+    const [aderenciaVagasDados, setAderenciaVagasDados] = useState([]);
+    const [candidatoVagaDados, setCandidatoVagaDados] = useState([]);
 
     const toggleExpandirSideBar = () => {
         setExpandirSideBar(!ExpandirSideBar)
     }
     //Faz a requisição para o backend
     useEffect(() => {
-        const fetchCandidatos = async () => {
+        const fetchInformacoes = async () => {
             try {
-                const response = await axios.get('/candidatos');
+                const candidatosResponse = await axios.get('/candidatos');
                 const candidatosComCidade = await Promise.all(
-                    response.data.map(async candidato => {
+                    candidatosResponse.data.map(async candidato => {
                         const cidade = await buscarCidadePorCep(candidato.cep);
                         return { ...candidato, cidade };
                     }))
+                setCandidato(candidatosComCidade) 
 
-                setCandidato(candidatosComCidade)
+                // const aderenciaResponse = await axios.get('/empresas/6653542ba7c08d5171246144/consultar-visibilidade');
+                // setAderenciaVagasDados(aderenciaResponse.data)
+
+                // const cadidatoVagaResponse = await axios.get('/empresas/6653542ba7c08d5171246144/consultar-relacao-vaga-candidato');
+                // setAderenciaVagasDados(cadidatoVagaResponse.data)
+
                 setLoading(false);
             } catch (err) {
-                setError(err);
+                setError(true);
                 setLoading(false);
-                console.log(loading)
-                console.log(error)
+                console.log(err)
             }
         };
 
-        fetchCandidatos();
+        fetchInformacoes();
     });
 
     const buscarCidadePorCep = async (cep) => {
         try {
             const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+            console.log(response)
 
-            return response.data.localidade; // "localidade" é o campo que contém a cidade na resposta da ViaCEP
+            return response.data.localidade;
         } catch (error) {
             console.error('Erro ao buscar cidade pelo CEP:', error);
-            return 'Cidade desconhecida'; // ou outro valor padrão
+            return 'Cidade desconhecida';
         }
     }
 
     const renderCandidatosFavoritos = () => Candidato.map(candidato => (
         <React.Fragment key={candidato.id}>
-            <CardCandidatoSimples nome={candidato.nome} localizacao={candidato.cidade} telefone={candidato.telefone} imagem={candidato.imagem} />
+            <CardCandidatoSimples nome={candidato.nome} localizacao={candidato.cidade} telefone={candidato.telefone} imagem={candidato.imagem} info={candidato} />
         </React.Fragment>
     ))
 
     const renderCandidatosRecomendados = () => Candidato.map(candidato => (
         <React.Fragment key={candidato.id}>
-            <CardCandidatoSimples nome={candidato.nome} localizacao={candidato.cidade} telefone={candidato.telefone} imagem={candidato.imagem} recomendacao />
+            <CardCandidatoSimples nome={candidato.nome} localizacao={candidato.cidade} telefone={candidato.telefone} imagem={candidato.imagem} info={candidato} recomendacao />
         </React.Fragment>
     ))
 
     return (
         <>
+            {error && <ErrorWarning />}
             {loading && <Loading />}
             {ExpandirSideBar && <Overlay />}
             {ExpandirSideBar && <SidebarExtended funcaoColapsar={toggleExpandirSideBar} />}
@@ -98,7 +110,7 @@ export default function DashboardHome() {
                         <h3>Aderência das vagas</h3>
                         <div className={styles["grafico"]}>
                             <h2>72.5%</h2>
-                            <HalfDoughnutChart data={72.5}/>
+                            <HalfDoughnutChart data={72.5} />
                         </div>
                         <p>
                             Para melhorar a aderência das vagas, considere otimizar os títulos e descrições das vagas com palavras-chave relevantes, promover as vagas em redes sociais e atualizar regularmente o conteúdo para manter o interesse dos candidatos
@@ -106,7 +118,9 @@ export default function DashboardHome() {
                     </div>
                     <div className={styles["caixa-grafico"]}>
                         <h3>Relação candidato vaga</h3>
-                        <div className={styles["grafico"]}></div>
+                        <div className={styles["grafico"]}>
+                            <BarChart />
+                        </div>
                     </div>
                 </div>
             </div>

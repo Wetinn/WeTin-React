@@ -1,12 +1,11 @@
 import React from "react";
-import HalfDoughnutChart from "../../components/HalfDougnutChart/HalfDougnutChart";
-
+import BarChart from "../../components/BarChart/BarChart";
 
 export default function Teste() {
 
     return (
         <>
-            <HalfDoughnutChart/>
+            <BarChart />
         </>
     );
 }

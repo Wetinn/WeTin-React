@@ -140,9 +140,9 @@
 }
 
 .caixa-grafico:last-child .grafico {
-    width: 100%;
     margin: 0px auto;
-    height: 100%;
-    background-color: gray;
-    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

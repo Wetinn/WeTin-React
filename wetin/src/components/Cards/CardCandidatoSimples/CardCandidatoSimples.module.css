@@ -10,6 +10,7 @@
     display: flex;
     flex-direction: column;
     box-shadow: 23px 14px 7px rgba(0, 0, 0, 0), 14px 9px 7px rgba(0, 0, 0, 0.01), 8px 5px 6px rgba(0, 0, 0, 0.05), 4px 2px 4px rgba(0, 0, 0, 0.09), 1px 1px 2px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 
 .recomendacao {
@@ -38,7 +39,7 @@
     font-family: Quicksand;
     color: #f2f2f2;
     text-align: left;
-
+    
 }
 
 .fotoUsuario {
@@ -54,11 +55,9 @@
 
 .card h2 {
     width: calc(20vw - 32px);
-    max-height: 40px;
-    height: 5vh;
+    height: 7vh;
     position: relative;
-    font-size: 22.93px;
-    line-height: 20px;
+    font-size: 18.65px;
     font-family: Quicksand;
     color: #000;
     text-align: left;
@@ -66,7 +65,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    margin: 12px 12px 8px 16px;
+    margin: 8px 12px 0px 16px;
 }
 
 .infos{
@@ -94,7 +93,7 @@
 
 .info p {
     position: relative;
-    font-size: 18.35px;
+    font-size: 18.65px;
     line-height: 20px;
     font-family: Quicksand;
     color: #000;

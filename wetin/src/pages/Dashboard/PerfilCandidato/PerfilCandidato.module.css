@@ -76,6 +76,7 @@
     background-color: #FFF;
     border-radius: 20px 20px 20px 20px;
     box-shadow: 0px 87px 24px 0px rgba(0, 0, 0, 0.00), 0px 56px 22px 0px rgba(0, 0, 0, 0.01), 0px 31px 19px 0px rgba(0, 0, 0, 0.05), 0px 14px 14px 0px rgba(0, 0, 0, 0.09), 0px 3px 8px 0px rgba(0, 0, 0, 0.10);
+    min-width: 750px;
 }
 
 .nome-usuario {
@@ -194,11 +195,13 @@
 }
 
 .texto-pergunta {
+    width: 750px;
     font-size:  18.35px;
     font-weight: 500;
 }
 
 .texto-resposta {
+    width: 750px;
     font-size:  18.35px;
     font-weight: 400;
 }

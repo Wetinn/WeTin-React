@@ -7,6 +7,8 @@ import Overlay from "../../../components/Overlay/Overlay";
 import ButtonFilled from "../../../components/Buttons/ButtonFilled/ButtonFilled";
 import BarraPesquisa from "../../../components/BarraPesquisa/BarraPesquisa";
 import CardVaga from "../../../components/Cards/CardVaga/CardVaga"
+import Loading from "../../../components/Loading/Loading";
+import ErrorWarning from "../../../components/ErrorWarning/ErrorWarning";
 import axios from "axios";
 
 const cidades = [
@@ -32,6 +34,9 @@ const tituloFiltros = [
 export default function VagasPublicadas() {
 
     const [ExpandirSideBar, setExpandirSideBar] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+
 
     const toggleExpandirSideBar = () => {
         setExpandirSideBar(!ExpandirSideBar)
@@ -46,9 +51,12 @@ export default function VagasPublicadas() {
                 const response = await axios.get(`/vagas/6653542ba7c08d5171246144/consultar-vagas`);
                 console.log(response)
                 setVagas(response.data)
-                setTextoQuantidade( response.data.length + " Vagas publicadas")
+                setTextoQuantidade(response.data.length + " Vagas publicadas")
 
+                setLoading(false);
             } catch (e) {
+                setLoading(false);
+                setLoading(true);
                 console.log(e)
             }
         };
@@ -57,24 +65,24 @@ export default function VagasPublicadas() {
     }, []);
 
     const getVaga = () => {
-
-
         renderVagas();
     }
 
     const renderVagas = () => Vagas.map(vaga => (
         <React.Fragment key={vaga.id}>
-            <CardVaga titulo={vaga.titulo} descricao={vaga.descricao} imagem={vaga.imagem} info={vaga}/>
+            <CardVaga titulo={vaga.titulo} descricao={vaga.descricao} imagem={vaga.imagem} info={vaga} />
         </React.Fragment>
     ))
 
 
     return (
         <>
+            {error && <ErrorWarning />}
+            {loading && <Loading />}
             {ExpandirSideBar && <Overlay />}
             {ExpandirSideBar && <SidebarExtended funcaoColapsar={toggleExpandirSideBar} />}
             <div style={{ height: "100vh", width: "100vw", gap: '8px', display: 'flex', flexDirection: 'row', alignItems: "center" }}>
-                <SidebarCollapsed funcaoExpandir={toggleExpandirSideBar}/>
+                <SidebarCollapsed funcaoExpandir={toggleExpandirSideBar} />
                 <div style={{ gap: '8px', display: 'flex', flexDirection: 'column', height: "100%", width: "71.5vw" }}>
                     <BarraPesquisa placeholder="Clique aqui para pesquisar uma vaga específica" />
                     <div className={styles["caixa-vagas"]}>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from './CandidatosFavoritos.module.css'
 import Filters from "../../../components/Filters/Filters";
 import SidebarCollapsed from "../../../components/Sidebar/SidebarCollapsed/SidebarCollapsed";
@@ -7,6 +7,9 @@ import Overlay from "../../../components/Overlay/Overlay";
 import ButtonFilled from "../../../components/Buttons/ButtonFilled/ButtonFilled";
 import BarraPesquisa from "../../../components/BarraPesquisa/BarraPesquisa";
 import CardCandidatoExtendido from "../../../components/Cards/CardCandidatoExtendido/CardCandidatoExtendido"
+import Loading from "../../../components/Loading/Loading";
+import ErrorWarning from "../../../components/ErrorWarning/ErrorWarning";
+import axios from "axios";
 
 const cidades = [
     { "_id": 1, "nome": "São Paulo" },
@@ -31,94 +34,64 @@ const tituloFiltros = [
 export default function CandidatosFavoritos() {
 
     const [ExpandirSideBar, setExpandirSideBar] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
 
     const toggleExpandirSideBar = () => {
         setExpandirSideBar(!ExpandirSideBar)
     }
 
-    // HIPÓTESES DE USO DESSES FILTROS
-    // getCandidatos vai ser chamado quando o usuário entra na página para procurar os canididatos davaga
-    // Enviamos a função para o componente Filters para que quando for modificado o filtro ele possa chamar essa função novamente
-    // Essa função vai receber os filtros e vai fazer a chamada de acordo com os filtros selecionados
-    // getCandidatos alimenta a variável que vai mostrar os cards
-    // Funciona para qualquer tipo de lista?
+    const [candidatos, setCandidatos] = useState([])
+    const [TextoQuantidade, setTextoQuantidade] = useState("XX candidato(s) favorito")
 
-    const [Candidatos, setCandidatos] = useState()
-    setCandidatos([
-        {
-            id: 1,
-            nome: "João Silva",
-            localizacao: "São Paulo, SP",
-            telefone: "(11) 98765-4321",
-            imagem: "https://via.placeholder.com/150",
-            email: "gmail@gmail.com",
-        },
-        {
-            id: 2,
-            nome: "Maria Oliveira",
-            localizacao: "Rio de Janeiro, RJ",
-            telefone: "(21) 99876-5432",
-            imagem: "https://via.placeholder.com/150",
-            email: "gmail@gmail.com"
-        },
-        {
-            id: 3,
-            nome: "Carlos Pereira",
-            localizacao: "Belo Horizonte, MG",
-            telefone: "(31) 91234-5678",
-            imagem: "https://via.placeholder.com/150",
-            email: "gmail@gmail.com",
-        },
-        {
-            id: 4,
-            nome: "Ana Costa",
-            localizacao: "Porto Alegre, RS",
-            telefone: "(51) 98765-4321",
-            imagem: "https://via.placeholder.com/150",
-            email: "gmail@gmail.com",
-        },
-        {
-            id: 5,
-            nome: "Pedro Fernandes",
-            localizacao: "Curitiba, PR",
-            telefone: "(41) 99876-5432",
-            imagem: "https://via.placeholder.com/150",
-            email: "gmail@gmail.com",
-        },
-        {
-            id: 6,
-            nome: "Pedro Fernandes",
-            localizacao: "Curitiba, PR",
-            telefone: "(41) 99876-5432",
-            imagem: "https://via.placeholder.com/150",
-            email: "gmail@gmail.com",
-        },
-        {
-            id: 7,
-            nome: "Pedro Fernandes",
-            localizacao: "Curitiba, PR",
-            telefone: "(41) 99876-5432",
-            imagem: "https://via.placeholder.com/150",
-            email: "gmail@gmail.com",
+    useEffect(() => {
+        const fetchCandidatosFavoritos = async () => {
+            try {
+                const candidatosResponse = await axios.get('/empresas/6653542ba7c08d5171246144/consultar-candidatos-favoritos');
+                const candidatosComCidade = await Promise.all(
+                    candidatosResponse.data.map(async candidato => {
+                        const cidade = await buscarCidadePorCep(candidato.cep);
+                        return { ...candidato, cidade };
+                    }))
+                console.log(candidatosResponse.data)
+                setCandidatos(candidatosComCidade)
+                setLoading(false);
+                setTextoQuantidade(`${candidatosResponse.data.length} candidato(s) favorito`)
+            } catch (err) {
+                setError(true);
+                setLoading(false);
+                console.log(err)
+            }
+        };
+
+        fetchCandidatosFavoritos();
+    }, []);
+
+    const buscarCidadePorCep = async (cep) => {
+        try {
+            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+
+            return response.data.localidade; 
+        } catch (error) {
+            console.error('Erro ao buscar cidade pelo CEP:', error);
+            return 'Cidade desconhecida'; 
         }
-    ])
-    const [TextoQuantidade, setTextoQuantidade] = useState()
-    setTextoQuantidade(`${Candidatos.length} Candidatos favoritos`)
+    }
 
-    const getCandidatos= () => {
-        //Faz a requisição para o backend
+    const getCandidatosFavoritos = () => {
         renderCandidatos();
     }
 
-    const renderCandidatos = () => Candidatos.map(candidato => (
+    const renderCandidatos = () => candidatos.map(candidato => (
         <React.Fragment key={candidato.id}>
-            <CardCandidatoExtendido  
-                favorito={true} 
-                imagem={candidato.imagem} 
-                nome={candidato.nome} 
-                telefone={candidato.telefone} 
-                localizacao={candidato.localizacao} 
+            <CardCandidatoExtendido
+                favorito={true}
+                imagem={candidato.imagem}
+                nome={candidato.nome}
+                telefone={candidato.telefone}
+                localizacao={candidato.cidade}
                 email={candidato.email}
+                id={candidato.id}
             />
         </React.Fragment>
     ))
@@ -126,10 +99,12 @@ export default function CandidatosFavoritos() {
 
     return (
         <>
+            {error && <ErrorWarning />}
+            {loading && <Loading />}
             {ExpandirSideBar && <Overlay />}
             {ExpandirSideBar && <SidebarExtended funcaoColapsar={toggleExpandirSideBar} />}
             <div style={{ height: "100vh", width: "100vw", gap: '8px', display: 'flex', flexDirection: 'row', alignItems: "center" }}>
-                <SidebarCollapsed funcaoExpandir={toggleExpandirSideBar}/>
+                <SidebarCollapsed funcaoExpandir={toggleExpandirSideBar} />
                 <div style={{ gap: '8px', display: 'flex', flexDirection: 'column', height: "100%", width: "71.5vw" }}>
                     <BarraPesquisa placeholder="Clique aqui para pesquisar um candidato específico " />
                     <div className={styles["caixa-vagas"]}>
@@ -141,7 +116,7 @@ export default function CandidatosFavoritos() {
                 </div>
                 <div style={{ gap: '8px', display: 'flex', flexDirection: 'column' }}>
                     <ButtonFilled texto="Exportar candidatos para .csv" height="72" />
-                    <Filters getObjects={getCandidatos} tituloFiltros={tituloFiltros} filtros={filtros} />
+                    <Filters getObjects={getCandidatosFavoritos} tituloFiltros={tituloFiltros} filtros={filtros} />
                 </div>
             </div>
         </>

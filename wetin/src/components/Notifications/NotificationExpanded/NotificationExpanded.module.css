@@ -1,7 +1,7 @@
 .gaveta{
     margin: 16px 16px;
     color: black;
-    max-width: 923px;
+    width: 923px;
     height: fit-content;
     box-shadow: 75px 89px 33px rgba(0, 0, 0, 0), 48px 57px 30px rgba(0, 0, 0, 0.02), 27px 32px 25px rgba(0, 0, 0, 0.06), 12px 14px 19px rgba(0, 0, 0, 0.1), 3px 4px 10px rgba(0, 0, 0, 0.12);
     background-color: white;
