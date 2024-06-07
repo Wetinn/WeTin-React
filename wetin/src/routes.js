@@ -88,9 +88,9 @@ function Rotas() {
                     <Route path="/dashboard/candidatos-favoritos" element={<CandidatosFavoritos/>}/>
                     <Route path="/dashboard/notificacoes" element={<Notificacoes/>}/>
                     <Route path="/dashboard/perfil-empresa" element={<PerfilEmpresa/>}/>
-                    <Route path="/publicarVaga" element={<DashboardPublicarVaga/>}/>
-                    <Route path="/editarVaga" element={<DashboardEditarVaga/>}/>
-                    <Route path="/editarEmpresa" element={<EditarPerfilEmpresa/>}/>
+                    <Route path="/dashboard/publicarVaga" element={<DashboardPublicarVaga/>}/>
+                    <Route path="/dashboard/editarVaga/:id" element={<DashboardEditarVaga/>}/>
+                    <Route path="/dashboard/editarEmpresa" element={<EditarPerfilEmpresa/>}/>
                     <Route path="/dashboard/informacoes-vaga/:id" element={<InformacoesVaga/>}/>
                     <Route path="/dashboard/perfil-candidato/:id" element={<PerfilCandidato/>}/>
                 </Routes>

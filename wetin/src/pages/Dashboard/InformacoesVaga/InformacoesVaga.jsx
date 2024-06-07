@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import styles from './InformacoesVaga.module.css'
 import SidebarCollapsed from "../../../components/Sidebar/SidebarCollapsed/SidebarCollapsed";
 import SidebarExtended from "../../../components/Sidebar/SidebarExtended/SidebarExtended";
+import CardCandidatoExtendido from "../../../components/Cards/CardCandidatoExtendido/CardCandidatoExtendido" 
 import Filters from "../../../components/Filters/Filters";
 import Overlay from "../../../components/Overlay/Overlay";
 import Detalhes from "./Detalhes/Detalhes";
-import CaixaCandidatos from "./CaixaCandidatos/CaixaCandidatos";
+import CaixaCandidatos, { getCandidatos } from "./CaixaCandidatos/CaixaCandidatos";
 import axios from "axios";
 import ButtonFilled from "../../../components/Buttons/ButtonFilled/ButtonFilled";
 import { useParams } from "react-router-dom";
@@ -62,7 +63,7 @@ export default function InformacoesVaga() {
             case "detalhes":
                 return <Detalhes descricao={InformacoesVaga.descricao} requisitos={InformacoesVaga.requisitos} responsabilidades={InformacoesVaga.responsabilidades} />
             case "candidatos":
-                return <CaixaCandidatos listaCandidatos={InformacoesVaga} />
+                return <CaixaCandidatos renderFunction={renderCandidatos} getFunction={getCandidatos}/>
             default:
                 return <Detalhes descricao={InformacoesVaga.descricao} requisitos={InformacoesVaga.requisitos} responsabilidades={InformacoesVaga.responsabilidades} />
         }
@@ -90,7 +91,7 @@ export default function InformacoesVaga() {
                 return (
                     <div style={{ gap: '8px', display: 'flex', flexDirection: 'column', margin: "8px 8px 8px 0px" }}>
                         <ButtonFilled texto="Exportar candidatos para .csv" height="64" />
-                        <Filters tituloFiltros={[]} filtros={[]} />
+                        <Filters tituloFiltros={[]} filtros={[]} getObject={getCandidatos()}/>
                     </div>
                 )
             default:
@@ -112,6 +113,30 @@ export default function InformacoesVaga() {
                 )
         }
     }
+
+    const [Candidato, setCandidato] = useState(InformacoesVaga);
+
+    const getCandidatos = (variables) => {
+        const fetchCandidatoFiltros = async () => {
+            try {
+                const response = await axios.get(`/vagas/${id}`, { params: variables });
+                setCandidato(response.data)
+                //setTextoQuantidade(response.data.length + " Vagas publicadas")
+            } catch (e) {
+                setError(true);
+                console.log(e)
+            }
+
+            fetchCandidatoFiltros();
+            renderCandidatos();
+        }
+    }
+
+    const renderCandidatos = () => Candidato.map(candidato => (
+        <React.Fragment key={candidato.id}>
+            <CardCandidatoExtendido nome={candidato.nome} localizacao={candidato.cep} telefone={candidato.telefone} imagem="" email={candidato.email} />
+        </React.Fragment>
+    ))
 
 
     return (

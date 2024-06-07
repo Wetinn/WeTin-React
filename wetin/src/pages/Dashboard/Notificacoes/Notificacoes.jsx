@@ -19,12 +19,13 @@ export default function Notificacoes() {
         setExpandirSideBar(!ExpandirSideBar)
     }
 
+    const idEmpresa = sessionStorage.idEmpresa
     const [Notificacoes, setNotificacoes] = useState([])
 
     useEffect(() => {
         const fetchNotificacoes = async () => {
             try {
-                const notificacoesResponse = await axios.get('/empresas/6653542ba7c08d5171246144/listar-notificacoes');
+                const notificacoesResponse = await axios.get(`/empresas/${idEmpresa}/listar-notificacoes`);
                 const notificacoesFormatadas = notificacoesResponse.data.map(notificacao => ({ ...notificacao, expandida: false, novo: true }));
                 setNotificacoes(notificacoesFormatadas)
                 setLoading(false);

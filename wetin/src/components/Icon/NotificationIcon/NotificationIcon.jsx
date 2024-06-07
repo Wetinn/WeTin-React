@@ -5,6 +5,7 @@ import styles from './NotificationIcon.module.css';
 
 export default function Icon(props){
 
+    const idEmpresa = sessionStorage.idEmpresa;
     const [qtdNotificacoes, setQtdNotificacoes] = useState(0);
     const [Texto, setTexto] = useState("");
 
@@ -12,7 +13,7 @@ export default function Icon(props){
         
         const fetchInformacoes = async () => {
             try {
-                const response = await axios.get('/empresas/6653542ba7c08d5171246144/listar-notificacoes');
+                const response = await axios.get(`/empresas/${idEmpresa}/listar-notificacoes`);
                 setQtdNotificacoes(response.data.length) 
             } catch (err) {
                 setQtdNotificacoes("?") 

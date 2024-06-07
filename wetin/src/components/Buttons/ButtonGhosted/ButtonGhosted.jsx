@@ -2,15 +2,20 @@ import { useNavigate } from "react-router-dom";
 
 export default function ButtonGhosted(props){
 
-    const navigation = useNavigate()
+    const navigate = useNavigate()
 
-    const handleNavigation = (path) => {
-        navigation(path);
+    const handleClick = () => {
+        if(props.path != null){
+            navigate(props.path);
+        } else {
+            props.onClick()
+        }
     }
+
 
     return(
         <>
-            <a href="##" onClick={() => handleNavigation(props.path)}>{props.texto}</a>
+            <a href="##" onClick={handleClick}>{props.texto}</a>
         </>
     )
 }

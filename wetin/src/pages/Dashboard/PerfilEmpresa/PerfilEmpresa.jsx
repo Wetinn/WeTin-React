@@ -18,13 +18,14 @@ export default function PerfilEmpresa() {
         setExpandirSideBar(!ExpandirSideBar)
     }
 
+    const idEmpresa = sessionStorage.idEmpresa
     const [PerfilEmpresa, setPerfilEmpresa] = useState([])
 
     //Faz a requisição para o backend
     useEffect(() => {
         const fetchPerfilEmpresa = async () => {
             try {
-                const response = await axios.get('/empresas/6653542ba7c08d5171246144');
+                const response = await axios.get(`/empresas/${idEmpresa}`);
                 const endereco = await buscarCidadePorCep(response.data.cep);
                 const perfilEmpresaComEndereco = { ...response.data, endereco};
                 console.log(perfilEmpresaComEndereco)

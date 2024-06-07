@@ -7,7 +7,7 @@ import '../../../../node_modules/antd/dist/antd'
 export default function CheckBox(props) {
 
     const [Checked, setChecked] = useState([])
-    
+
     const handleToggle = (value) => {
         
         const currentIndex = Checked.indexOf(value)
@@ -23,20 +23,22 @@ export default function CheckBox(props) {
         props.handleFilters(newChecked);
     }
 
-    const renderCheckboxLists = () => props.filtro.map((value, index) => (
+    var filtros = props.filtro;
+    
+    const renderCheckboxLists = () => filtros.map((value, index) => (
         <div className={styles['div-org']}>   
             <React.Fragment key={index}>
-                <span className={styles["span"]}>{value.nome}</span>
+                <span className={styles["span"]}>{value.valor}</span>
                 <Checkbox
                     className={styles["ant-checkbox-checked"]}
-                    onChange={() => handleToggle(value._id)}
+                    onChange={() => handleToggle(value)}
                     type="checkbox"
-                    checked={Checked.indexOf(value._id) === -1 ? false : true}
+                    checked={Checked.indexOf(value) === -1 ? false : true}
                 />
             </React.Fragment>
         </div>
     ))
-    
+
     return (
         <>
             <div style={{ display: "flex", flexDirection: "column" }}>

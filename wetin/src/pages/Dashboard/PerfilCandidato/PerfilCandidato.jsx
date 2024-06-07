@@ -16,6 +16,7 @@ export default function PerfilCandidato() {
 
     // Secao Lógica SideBar 
     const { id } = useParams();
+    const idEmpresa = sessionStorage.idEmpresa;
     const [ExpandirSideBar, setExpandirSideBar] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -24,16 +25,32 @@ export default function PerfilCandidato() {
         setExpandirSideBar(!ExpandirSideBar)
     }
 
+    const [Favoritado, setFavoritado] = useState();
+    const [renderFavoritado, setRenderFavoritado] = useState(false);
     const [PerfilCandidato, setPerfilCandidato] = useState();
 
+    const verificarFavoritos = async (idCandidatoAtual, idEmpresa) => {
+        try {
+            const response = await axios.get(`/empresas/${idEmpresa}`);
+            const listaCandidatosFavoritos = response.data.candidatosFavoritos;
+            return listaCandidatosFavoritos.includes(idCandidatoAtual);
+        } catch (e) {
+            console.error('Erro ao buscar favoritado', e);
+            return false;
+        }
+    };
+
     useEffect(() => {
-        const fetchNotificacoes = async () => {
+        const fetchPerfilCandidato = async () => {
             try {
                 const response = await axios.get(`/candidatos/${id}`);
                 const endereco = await buscarCidadePorCep(response.data.cep);
-                const perfilCandidatoComEndereco = { ...response.data, endereco };
+                const favoritado = await verificarFavoritos(id, idEmpresa);
+                const perfilCandidatoCompleto = { ...response.data, endereco, favoritado };
 
-                setPerfilCandidato(perfilCandidatoComEndereco)
+                setFavoritado(favoritado);
+                setPerfilCandidato(perfilCandidatoCompleto);
+                setRenderFavoritado(true);
                 setLoading(false);
 
             } catch (err) {
@@ -43,8 +60,9 @@ export default function PerfilCandidato() {
 
             }
         };
-        fetchNotificacoes();
-    }, []);
+
+        fetchPerfilCandidato();
+    }, [id, idEmpresa]);
 
     const buscarCidadePorCep = async (cep) => {
         try {
@@ -62,6 +80,7 @@ export default function PerfilCandidato() {
             return 'Cidade desconhecida';
         }
     }
+
 
     // Renderização experiencias
     const renderExperiencias = () => PerfilCandidato?.experiencias.map((experiencia, index) => (
@@ -109,7 +128,7 @@ export default function PerfilCandidato() {
                             <div className={styles["container-foto"]}>
                                 <img className={styles["foto-candidato"]} src="https://s2-gshow.glbimg.com/9SI_8Qwi1oxpktBiv2XtpeaKn9A=/0x0:1600x2218/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_e84042ef78cb4708aeebdf1c68c6cbd6/internal_photos/bs/2017/2/P/tYAvrrTACArtaZBZAQ1Q/20061006-a-grande-familia-jm-37.jpg" alt="Foto candidato" />
                             </div>
-                            <ButtonFavorite />
+                            {renderFavoritado && <ButtonFavorite favoritado={Favoritado} idCandidato={id} idEmpresa={idEmpresa} />}
                         </div>
                         <div className={styles["caixa-informacoes"]}>
                             <div className={styles["card"]}>

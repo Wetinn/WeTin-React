@@ -1,3 +1,16 @@
+.overlay{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.90);
+    position: absolute;
+    z-index: 1003;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .pop-up {
     width: 720px;
     height: 400px;
@@ -10,6 +23,7 @@
     align-items: center;
     justify-content: space-between;
     background-color: #F2F2F2;
+    position: relative;
 }
 
 .mensagem-confirmacao {

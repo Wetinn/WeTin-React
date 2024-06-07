@@ -11,28 +11,9 @@ import Loading from "../../../components/Loading/Loading";
 import ErrorWarning from "../../../components/ErrorWarning/ErrorWarning";
 import axios from "axios";
 
-const cidades = [
-    { "_id": 1, "nome": "São Paulo" },
-    { "_id": 2, "nome": "Rio de Janeiro" },
-    { "_id": 3, "nome": "Manaus" },
-    { "_id": 4, "nome": "Brasília" },
-    { "_id": 5, "nome": "São Caetano" },
-]
-
-const especialidades = [
-    { "_id": 1, "nome": "Desenvolvedor" },
-    { "_id": 2, "nome": "Caixa de supermercado" },
-    { "_id": 3, "nome": "Jogador de futebol" },
-    { "_id": 4, "nome": "Açougueiro" },
-]
-
-const filtros = [cidades, especialidades]
-const tituloFiltros = [
-    { "id": 1, "titulo": "Cidades" },
-    { "id": 2, "titulo": "Especialidades" }]
-
 export default function CandidatosFavoritos() {
 
+    const [Filtros, setFiltros] = useState(null);
     const [ExpandirSideBar, setExpandirSideBar] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -41,20 +22,34 @@ export default function CandidatosFavoritos() {
         setExpandirSideBar(!ExpandirSideBar)
     }
 
+    const idEmpresa = sessionStorage.idEmpresa
     const [candidatos, setCandidatos] = useState([])
     const [TextoQuantidade, setTextoQuantidade] = useState("XX candidato(s) favorito")
+
+    const fetchFiltros = async () => {
+        try{
+            const response = await axios.get(`/api/filtros`)
+
+            return response.data;
+        } catch(e){
+            console.log(e)
+        }
+        
+    }
 
     useEffect(() => {
         const fetchCandidatosFavoritos = async () => {
             try {
-                const candidatosResponse = await axios.get('/empresas/6653542ba7c08d5171246144/consultar-candidatos-favoritos');
+                const candidatosResponse = await axios.get(`/empresas/${idEmpresa}/consultar-candidatos-favoritos`);
                 const candidatosComCidade = await Promise.all(
                     candidatosResponse.data.map(async candidato => {
                         const cidade = await buscarCidadePorCep(candidato.cep);
                         return { ...candidato, cidade };
                     }))
-                console.log(candidatosResponse.data)
+                const filtrosResponse = await fetchFiltros()
+
                 setCandidatos(candidatosComCidade)
+                setFiltros(filtrosResponse)
                 setLoading(false);
                 setTextoQuantidade(`${candidatosResponse.data.length} candidato(s) favorito`)
             } catch (err) {
@@ -78,8 +73,36 @@ export default function CandidatosFavoritos() {
         }
     }
 
-    const getCandidatosFavoritos = () => {
-        renderCandidatos();
+    const getCandidatosFavoritos = (variables) =>{
+        const fetchCandidatoFiltros = async () => {
+            if(variables.length != 0){
+                try {
+                    const response = await axios.post(`/api/filtros`, variables) ;
+                    const responseComCidade = await Promise.all(
+                        response.data.map(async candidato => {
+                            const cidade = await buscarCidadePorCep(candidato.cep);
+                            return { ...candidato, cidade };
+                        }))
+                    console.log(responseComCidade.data)
+                    setCandidatos(response.data)
+                    setTextoQuantidade(response.data.length + " Vagas publicadas")
+                } catch (e){
+                    setError(true);
+                    console.log(e)
+                }
+            } else {
+                try {
+                    const response = await axios.get(`/empresas/${idEmpresa}/consultar-candidatos-favoritos`, {params: variables}) ;
+                    setCandidatos(response.data)
+                    setTextoQuantidade(response.data.length + " Vagas publicadas")
+                } catch (e){
+                    setError(true);
+                    console.log(e)
+                }
+            }
+        }
+    
+        fetchCandidatoFiltros();
     }
 
     const renderCandidatos = () => candidatos.map(candidato => (
@@ -95,7 +118,6 @@ export default function CandidatosFavoritos() {
             />
         </React.Fragment>
     ))
-
 
     return (
         <>
@@ -116,7 +138,9 @@ export default function CandidatosFavoritos() {
                 </div>
                 <div style={{ gap: '8px', display: 'flex', flexDirection: 'column' }}>
                     <ButtonFilled texto="Exportar candidatos para .csv" height="72" />
-                    <Filters getObjects={getCandidatosFavoritos} tituloFiltros={tituloFiltros} filtros={filtros} />
+                    {Filtros && (
+                        <Filters getObjects={getCandidatosFavoritos} tituloFiltros={Filtros.tituloFiltros} filtros={Filtros.filtros} />
+                    )}
                 </div>
             </div>
         </>

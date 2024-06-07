@@ -26,7 +26,7 @@ export default function SidebarCollapsed(props) {
 
       <div className={styles["cluster-icons"]}>
         <Icon src={homeIcon} alt="Home" onClick={() => handleNavigation("/dashboard")}/>
-        <Icon src={publishIcon} alt="Publish" />
+        <Icon src={publishIcon} alt="Publish" onClick={() => handleNavigation("/dashboard/publicarVaga")}/>
         <Icon src={favoriteIcon} alt="Favorite" onClick={() => handleNavigation("/dashboard/candidatos-favoritos")}/>
         <Icon src={userIcon} alt="User" onClick={() => handleNavigation("/dashboard/perfil-empresa")}/>
         <NotificationIcon src={notificationIcon} alt="Notification" onClick={() => handleNavigation("/dashboard/notificacoes")}/>

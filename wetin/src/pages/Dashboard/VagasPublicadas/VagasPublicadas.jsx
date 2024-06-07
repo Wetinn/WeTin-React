@@ -10,29 +10,13 @@ import CardVaga from "../../../components/Cards/CardVaga/CardVaga"
 import Loading from "../../../components/Loading/Loading";
 import ErrorWarning from "../../../components/ErrorWarning/ErrorWarning";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const cidades = [
-    { "_id": 1, "nome": "São Paulo" },
-    { "_id": 2, "nome": "Rio de Janeiro" },
-    { "_id": 3, "nome": "Manaus" },
-    { "_id": 4, "nome": "Brasília" },
-    { "_id": 5, "nome": "São Caetano" },
-]
 
-const especialidades = [
-    { "_id": 1, "nome": "Desenvolvedor" },
-    { "_id": 2, "nome": "Caixa de supermercado" },
-    { "_id": 3, "nome": "Jogador de futebol" },
-    { "_id": 4, "nome": "Açougueiro" },
-]
-
-const filtros = [cidades, especialidades]
-const tituloFiltros = [
-    { "id": 1, "titulo": "Cidades" },
-    { "id": 2, "titulo": "Especialidades" }]
 
 export default function VagasPublicadas() {
 
+    const [Filtros, setFiltros] = useState(null);
     const [ExpandirSideBar, setExpandirSideBar] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -42,38 +26,79 @@ export default function VagasPublicadas() {
         setExpandirSideBar(!ExpandirSideBar)
     }
 
+    const idEmpresa = sessionStorage.idEmpresa
     const [Vagas, setVagas] = useState([])
     const [TextoQuantidade, setTextoQuantidade] = useState(`${Vagas.length} Vagas publicadas`)
+
+    const fetchFiltros = async () => {
+        try{
+            const response = await axios.get(`/api/filtros`)
+
+            return response.data;
+        } catch(e){
+            console.log(e)
+        }
+        
+    }
 
     useEffect(() => {
         const fetchVagas = async () => {
             try {
-                const response = await axios.get(`/vagas/6653542ba7c08d5171246144/consultar-vagas`);
-                console.log(response)
+                const response = await axios.get(`/vagas/${idEmpresa}/consultar-vagas`);
+                const filtrosResponse = await fetchFiltros()
                 setVagas(response.data)
                 setTextoQuantidade(response.data.length + " Vagas publicadas")
+                setFiltros(filtrosResponse)
 
                 setLoading(false);
             } catch (e) {
                 setLoading(false);
-                setLoading(true);
+                setError(true);
                 console.log(e)
             }
         };
 
+        
         fetchVagas();
     }, []);
 
-    const getVaga = () => {
-        renderVagas();
+    const getVaga = (variables) => {
+        const fetchVagasFiltros = async () => {
+            if(variables.length != 0){
+                try {
+                    const response = await axios.post(`/api/filtros`, variables) ;
+                    setVagas(response.data)
+                    setTextoQuantidade(response.data.length + " Vagas publicadas")
+                } catch (e){
+                    setError(true);
+                    console.log(e)
+                }
+            } else {
+                try {
+                    const response = await axios.get(`/vagas/${idEmpresa}/consultar-vagas`);
+                    setVagas(response.data)
+                    setTextoQuantidade(response.data.length + " Vagas publicadas")
+    
+                    setLoading(false);
+                } catch (e) {
+                    setLoading(false);
+                    setError(true);
+                    console.log(e)
+                }
+            }
+
+        }
+
+        fetchVagasFiltros();
     }
 
     const renderVagas = () => Vagas.map(vaga => (
         <React.Fragment key={vaga.id}>
-            <CardVaga titulo={vaga.titulo} descricao={vaga.descricao} imagem={vaga.imagem} info={vaga} />
+            <CardVaga titulo={vaga.titulo} descricao={vaga.descricao} imagem={vaga.imagem} info={vaga} status={vaga.statusVaga}/>
         </React.Fragment>
     ))
 
+    const navigate = useNavigate();
 
     return (
         <>
@@ -93,8 +118,10 @@ export default function VagasPublicadas() {
                     </div>
                 </div>
                 <div style={{ gap: '8px', display: 'flex', flexDirection: 'column' }}>
-                    <ButtonFilled texto="Adicionar vaga" height="64" />
-                    <Filters getObjects={getVaga} tituloFiltros={tituloFiltros} filtros={filtros} />
+                    <ButtonFilled texto="Adicionar vaga" height="64" path="/dashboard/vagas-publicadas" onClick={() => console.log("ih")}/>
+                    {Filtros && (
+                        <Filters getObjects={getVaga} tituloFiltros={Filtros.tituloFiltros} filtros={Filtros.filtros} />
+                    )}
                 </div>
             </div>
         </>

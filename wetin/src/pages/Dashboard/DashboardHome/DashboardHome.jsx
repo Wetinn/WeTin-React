@@ -37,11 +37,11 @@ export default function DashboardHome() {
                     }))
                 setCandidato(candidatosComCidade) 
 
-                // const aderenciaResponse = await axios.get('/empresas/6653542ba7c08d5171246144/consultar-visibilidade');
-                // setAderenciaVagasDados(aderenciaResponse.data)
+                const aderenciaResponse = await axios.get('/empresas/6653542ba7c08d5171246144/consultar-visibilidade');
+                setAderenciaVagasDados(aderenciaResponse.data)
 
-                // const cadidatoVagaResponse = await axios.get('/empresas/6653542ba7c08d5171246144/consultar-relacao-vaga-candidato');
-                // setAderenciaVagasDados(cadidatoVagaResponse.data)
+                const cadidatoVagaResponse = await axios.get('/empresas/6653542ba7c08d5171246144/consultar-relacao-vaga-candidato');
+                setCandidatoVagaDados(cadidatoVagaResponse.data)
 
                 setLoading(false);
             } catch (err) {
@@ -57,7 +57,6 @@ export default function DashboardHome() {
     const buscarCidadePorCep = async (cep) => {
         try {
             const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-            console.log(response)
 
             return response.data.localidade;
         } catch (error) {
@@ -109,8 +108,8 @@ export default function DashboardHome() {
                     <div className={styles["caixa-grafico"]}>
                         <h3>Aderência das vagas</h3>
                         <div className={styles["grafico"]}>
-                            <h2>72.5%</h2>
-                            <HalfDoughnutChart data={72.5} />
+                            <h2>{`${aderenciaVagasDados}%`}</h2>
+                            <HalfDoughnutChart data={aderenciaVagasDados} />
                         </div>
                         <p>
                             Para melhorar a aderência das vagas, considere otimizar os títulos e descrições das vagas com palavras-chave relevantes, promover as vagas em redes sociais e atualizar regularmente o conteúdo para manter o interesse dos candidatos
@@ -119,7 +118,7 @@ export default function DashboardHome() {
                     <div className={styles["caixa-grafico"]}>
                         <h3>Relação candidato vaga</h3>
                         <div className={styles["grafico"]}>
-                            <BarChart />
+                            <BarChart qtdVagas={candidatoVagaDados.qtdVagas} qtdCandidatos={candidatoVagaDados.qtdCandidatos}/>
                         </div>
                     </div>
                 </div>
