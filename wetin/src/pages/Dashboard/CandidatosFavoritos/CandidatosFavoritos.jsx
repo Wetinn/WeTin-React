@@ -13,6 +13,9 @@ import axios from "axios";
 
 export default function CandidatosFavoritos() {
 
+    const idEmpresa = sessionStorage.idEmpresa
+    const [candidatos, setCandidatos] = useState([])
+    const [TextoQuantidade, setTextoQuantidade] = useState("XX candidato(s) favorito")
     const [Filtros, setFiltros] = useState(null);
     const [ExpandirSideBar, setExpandirSideBar] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -21,10 +24,6 @@ export default function CandidatosFavoritos() {
     const toggleExpandirSideBar = () => {
         setExpandirSideBar(!ExpandirSideBar)
     }
-
-    const idEmpresa = sessionStorage.idEmpresa
-    const [candidatos, setCandidatos] = useState([])
-    const [TextoQuantidade, setTextoQuantidade] = useState("XX candidato(s) favorito")
 
     const fetchFiltros = async () => {
         try{
@@ -60,7 +59,7 @@ export default function CandidatosFavoritos() {
         };
 
         fetchCandidatosFavoritos();
-    }, []);
+    }, [idEmpresa]);
 
     const buscarCidadePorCep = async (cep) => {
         try {
@@ -75,7 +74,7 @@ export default function CandidatosFavoritos() {
 
     const getCandidatosFavoritos = (variables) =>{
         const fetchCandidatoFiltros = async () => {
-            if(variables.length != 0){
+            if(variables.length !== 0){
                 try {
                     const response = await axios.post(`/api/filtros`, variables) ;
                     const responseComCidade = await Promise.all(

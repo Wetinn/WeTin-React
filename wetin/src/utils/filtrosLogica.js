@@ -1,3 +1,6 @@
+
+
+
 const separarFiltros = (filtrosSemFormatacao) => {
     return separarTopicos(filtrosSemFormatacao, 0);
 }
@@ -7,7 +10,7 @@ const separarTopicos = (filtrosSemFormatacao, index) => {
     var topico = []
     var indiceAtual = index
     for(var i = index; i < filtrosSemFormatacao.length; i++){  
-        if(i == 0){
+        if(i === 0){
             topico.push(filtrosSemFormatacao[0])
         } else if(filtrosSemFormatacao[i].id <= filtrosSemFormatacao[i-1].id){
             indiceAtual = i;
@@ -16,7 +19,7 @@ const separarTopicos = (filtrosSemFormatacao, index) => {
             topico.push(filtrosSemFormatacao[i])
         }
     }
-    if(indiceAtual == filtrosSemFormatacao.length - 1){
+    if(indiceAtual === filtrosSemFormatacao.length - 1){
         resposta.push(topico)
         return resposta;
     } else {
@@ -29,7 +32,7 @@ const separarTopicosComResposta = (filtrosSemFormatacao, index, resposta) => {
     var topico = []
     var indiceAtual = index
     for(var i = index; i < filtrosSemFormatacao.length; i++){  
-        if(i == indiceAtual){
+        if(i === indiceAtual){
             topico.push(filtrosSemFormatacao[i])
         }else if(filtrosSemFormatacao[i].id < filtrosSemFormatacao[i-1].id){
             indiceAtual = i;
@@ -38,7 +41,7 @@ const separarTopicosComResposta = (filtrosSemFormatacao, index, resposta) => {
             topico.push(filtrosSemFormatacao[i])
         }
 
-        if(i == filtrosSemFormatacao.length - 1){
+        if(i === filtrosSemFormatacao.length - 1){
             indiceAtual = i;
         }
     }
@@ -51,4 +54,6 @@ const separarTopicosComResposta = (filtrosSemFormatacao, index, resposta) => {
     }
 };
 
-export default {separarFiltros};
+const filtrosLogica = { separarFiltros };
+
+export default filtrosLogica;

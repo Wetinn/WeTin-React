@@ -16,9 +16,7 @@ export default function DashboardHome() {
     const [ExpandirSideBar, setExpandirSideBar] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
-
     const [Candidato, setCandidato] = useState([])
-    const [CandidatosAux, setCandidatoAux] = useState([])
     const [aderenciaVagasDados, setAderenciaVagasDados] = useState([]);
     const [candidatoVagaDados, setCandidatoVagaDados] = useState([]);
 

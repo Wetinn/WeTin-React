@@ -39,7 +39,7 @@ export default function Notificacoes() {
         };
 
         fetchNotificacoes();
-    }, []);
+    }, [idEmpresa]);
 
     const handleExpand = (id) => {
         setNotificacoes(Notificacoes.map(notificacao =>
@@ -52,12 +52,6 @@ export default function Notificacoes() {
             notificacao.id === id ? { ...notificacao, expandida: false } : notificacao
         ));
     };
-
-
-    const getNotificacoes = () => {
-
-        renderNotificacoes();
-    }
 
     const renderNotificacoes = () => Notificacoes.map(notificacao => (
         <React.Fragment key={notificacao.id}>

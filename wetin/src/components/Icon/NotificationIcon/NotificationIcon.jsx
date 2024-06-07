@@ -22,7 +22,7 @@ export default function Icon(props){
         };
 
         fetchInformacoes();
-    }, [])
+    }, [idEmpresa])
 
     useEffect(() => {
         if (qtdNotificacoes > 99) {

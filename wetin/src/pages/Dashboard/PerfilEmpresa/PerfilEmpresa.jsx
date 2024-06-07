@@ -40,7 +40,7 @@ export default function PerfilEmpresa() {
         };
 
         fetchPerfilEmpresa();
-    }, []);
+    }, [idEmpresa]);
 
 
     const buscarCidadePorCep = async (cep) => {

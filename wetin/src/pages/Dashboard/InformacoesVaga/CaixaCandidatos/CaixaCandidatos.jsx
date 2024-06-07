@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import styles from "./CaixaCandidatos.module.css"
 
 export default function CaixaCandidatos(props) {

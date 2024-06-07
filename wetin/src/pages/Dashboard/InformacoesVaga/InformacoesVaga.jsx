@@ -6,7 +6,7 @@ import CardCandidatoExtendido from "../../../components/Cards/CardCandidatoExten
 import Filters from "../../../components/Filters/Filters";
 import Overlay from "../../../components/Overlay/Overlay";
 import Detalhes from "./Detalhes/Detalhes";
-import CaixaCandidatos, { getCandidatos } from "./CaixaCandidatos/CaixaCandidatos";
+import CaixaCandidatos from "./CaixaCandidatos/CaixaCandidatos";
 import axios from "axios";
 import ButtonFilled from "../../../components/Buttons/ButtonFilled/ButtonFilled";
 import { useParams } from "react-router-dom";
@@ -15,16 +15,19 @@ import ErrorWarning from "../../../components/ErrorWarning/ErrorWarning";
 
 export default function InformacoesVaga() {
 
-    // Secao Lógica SideBar 
     const [ExpandirSideBar, setExpandirSideBar] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [SectionOperator, setSectionOperator] = useState("detalhes");
+    const { id } = useParams();
+    const [InformacoesVaga, setInformacoesVaga] = useState([]);   
+    const [Candidato, setCandidato] = useState(InformacoesVaga);
+    const [Filtros, setFiltros] = useState(null);
 
     const toggleExpandirSideBar = () => {
         setExpandirSideBar(!ExpandirSideBar)
     }
 
-    // Secao lógica NavBar 
     const [Ativo, setAtivo] = useState("detalhes");
     const setSectionDetalhes = () => {
         setAtivo("detalhes")
@@ -35,16 +38,26 @@ export default function InformacoesVaga() {
         setSectionOperator("candidatos")
     }
 
-    // Secao requisições para o Back-end 
-    const { id } = useParams();
-    const [InformacoesVaga, setInformacoesVaga] = useState([]);
+    
+    const fetchFiltros = async () => {
+        try{
+            const response = await axios.get(`/api/filtros`)
+
+            return response.data;
+        } catch(e){
+            console.log(e)
+        }
+        
+    }
+
     useEffect(() => {
         const fetchInformacoesVaga = async () => {
             try {
                 const response = await axios.get(`/vagas/${id}`);
-                console.log(response)
-                setInformacoesVaga(response.data)
+                const filtrosResponse = await fetchFiltros()
 
+                setInformacoesVaga(response.data)
+                setFiltros(filtrosResponse)
                 setLoading(false);
             } catch (err) {
                 //setError(true);
@@ -54,10 +67,8 @@ export default function InformacoesVaga() {
         };
 
         fetchInformacoesVaga();
-    }, []);
+    }, [id]);
 
-    //Lógica operador de seções (Mudança entre detalhes e candidatos da vaga)
-    const [SectionOperator, setSectionOperator] = useState("detalhes");
     const renderSectionConteudo = () => {
         switch (SectionOperator) {
             case "detalhes":
@@ -91,7 +102,7 @@ export default function InformacoesVaga() {
                 return (
                     <div style={{ gap: '8px', display: 'flex', flexDirection: 'column', margin: "8px 8px 8px 0px" }}>
                         <ButtonFilled texto="Exportar candidatos para .csv" height="64" />
-                        <Filters tituloFiltros={[]} filtros={[]} getObject={getCandidatos()}/>
+                        <Filters tituloFiltros={Filtros.tituloFiltros} filtros={Filtros.filtros} getObject={getCandidatos()}/>
                     </div>
                 )
             default:
@@ -114,22 +125,18 @@ export default function InformacoesVaga() {
         }
     }
 
-    const [Candidato, setCandidato] = useState(InformacoesVaga);
-
     const getCandidatos = (variables) => {
         const fetchCandidatoFiltros = async () => {
             try {
                 const response = await axios.get(`/vagas/${id}`, { params: variables });
                 setCandidato(response.data)
-                //setTextoQuantidade(response.data.length + " Vagas publicadas")
             } catch (e) {
                 setError(true);
                 console.log(e)
             }
-
-            fetchCandidatoFiltros();
-            renderCandidatos();
         }
+
+        fetchCandidatoFiltros();
     }
 
     const renderCandidatos = () => Candidato.map(candidato => (
@@ -137,7 +144,6 @@ export default function InformacoesVaga() {
             <CardCandidatoExtendido nome={candidato.nome} localizacao={candidato.cep} telefone={candidato.telefone} imagem="" email={candidato.email} />
         </React.Fragment>
     ))
-
 
     return (
         <>
@@ -149,7 +155,7 @@ export default function InformacoesVaga() {
                 <SidebarCollapsed funcaoExpandir={toggleExpandirSideBar} />
                 <div className={styles["caixa-central"]}>
                     <div className={styles["caixa-vaga"]}>
-                        <img className={styles["banner"]} src="https://comavemoveis.com.br/site/wp-content/uploads/2016/10/banner-escritorio.jpg" />
+                        <img className={styles["banner"]} src="https://comavemoveis.com.br/site/wp-content/uploads/2016/10/banner-escritorio.jpg" alt="Imagem banner"/>
                         <div className={styles["navbar-vaga"]}>
                             <div className={`${styles["item-navbar-vaga"]} ${Ativo === "detalhes" ? styles["ativo"] : ""}`} onClick={() => setSectionDetalhes()}>Detalhes</div>
                             <div className={`${styles["item-navbar-vaga"]} ${Ativo === "candidatos" ? styles["ativo"] : ""}`} onClick={() => setSectionCandidatos()}>

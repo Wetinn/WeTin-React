@@ -10,25 +10,22 @@ import CardVaga from "../../../components/Cards/CardVaga/CardVaga"
 import Loading from "../../../components/Loading/Loading";
 import ErrorWarning from "../../../components/ErrorWarning/ErrorWarning";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 
 
 export default function VagasPublicadas() {
 
+    const idEmpresa = sessionStorage.idEmpresa
     const [Filtros, setFiltros] = useState(null);
     const [ExpandirSideBar, setExpandirSideBar] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
-
+    const [Vagas, setVagas] = useState([])
+    const [TextoQuantidade, setTextoQuantidade] = useState(`${Vagas.length} Vagas publicadas`)
 
     const toggleExpandirSideBar = () => {
         setExpandirSideBar(!ExpandirSideBar)
     }
-
-    const idEmpresa = sessionStorage.idEmpresa
-    const [Vagas, setVagas] = useState([])
-    const [TextoQuantidade, setTextoQuantidade] = useState(`${Vagas.length} Vagas publicadas`)
 
     const fetchFiltros = async () => {
         try{
@@ -37,6 +34,7 @@ export default function VagasPublicadas() {
             return response.data;
         } catch(e){
             console.log(e)
+            return [];
         }
         
     }
@@ -60,11 +58,11 @@ export default function VagasPublicadas() {
 
         
         fetchVagas();
-    }, []);
+    }, [idEmpresa]);
 
     const getVaga = (variables) => {
         const fetchVagasFiltros = async () => {
-            if(variables.length != 0){
+            if(variables.length !== 0){
                 try {
                     const response = await axios.post(`/api/filtros`, variables) ;
                     setVagas(response.data)
@@ -97,8 +95,6 @@ export default function VagasPublicadas() {
             <CardVaga titulo={vaga.titulo} descricao={vaga.descricao} imagem={vaga.imagem} info={vaga} status={vaga.statusVaga}/>
         </React.Fragment>
     ))
-
-    const navigate = useNavigate();
 
     return (
         <>
