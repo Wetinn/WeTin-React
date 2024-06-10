@@ -50,3 +50,46 @@
     height: 45vh;
     width: 90%;
 }
+
+.formCandidato{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 45vh;
+    width: 100%;
+}
+
+.alinhamentoInputs{
+    display: flex;
+    width: 90%;
+    justify-content: space-around;
+}
+
+
+.InputDiv{
+    display: flex;
+    width: 40%;
+    flex-direction: column;
+}
+
+.labelDiv{
+    color: #000000;
+    width: 80%;
+    font-weight: 700;
+    font-size: 1rem;
+    display: flex;
+    gap: 5px;
+}
+
+.labelDiv span{
+    color: red;
+    display: none;
+}
+
+.input{
+    background: #e2e2e200;
+    border-radius: 5px;
+    height: 6vh;
+    padding-left:1%;
+}

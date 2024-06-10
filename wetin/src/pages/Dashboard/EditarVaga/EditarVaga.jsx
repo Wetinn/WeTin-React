@@ -20,7 +20,7 @@ export default function PublicarVaga() {
     const [dtCriacao, setDtCriacao] = useState("");
     const [dtExpiracao, setExpiracao] = useState("");
 
-    const handleSave = () => {
+    const handleSave = async () => {
         const vagaCadastrada = {
             titulo,
             descricao,
@@ -34,36 +34,24 @@ export default function PublicarVaga() {
             dtCriacao,
             dtExpiracao
         };
-
-        api.put(`/vagas/1`, {
-            titulo,
-            descricao,
-            cep,
-            pretensaoSalarial,
-            especialidade,
-            requisitos,
-            beneficios,
-            periodo,
-            cargaHoraria,
-            dtCriacao,
-            dtExpiracao
-        }).then(() => {
-            // toast.success("Novo Card criado com sucesso!");
-            alert("Vaga Cadastrada")
-            sessionStorage.setItem("vaga",
-                JSON.stringify(vagaCadastrada));
-            navigate("/login")
-        }).catch(() => {
-            console.log(vagaCadastrada)
-            // toast.error("Ocorreu um erro ao salvar os dados, por favor, tente novamente.");
-            alert("deu ruim")
-        })
+    
+        try {
+            const response = await api.put('/vagas/1', vagaCadastrada);
+            alert("Vaga Cadastrada");
+            const dadosRetornados = response.data;
+            console.log(dadosRetornados)
+            sessionStorage.setItem("vaga", JSON.stringify(vagaCadastrada));
+            navigate("/dashboard");
+        } catch (err) {
+            console.error(err);
+            console.log(vagaCadastrada);
+            alert("deu ruim");
+        }
     };
 
     const handleInputChange = (event, setStateFunction) => {
         setStateFunction(event.target.value);
     }
-
 
 
     return (

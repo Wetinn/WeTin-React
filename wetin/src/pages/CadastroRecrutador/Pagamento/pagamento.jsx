@@ -3,7 +3,8 @@ import Header from "../../../components/Header/Header";
 import Logo from "../../../utils/assets/imgLogoPreta.svg";
 import Navegador from "../../../components/NavegadorCadastro/NavegadorCadastro"
 import { useNavigate } from "react-router-dom";
-import api from '../../../api'
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 
 export default function Pagamento() {
@@ -24,41 +25,32 @@ export default function Pagamento() {
     var cnpj = editado.cnpj
     var descricao = continuacao.descricao
     var linkedin = continuacao.linkedin
-    const handleSave = () => {
-        const recrutadorCadastrado = {
-            nome,
-            email,
-            telefone,
-            cep,
-            senha,
-            imagem,
-            cnpj,
-            descricao,
-            linkedin
-        };
-
-        api.post(`/recrutador`, {
-            nome,
-            email,
-            telefone,
-            cep,
-            senha,
-            imagem,
-            cnpj,
-            descricao,
-            linkedin
-        }).then(() => {
-            // toast.success("Novo Card criado com sucesso!");
-            alert("Cadastrado")
-            sessionStorage.setItem("recrutador",
-                JSON.stringify(recrutadorCadastrado));
-            navigate("/login")
-        }).catch(() => {
-            console.log(recrutadorCadastrado)
-            // toast.error("Ocorreu um erro ao salvar os dados, por favor, tente novamente.");
-            alert("deu ruim")
-        })
+    const handleSave = async () => {
+    const recrutadorCadastrado = {
+        nome,
+        email,
+        telefone,
+        cep,
+        senha,
+        imagem,
+        cnpj,
+        descricao,
+        linkedin
     };
+
+    try {
+        await axios.post('/empresas', recrutadorCadastrado);
+        alert("Cadastrado");
+        sessionStorage.clear();
+        sessionStorage.setItem("cepEmpresa", recrutadorCadastrado.cep);
+        navigate("/login");
+    } catch (err) {
+        console.error(err);
+        console.log(recrutadorCadastrado);
+        alert("deu ruim");
+    }
+};
+
 
     const handleBack = () => {
         navigate("/recrutadorDescricao");

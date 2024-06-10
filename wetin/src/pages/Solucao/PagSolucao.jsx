@@ -4,8 +4,10 @@ import Navegador from "../../components/MenuNavegador/Navegador";
 import Header from "../../components/Header/Header";
 import Logo from "../../utils/assets/imgLogoPreta.svg";
 import IconSeta from "../../utils/assets/iconSeta.png"
+import { useNavigate } from "react-router-dom";
 
-export default function solucao() {
+export default function Solucao() {
+    const navigate = useNavigate();
     return (
         <>
             <div className={styles["fundoPag"]}>
@@ -15,7 +17,7 @@ export default function solucao() {
 
                         <div className={styles["navegacaoBolinha"]}>
                             <div className={styles["pag1"]}></div>
-                            <div className={styles["pag2"]}></div>
+                            <div className={styles["pag2"]} onClick={() => navigate("/linhagem")}></div>
                         </div>
 
                         <div className={styles["conteudo"]}>
@@ -43,7 +45,7 @@ export default function solucao() {
                         </div>
                     </div>
                     <div>
-                        <img src={IconSeta} alt="" style={{ cursor: "pointer" }} />
+                        <img src={IconSeta} alt="" style={{ cursor: "pointer" }} onClick={() => navigate("/linhagem")}/>
                     </div>
                 </div>
 

@@ -1,0 +1,37 @@
+.caixaExperiencia{
+    display: flex;
+    width: 85%;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 15px;
+    box-shadow: 48px 163px 48px 0px rgba(0, 0, 0, 0.00), 31px 104px 43px 0px rgba(0, 0, 0, 0.01), 17px 59px 37px 0px rgba(0, 0, 0, 0.05), 4px 4px 4px 0px rgba(0, 0, 0, 0.09), 2px 7px 15px 0px rgba(0, 0, 0, 0.10);
+    height: 8vh;
+}
+
+.InputDiv{
+    display: flex;
+    width: 20%;
+    flex-direction: column;
+}
+
+.labelDiv{
+    color: #025373;
+    width: 80%;
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    gap: 5px;
+}
+
+.labelDiv span{
+    color: red;
+    display: none;
+}
+
+.input{
+    background: #e2e2e200;
+    border-radius: 5px;
+    height: 4vh;
+    padding-left:1%;
+    font-size: 0.8rem;
+}

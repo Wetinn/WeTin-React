@@ -22,7 +22,7 @@ export default function Questionario() {
                             <Pergunta numeroPergunta=" 1: " pergunta="Eu consigo manter a calma, mesmo em situações que estou sob muita pressão."/>
                             <Pergunta numeroPergunta=" 2: " pergunta="Busco constantemente aprender e me desenvolver nas mais diversas áreas de estudo."/>
                         </div>
-                        <BotaoCadastro textoBt2 = "Próximo" pagDesejada1="/candidatoEndereco" pagDesejada2="/candidatoQuestionario2"/>
+                        <BotaoCadastro textoBt2 = "Próximo" pagDesejada1="/experienciaCandidato" pagDesejada2="/candidatoQuestionario2"/>
                     </div>
                 </div>
             </div>

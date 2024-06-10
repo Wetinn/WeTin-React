@@ -17,18 +17,50 @@ export default function CadastroRecrutador() {
     const [descricao, setDescricao] = useState("");
     const [linkedin, setLinkedin] = useState("");
     const [cep, setCep] = useState("");
+    const [errorMessages, setErrorMessages] = useState({
+        descricao: "",
+        linkedin: "",
+        cep: ""
+    });
+
+    const validarInputs = () => {
+        var naoTemErro = true;
+        var errors = {
+            descricao: "",
+            linkedin: "",
+            cep: ""
+        };
+
+        if (!descricao) {
+            errors.nome = "Descrição é obrigatório";
+            naoTemErro = false;
+        }
+        if (!linkedin) {
+            errors.cnpj = "O link do Linkedin é obrigatório";
+            naoTemErro = false;
+        }
+        if (!cep) {
+            errors.email = "CEP é obrigatório";
+            naoTemErro = false;
+        }
+        setErrorMessages(errors);
+        return naoTemErro;
+    }
+
+
 
     const handleSave = () => {
-
-        const continuacao = {
-            linkedin,
-            cep,
-            descricao
+        if (validarInputs()) {
+            const continuacao = {
+                linkedin,
+                cep,
+                descricao
+            }
+    
+            sessionStorage.setItem("continuacao", JSON.stringify(continuacao));
+    
+            navigate("/recrutadorPagamento");
         }
-
-        sessionStorage.setItem("continuacao", JSON.stringify(continuacao));
-
-        navigate("/recrutadorPagamento");
     };
 
     const handleInputChange = (event, setStateFunction) => {
@@ -65,14 +97,14 @@ export default function CadastroRecrutador() {
                                             </div>
 
                                             <div className={styles["arrastarArquivo"]}>
-                                            <DragAndDrop />
+                                                <DragAndDrop />
                                             </div>
                                         </div>
                                     </div>
                                     <div className={styles["InputDesc"]}>
                                         <div className={styles["labelDiv"]}>
                                             <label htmlFor="">Descrição: </label>
-                                            <span>*</span>
+                                            {errorMessages.descricao && <span className={styles["error"]}>* {errorMessages.descricao}</span>}
                                         </div>
                                         <textarea type="text" className={styles["inputDescricao"]} placeholder="Digite uma descrição sobre a empresa" value={descricao} onChange={(e) => handleInputChange(e, setDescricao)} />
                                     </div>
@@ -82,14 +114,14 @@ export default function CadastroRecrutador() {
                                     <div className={styles["InputDiv"]}>
                                         <div className={styles["labelDiv"]}>
                                             <label htmlFor="">CEP: </label>
-                                            <span>*</span>
+                                            {errorMessages.cep && <span className={styles["error"]}>* {errorMessages.cep}</span>}
                                         </div>
                                         <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o CEP da empresa" value={cep} onChange={(e) => handleInputChange(e, setCep)} />
                                     </div>
                                     <div className={styles["InputDiv"]}>
                                         <div className={styles["labelDiv"]}>
                                             <label htmlFor="">Linkedin: </label>
-                                            <span>*</span>
+                                            {errorMessages.linkedin && <span className={styles["error"]}>* {errorMessages.linkedin}</span>}
                                         </div>
                                         <input type="text" className={styles["input"]} style={{ width: "100%" }} placeholder="Cole aqui o link do linkedin da empresa" value={linkedin} onChange={(e) => handleInputChange(e, setLinkedin)} />
                                     </div>

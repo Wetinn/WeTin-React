@@ -5,13 +5,13 @@ import Header from "../../../components/Header/Header";
 import Logo from "../../../utils/assets/imgLogoPreta.svg";
 import Navegador from "../../../components/NavegadorCadastro/NavegadorCadastro";
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react"; 
+import React, { useState } from "react";
 import IconImgAnexo from "../../../utils/assets/iconImagemAnexa.svg"
 
 
 
 export default function CadastroRecrutador() {
-    
+
     const navigate = useNavigate();
 
     const [descricao, setDescricao] = useState("");
@@ -28,7 +28,7 @@ export default function CadastroRecrutador() {
 
         sessionStorage.setItem("continuacao", JSON.stringify(continuacao));
 
-        navigate("/recrutadorPagamento");
+        navigate("/experienciaCandidato");
     };
 
     const handleInputChange = (event, setStateFunction) => {
@@ -36,7 +36,7 @@ export default function CadastroRecrutador() {
     }
 
     const handleBack = () => {
-        navigate("/recrutador");
+        navigate("/candidato");
     };
 
 
@@ -75,11 +75,13 @@ export default function CadastroRecrutador() {
                                         </div>
                                     </div>
                                     <div className={styles["InputDesc"]}>
-                                        <div className={styles["labelDiv"]}>
-                                            <label htmlFor="">Descrição: </label>
-                                            <span>*</span>
+                                        <div className={styles["InputDesc"]}>
+                                            <div className={styles["labelDiv"]}>
+                                                <label htmlFor="">Descrição: </label>
+                                                <span>*</span>
+                                            </div>
+                                            <textarea type="text" className={styles["inputDescricao"]} placeholder="Descreva brevemente seu perfil" value={descricao} onChange={(e) => handleInputChange(e, setDescricao)} />
                                         </div>
-                                        <input type="text" className={styles["inputDescricao"]} placeholder="Digite uma descrição sobre a empresa" value={descricao} onChange={(e) => handleInputChange(e, setDescricao)} />
                                     </div>
                                 </div>
 

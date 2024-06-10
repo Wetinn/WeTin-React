@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from './PerfilEmpresa.module.css'
 import SidebarCollapsed from "../../../components/Sidebar/SidebarCollapsed/SidebarCollapsed";
 import SidebarExtended from "../../../components/Sidebar/SidebarExtended/SidebarExtended";
@@ -39,16 +39,16 @@ export default function PerfilEmpresa() {
 
     return (
         <>
-        {ExpandirSideBar && <Overlay />}
-        {ExpandirSideBar && <SidebarExtended funcaoColapsar={toggleExpandirSideBar} />}
+            {ExpandirSideBar && <Overlay />}
+            {ExpandirSideBar && <SidebarExtended funcaoColapsar={toggleExpandirSideBar} />}
             <div style={{ height: "100vh", width: "100vw", gap: '8px', display: 'flex', flexDirection: 'row', alignItems: "center" }}>
-                <SidebarCollapsed funcaoExpandir={toggleExpandirSideBar}/>
+                <SidebarCollapsed funcaoExpandir={toggleExpandirSideBar} />
                 <div className={styles["caixa-central"]}>
                     <div className={styles["caixa-perfil"]}>
 
                         <div className={styles["foto-e-nome"]}>
                             <div className={styles["container-foto"]}>
-                                <img className={styles["foto-perfil"]} src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/PedroCardosoiPorAndreaFarias.jpg/200px-PedroCardosoiPorAndreaFarias.jpg" alt="Foto perfil"/>
+                                <img className={styles["foto-perfil"]} src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/PedroCardosoiPorAndreaFarias.jpg/200px-PedroCardosoiPorAndreaFarias.jpg" alt="Foto perfil" />
                             </div>
                             <h1 className={styles["nome-empresa"]}>XPTO. Ltda</h1>
                         </div>
@@ -61,12 +61,12 @@ export default function PerfilEmpresa() {
 
                         <h2 className={styles["subtopico"]}>Contato</h2>
                         <p className={styles["corpo"]}>Endereço: Rua das Inovações, 123, Bairro Techville, São Paulo, SP.
-<br/>Telefone: +55 (11) 1234-5678
-<br/>E-mail: info@techsolucoes.com.br</p>
+                            <br />Telefone: +55 (11) 1234-5678
+                            <br />E-mail: info@techsolucoes.com.br</p>
 
                     </div>
                 </div>
-                <PainelDeControle/>
+                <PainelDeControle />
             </div>
         </>
     );

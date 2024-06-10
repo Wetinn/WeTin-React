@@ -6,6 +6,7 @@ import Teste from './pages/Teste/Teste'
 //pages
 import Home from './pages/Home/PagHome';
 import Solucao from './pages/Solucao/PagSolucao';
+import Linhagem from './pages/Solucao/PagLinhagem';
 import SelecaoCadastro from './pages/SelecaoCadastro/SelecaoCadastro';
 import Beneficios1 from './pages/Beneficios/pagBeneficio1';
 import Beneficios2 from './pages/Beneficios/pagBeneficios';
@@ -24,7 +25,6 @@ import CriarSenha from './pages/Login/CriarSenha/criarSenha';
 
 //pags cadastro recrutador
 import CadastroRecrutador from './pages/CadastroRecrutador/CadastroRecrutador'
-// import CadastroEndereco from './pages/CadastroRecrutador/CadastroEndereco/CadastroEndereco';
 import Descricao from "./pages/CadastroRecrutador/NovoCadastro/CadastroImg";
 import Pagamento from "./pages/CadastroRecrutador/Pagamento/pagamento";
 
@@ -33,7 +33,8 @@ import Perfil from "./pages/CadastroCandidato/Perfil/Perfil";
 import PerfilEnd from "./pages/CadastroCandidato/Perfil/Perfilpt2";
 import Questionario from "./pages/CadastroCandidato/Questionario/questionario";
 import Questionario2 from "./pages/CadastroCandidato/Questionario/questionario2";
-import Anexo from "./pages/CadastroCandidato/Anexo/anexo";
+import DescricaoCandidato from "./pages/CadastroCandidato/DescricaoAnexo/CadastroImg"
+import ExperienciaCandidato from "./pages/CadastroCandidato/Experiencia/PagExperiencia"
 
 //pags dashboard 
 import DashboardHome from "./pages/Dashboard/DashboardHome/DashboardHome";
@@ -41,15 +42,11 @@ import VagasPublicadas from "./pages/Dashboard/VagasPublicadas/VagasPublicadas";
 import CandidatosFavoritos from "./pages/Dashboard/CandidatosFavoritos/CandidatosFavoritos";
 import Notificacoes from "./pages/Dashboard/Notificacoes/Notificacoes";
 import PerfilEmpresa from "./pages/Dashboard/PerfilEmpresa/PerfilEmpresa";
-<<<<<<< HEAD
-import EditarPerfilEmpresa from "./pages/Dashboard/EditarEmpresa/EditarEmpresa";
-import DashboardPublicarVaga from "./pages/Dashboard/PublicarVaga/PublicarVaga";
-import DashboardEditarVaga from "./pages/Dashboard/EditarVaga/EditarVaga";
-
-=======
 import InformacoesVaga from "./pages/Dashboard/InformacoesVaga/InformacoesVaga";
 import PerfilCandidato from "./pages/Dashboard/PerfilCandidato/PerfilCandidato";
->>>>>>> jp-componentes
+import EditarVaga from "./pages/Dashboard/EditarVaga/EditarVaga";
+import EditarEmpresa from "./pages/Dashboard/EditarEmpresa/EditarEmpresa";
+import PublicarVaga from "./pages/Dashboard/PublicarVaga/PublicarVaga";
 
 function Rotas() {
     return (
@@ -59,6 +56,7 @@ function Rotas() {
                     <Route path="/testes" element={<Teste/>} />
                     <Route path="/" element={<Home />} />
                     <Route path="/solucao" element={<Solucao />} />
+                    <Route path="/linhagem" element={<Linhagem />} />
                     <Route path="/beneficios" element={<Beneficios1 />} />
                     <Route path="/segundaPartebeneficios" element={<Beneficios2 />} />
                     <Route path="/sobreNos" element={<SobreNos />} />
@@ -75,7 +73,6 @@ function Rotas() {
                     <Route path="/cadastro" element={<SelecaoCadastro />} />
 
                     <Route path="/recrutador" element={<CadastroRecrutador />} />
-                    {/* <Route path="/recrutadorEndereco" element={<CadastroEndereco/>} /> */}
                     <Route path="/recrutadorDescricao" element={<Descricao/>} />
                     <Route path="/recrutadorPagamento" element={<Pagamento/>} />
 
@@ -84,21 +81,19 @@ function Rotas() {
                     <Route path="/candidatoEndereco" element={<PerfilEnd/>} />
                     <Route path="/candidatoQuestionario" element={<Questionario/>} />
                     <Route path="/candidatoQuestionario2" element={<Questionario2/>} />
-                    <Route path="/candidatoAnexo" element={<Anexo/>} />
+                    <Route path="/descricaoCandidato" element={<DescricaoCandidato/>} />
+                    <Route path="/experienciaCandidato" element={<ExperienciaCandidato/>} />
 
                     <Route path="/dashboard" element={<DashboardHome/>}/>
                     <Route path="/dashboard/vagas-publicadas" element={<VagasPublicadas/>}/>
                     <Route path="/dashboard/candidatos-favoritos" element={<CandidatosFavoritos/>}/>
                     <Route path="/dashboard/notificacoes" element={<Notificacoes/>}/>
                     <Route path="/dashboard/perfil-empresa" element={<PerfilEmpresa/>}/>
-<<<<<<< HEAD
-                    <Route path="/publicarVaga" element={<DashboardPublicarVaga/>}/>
-                    <Route path="/editarVaga" element={<DashboardEditarVaga/>}/>
-                    <Route path="/editarEmpresa" element={<EditarPerfilEmpresa/>}/>
-=======
                     <Route path="/dashboard/informacoes-vaga/:id" element={<InformacoesVaga/>}/>
                     <Route path="/dashboard/perfil-candidato/:id" element={<PerfilCandidato/>}/>
->>>>>>> jp-componentes
+                    <Route path="/dashboard/editar-vagas" element={<EditarVaga/>}/>
+                    <Route path="/dashboard/publicar-vagas" element={<PublicarVaga/>}/>
+                    <Route path="/dashboard/editar-empresa" element={<EditarEmpresa/>}/>
                 </Routes>
             </BrowserRouter>
         </>

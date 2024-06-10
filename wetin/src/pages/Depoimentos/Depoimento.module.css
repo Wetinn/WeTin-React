@@ -46,4 +46,6 @@
     width: 100%;
     display: flex;
     justify-content: space-around;
+    gap: 20px;
+    overflow-wrap: scroll;
 }

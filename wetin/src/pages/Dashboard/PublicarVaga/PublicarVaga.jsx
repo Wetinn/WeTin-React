@@ -20,7 +20,7 @@ export default function PublicarVaga() {
     const [dtCriacao, setDtCriacao] = useState("");
     const [dtExpiracao, setExpiracao] = useState("");
 
-    const handleSave = () => {
+    const handleSave = async () => {
         const vagaCadastrada = {
             titulo,
             descricao,
@@ -34,30 +34,19 @@ export default function PublicarVaga() {
             dtCriacao,
             dtExpiracao
         };
-
-        api.post(`/vagas/1`, {
-            titulo,
-            descricao,
-            cep,
-            pretensaoSalarial,
-            especialidade,
-            requisitos,
-            beneficios,
-            periodo,
-            cargaHoraria,
-            dtCriacao,
-            dtExpiracao
-        }).then(() => {
-            // toast.success("Novo Card criado com sucesso!");
-            alert("Vaga Cadastrada")
-            sessionStorage.setItem("vaga",
-                JSON.stringify(vagaCadastrada));
-            navigate("/login")
-        }).catch(() => {
-            console.log(vagaCadastrada)
-            // toast.error("Ocorreu um erro ao salvar os dados, por favor, tente novamente.");
-            alert("deu ruim")
-        })
+    
+        try {
+            const response = await api.post('/vagas/1', vagaCadastrada);
+            alert("Vaga Cadastrada");
+            const dadosRetornados = response.data;
+            console.log(dadosRetornados)
+            sessionStorage.setItem("vaga", JSON.stringify(vagaCadastrada));
+            navigate("/dashboard");
+        } catch (err) {
+            console.error(err);
+            console.log(vagaCadastrada);
+            alert("deu ruim");
+        }
     };
 
     const handleInputChange = (event, setStateFunction) => {
@@ -137,8 +126,8 @@ export default function PublicarVaga() {
                                 <input type="" className={styles["input"]} style={{ width: "85%" }} placeholder="Escolha o periodo de trabalho" list="faixa" value={periodo} onChange={(e) => handleInputChange(e, setPeriodo)}/>
                                 <datalist id="faixa">
                                     <option value="">horarios:</option>
-                                    <option value="Manhã">Periodo Manhã (7h - 13h)</option>
-                                    <option value="Tarde">Periodo Tarde (12h - 18h)</option>
+                                    <option value="MANHA">Periodo Manhã (7h - 13h)</option>
+                                    <option value="TARDE">Periodo Tarde (12h - 18h)</option>
                                     <option value="Noite">Periodo Noite (18h - 23h)</option>
                                 </datalist>
                             </div>
