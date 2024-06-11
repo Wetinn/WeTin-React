@@ -10,13 +10,15 @@ ChartJS.register(
 
 export default function HalfDoughnutChart(props){
 
+    let dado = Number(props.data).toFixed(2);
+
     const renderColor = () =>{
 
-        if(props.data >= 66){
+        if(dado >= 66){
             return "#02D977"
-        } else if(props.data >= 33 && props.data <= 66){
+        } else if(dado >= 33 && dado <= 66){
             return "#F2B705";
-        } else if(props.data <= 33){
+        } else if(dado <= 33){
             return "#EA4A4A"
         } else {
             return "#02D977"
@@ -27,7 +29,7 @@ export default function HalfDoughnutChart(props){
         datasets: [
             {
                 label: 'Aderência',
-                data: [props.data, (100 - props.data)],
+                data: [dado, (100 - dado)],
                 backgroundColor: [renderColor(), 'white'],
                 borderColor: [renderColor(), 'white'],
                 circumference: 180,

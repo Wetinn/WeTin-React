@@ -3,8 +3,8 @@ import Option from '../Option/Option'
 import collapseIcon from '../../../utils/assets/icons/CollapseIcon.png'
 import homeIcon from '../../../utils/assets/icons/HomeIcon.png'
 import publishIcon from '../../../utils/assets/icons/PublishIcon.png'
-import favoriteIcon from '../../../utils/assets/icons/FavoriteIcon.png'
-import userIcon from '../../../utils/assets/icons/UserIcon.png'
+import peopleIcon from '../../../utils/assets/icons/PeopleIcon.png'
+import buildingIcon from '../../../utils/assets/icons/BuildingIcon.png'
 import notificationIcon from '../../../utils/assets/icons/NotificationIcon.png'
 import helpIcon from '../../../utils/assets/icons/HelpIcon.png'
 import logoutIcon from '../../../utils/assets/icons/LogoutIcon.png'
@@ -25,14 +25,14 @@ export default function SidebarExpanded(props) {
 
       <div className={styles["cluster-icons"]}>
         <Option src={homeIcon} alt="Home" titulo="Home" onClick={() => handleNavigation("/dashboard")}/>
-        <Option src={publishIcon} alt="Publish" titulo="Publicar Vaga" onClick={() => handleNavigation("/dashboard/publicarVaga")} />
-        <Option src={favoriteIcon} alt="Favorite" titulo="Favoritos" onClick={() => handleNavigation("/dashboard/candidatos-favoritos")}/>
-        <Option src={userIcon} alt="User" titulo="Perfil da empresa" onClick={() => handleNavigation("/dashboard/perfil-empresa")}/>
-        <Option notificacoes  src={notificationIcon} alt="Notification" titulo="Notificações"  onClick={() => handleNavigation("/dashboard/notificacoes")}/>
-        <Option src={helpIcon} alt="Help" titulo="Ajuda" />
+        <Option src={publishIcon} alt="PublicarVaga" titulo="Publicar Vaga" onClick={() => handleNavigation("/dashboard/publicarVaga")} />
+        <Option src={peopleIcon} alt="Candidatos" titulo="Candidatos" onClick={() => handleNavigation("/dashboard/candidatos-favoritos")}/>
+        <Option src={buildingIcon} alt="Perfil da empresa" titulo="Perfil da empresa" onClick={() => handleNavigation("/dashboard/perfil-empresa")}/>
+        <Option notificacoes  src={notificationIcon} alt="Notificações" titulo="Notificações"  onClick={() => handleNavigation("/dashboard/notificacoes")}/>
+        <Option src={helpIcon} alt="Ajuda" titulo="Ajuda" />
       </div>
 
-      <Option src={logoutIcon} alt="Logout" titulo="Sair" onClick={() => handleNavigation("/")}/>
+      <Option src={logoutIcon} alt="Sair" titulo="Sair" onClick={() => handleNavigation("/")}/>
     </div>
     </>
   );

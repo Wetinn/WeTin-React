@@ -15,14 +15,14 @@ import ErrorWarning from "../../../components/ErrorWarning/ErrorWarning";
 
 export default function InformacoesVaga() {
 
+    const { id } = useParams();
     const [ExpandirSideBar, setExpandirSideBar] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [SectionOperator, setSectionOperator] = useState("detalhes");
-    const { id } = useParams();
     const [InformacoesVaga, setInformacoesVaga] = useState([]);   
     const [Candidato, setCandidato] = useState(InformacoesVaga);
-    const [Filtros, setFiltros] = useState(null);
+    const [Filtros, setFiltros] = useState([]);
 
     const toggleExpandirSideBar = () => {
         setExpandirSideBar(!ExpandirSideBar)
@@ -46,6 +46,7 @@ export default function InformacoesVaga() {
             return response.data;
         } catch(e){
             console.log(e)
+            return []
         }
         
     }
@@ -57,10 +58,11 @@ export default function InformacoesVaga() {
                 const filtrosResponse = await fetchFiltros()
 
                 setInformacoesVaga(response.data)
+                setCandidato(response.data.candidatos)
                 setFiltros(filtrosResponse)
                 setLoading(false);
             } catch (err) {
-                //setError(true);
+                setError(true);
                 setLoading(false);
                 console.log(err)
             }
@@ -74,12 +76,17 @@ export default function InformacoesVaga() {
             case "detalhes":
                 return <Detalhes descricao={InformacoesVaga.descricao} requisitos={InformacoesVaga.requisitos} responsabilidades={InformacoesVaga.responsabilidades} />
             case "candidatos":
-                return <CaixaCandidatos renderFunction={renderCandidatos} getFunction={getCandidatos}/>
+                return <CaixaCandidatos renderFunction={renderCandidatos} quantidadeCandidatos={Candidato?.length}/>
             default:
                 return <Detalhes descricao={InformacoesVaga.descricao} requisitos={InformacoesVaga.requisitos} responsabilidades={InformacoesVaga.responsabilidades} />
         }
     }
     const renderColunaLateral = () => {
+        var cargaHorariaFormatada = InformacoesVaga.cargaHoraria;
+        if (typeof variable === 'string') {
+            cargaHorariaFormatada = InformacoesVaga.cargaHoraria.replace("_", " ")
+        }
+        
         switch (SectionOperator) {
             case "detalhes":
                 return (
@@ -89,20 +96,22 @@ export default function InformacoesVaga() {
                             <h2>Localização</h2>
                             <p>{InformacoesVaga.cidade}</p>
                             <h2>Período e carga horária</h2>
-                            <p>{`${InformacoesVaga.periodo}, ${InformacoesVaga.cargaHoraria} por dia`}</p>
+                            <p>{`${InformacoesVaga.periodo}, ${cargaHorariaFormatada} por dia`}</p>
                             <h2>Beneficios</h2>
                             <p>{InformacoesVaga.beneficios}</p>
                             <h2>Status</h2>
                             <p>{InformacoesVaga.status}</p>
                         </div>
-                        <ButtonFilled texto="Editar Vaga" />
+                        <ButtonFilled texto="Editar Vaga" path={`/dashboard/editarVaga/${id}`}/>
                     </div>)
 
             case "candidatos":
                 return (
                     <div style={{ gap: '8px', display: 'flex', flexDirection: 'column', margin: "8px 8px 8px 0px" }}>
                         <ButtonFilled texto="Exportar candidatos para .csv" height="64" />
-                        <Filters tituloFiltros={Filtros.tituloFiltros} filtros={Filtros.filtros} getObject={getCandidatos()}/>
+                        {Filtros && (
+                            <Filters getObjects={getCandidatos} tituloFiltros={Filtros.tituloFiltros} filtros={Filtros.filtros} />
+                        )}
                     </div>
                 )
             default:
@@ -119,7 +128,7 @@ export default function InformacoesVaga() {
                             <h2>Status</h2>
                             <p>{InformacoesVaga.status}</p>
                         </div>
-                        <ButtonFilled texto="Editar Vaga" />
+                        <ButtonFilled texto="Editar Vaga" path={`/dashboard/editarVaga/${id}`}/>
                     </div>
                 )
         }
@@ -127,23 +136,63 @@ export default function InformacoesVaga() {
 
     const getCandidatos = (variables) => {
         const fetchCandidatoFiltros = async () => {
-            try {
-                const response = await axios.get(`/vagas/${id}`, { params: variables });
-                setCandidato(response.data)
-            } catch (e) {
-                setError(true);
-                console.log(e)
+            if(variables.length !== 0){
+                try {
+                    const response = await axios.post(`/api/filtros`, variables) ;
+                    setCandidato(response.data)
+
+                } catch (e){
+                    setError(true);
+                    console.log(e)
+                }
+            } else {
+                try {
+                    setCandidato(InformacoesVaga.candidatos)
+                    setLoading(false);
+                } catch (e) {
+                    setLoading(false);
+                    setError(true);
+                    console.log(e)
+                }
             }
         }
 
         fetchCandidatoFiltros();
     }
 
-    const renderCandidatos = () => Candidato.map(candidato => (
-        <React.Fragment key={candidato.id}>
-            <CardCandidatoExtendido nome={candidato.nome} localizacao={candidato.cep} telefone={candidato.telefone} imagem="" email={candidato.email} />
-        </React.Fragment>
-    ))
+    const fetchCandidatos = async () => {
+        setLoading(true);
+        try {
+            const aux = Candidato == null ? [] : Candidato;
+            const requests = aux.map(id => axios.get(`/candidatos/${id}`));
+            const responses = await Promise.all(requests);
+            const auxArray = responses.map(response => response.data);
+            setCandidato(auxArray);
+        } catch (e) {
+            console.log(e);
+            setError(true);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (SectionOperator === "candidatos") {
+            fetchCandidatos();
+        }
+    }, [SectionOperator, fetchCandidatos]);
+
+
+
+    const renderCandidatos = () => {
+        return Candidato.map(candidato => (
+            <React.Fragment key={candidato.id}>
+                <CardCandidatoExtendido id={candidato.id} nome={candidato.nome} localizacao={candidato.cep} telefone={candidato.telefone} imagem="" email={candidato.email} />
+            </React.Fragment>
+        ))
+    } 
+        
+       
 
     return (
         <>
@@ -159,7 +208,7 @@ export default function InformacoesVaga() {
                         <div className={styles["navbar-vaga"]}>
                             <div className={`${styles["item-navbar-vaga"]} ${Ativo === "detalhes" ? styles["ativo"] : ""}`} onClick={() => setSectionDetalhes()}>Detalhes</div>
                             <div className={`${styles["item-navbar-vaga"]} ${Ativo === "candidatos" ? styles["ativo"] : ""}`} onClick={() => setSectionCandidatos()}>
-                                Candidatos <span className={styles["contador-candidatos"]}>{InformacoesVaga.length}</span>
+                                Candidatos <span className={styles["contador-candidatos"]}>{InformacoesVaga.candidatos?.length || 0}</span>
                             </div>
                         </div>
                         <h1 className={styles["titulo-vaga"]}>Estagiário de Marketing Digital</h1>

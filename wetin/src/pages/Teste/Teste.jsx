@@ -1,11 +1,14 @@
-import React from "react";
-import BarChart from "../../components/BarChart/BarChart";
+import BarraPesquisa from '../../components/BarraPesquisa/BarraPesquisa';
 
 export default function Teste() {
 
+    const handleSearch = (term) => {
+        console.log('Termo de pesquisa:', term);
+    }
+
     return (
-        <>
-            <BarChart />
-        </>
+        <div>
+            <BarraPesquisa placeholder="Pesquisar..." onSearch={handleSearch} />
+        </div>
     );
 }

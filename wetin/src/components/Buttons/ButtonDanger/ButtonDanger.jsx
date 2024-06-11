@@ -5,7 +5,6 @@ export default function ButtonDanger(props) {
     const navigate = useNavigate()
 
     const handleClick = () => {
-        console.log(props.path)
         if (props.path != null) {
             navigate(props.path);
         } else if (typeof props.onClick === 'function') {

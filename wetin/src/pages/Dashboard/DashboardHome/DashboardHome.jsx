@@ -94,7 +94,7 @@ export default function DashboardHome() {
 
                     <div className={styles["caixa-candidatos"]}>
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                            <h3>Candidatos Favoritados</h3>
+                            <h3>Outros Candidatos</h3>
                             <ButtonGhosted texto="MAIS +" path={"/dashboard/candidatos-favoritos"} />
                         </div>
                         <div className={styles["caixa-cards"]}>
@@ -106,7 +106,7 @@ export default function DashboardHome() {
                     <div className={styles["caixa-grafico"]}>
                         <h3>Aderência das vagas</h3>
                         <div className={styles["grafico"]}>
-                            <h2>{`${aderenciaVagasDados}%`}</h2>
+                            <h2>{`${Number(aderenciaVagasDados).toFixed(2)}%`}</h2>
                             <HalfDoughnutChart data={aderenciaVagasDados} />
                         </div>
                         <p>

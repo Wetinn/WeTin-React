@@ -39,18 +39,20 @@ export default function CandidatosFavoritos() {
     useEffect(() => {
         const fetchCandidatosFavoritos = async () => {
             try {
-                const candidatosResponse = await axios.get(`/empresas/${idEmpresa}/consultar-candidatos-favoritos`);
+                const candidatosResponse = await axios.get(`/candidatos`);
                 const candidatosComCidade = await Promise.all(
                     candidatosResponse.data.map(async candidato => {
                         const cidade = await buscarCidadePorCep(candidato.cep);
-                        return { ...candidato, cidade };
+                        const favoritado = await buscarCandidatosFavoritados(candidato.id);
+                        return { ...candidato, cidade, favoritado };
                     }))
+                
                 const filtrosResponse = await fetchFiltros()
-
+                     
                 setCandidatos(candidatosComCidade)
                 setFiltros(filtrosResponse)
                 setLoading(false);
-                setTextoQuantidade(`${candidatosResponse.data.length} candidato(s) favorito`)
+                setTextoQuantidade(`${candidatosResponse.data.length} candidato(s) pesquisados`)
             } catch (err) {
                 setError(true);
                 setLoading(false);
@@ -59,7 +61,7 @@ export default function CandidatosFavoritos() {
         };
 
         fetchCandidatosFavoritos();
-    }, [idEmpresa]);
+    });
 
     const buscarCidadePorCep = async (cep) => {
         try {
@@ -72,6 +74,23 @@ export default function CandidatosFavoritos() {
         }
     }
 
+    const buscarCandidatosFavoritados = async (id) => {
+        try {
+            const response = await axios.get(`/empresas/${idEmpresa}/consultar-candidatos-favoritos`);
+
+            for (let i = 0; i <  response.data.length; i++) {
+                if(response.data[i].id === id){
+                    return true;
+                }
+            }
+            return false
+        } catch (error) {
+            console.error('Erro ao buscar cidade pelo CEP:', error);
+            return false;   
+        }
+    }
+
+
     const getCandidatosFavoritos = (variables) =>{
         const fetchCandidatoFiltros = async () => {
             if(variables.length !== 0){
@@ -82,18 +101,18 @@ export default function CandidatosFavoritos() {
                             const cidade = await buscarCidadePorCep(candidato.cep);
                             return { ...candidato, cidade };
                         }))
-                    console.log(responseComCidade.data)
-                    setCandidatos(response.data)
-                    setTextoQuantidade(response.data.length + " Vagas publicadas")
+                    console.log(response.data)
+                    setCandidatos(responseComCidade)
+                    setTextoQuantidade(response.data.length + " candidato(s) pesquisados")
                 } catch (e){
                     setError(true);
                     console.log(e)
                 }
             } else {
                 try {
-                    const response = await axios.get(`/empresas/${idEmpresa}/consultar-candidatos-favoritos`, {params: variables}) ;
+                    const response = await axios.get(`/candidatos`) ;
                     setCandidatos(response.data)
-                    setTextoQuantidade(response.data.length + " Vagas publicadas")
+                    setTextoQuantidade(response.data.length + " candidato(s) pesquisados")
                 } catch (e){
                     setError(true);
                     console.log(e)
@@ -107,7 +126,7 @@ export default function CandidatosFavoritos() {
     const renderCandidatos = () => candidatos.map(candidato => (
         <React.Fragment key={candidato.id}>
             <CardCandidatoExtendido
-                favorito={true}
+                favorito={candidato.favoritado}
                 imagem={candidato.imagem}
                 nome={candidato.nome}
                 telefone={candidato.telefone}

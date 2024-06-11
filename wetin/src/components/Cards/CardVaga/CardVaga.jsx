@@ -4,18 +4,24 @@ import classNames from 'classnames';
 import { useNavigate } from "react-router-dom";
 import PopUpConfirmation from "../../PopUps/PopUpConfirmation/PopUpConfirmation"
 import axios from "axios";
+import PopUpSuccess from "../../PopUps/PopUpSuccess/PopUpSuccess";
 
 export default function CardVaga(props) {
 
     const [popUpDelete, setPopUpDelete] = useState(false);
+    const [popUpSuccess, setPopUpSuccess] = useState(false);
 
     const renderPopUpDelete = (event) => {
         event.stopPropagation();
         setPopUpDelete(true)
     }
 
-    const closePopUp = () => {
+    const closePopUpDelete = () => {
         setPopUpDelete(false)
+    }
+
+    const closePopUpSuccess = () => {
+        setPopUpSuccess(false)
     }
     
 
@@ -30,8 +36,11 @@ export default function CardVaga(props) {
             try {
                 setPopUpDelete(false)
                 await axios.delete(`/vagas/cancelar-vaga/${props.info.id}`);
+                setPopUpSuccess(true)
             } catch (e){
                 console.log(e);
+                setPopUpDelete(false)
+                setPopUpSuccess(true)
             }
         }
         deleteVaga();
@@ -54,11 +63,20 @@ export default function CardVaga(props) {
             <PopUpConfirmation 
                 danger 
                 idVaga={props.info.idVaga} 
-                onClose={closePopUp} 
+                onClose={closePopUpDelete} 
                 onDelete={deleteCard}
-                texto={`Você realmente deseja deletar a vaga ${props.info.titulo}?`}
+                texto={`Você realmente deseja encerrar a vaga ${props.info.titulo}?`}
                 textoBotao1="Confirmar deleção"
                 textoBotao2="Cancelar"/>}
+
+            {popUpSuccess  && 
+            <PopUpSuccess
+                texto="Vaga encerrada com sucesso"
+                imagem=""
+                textoBotao1="Fechar"
+                alt="Imagem encerramento efetuado"
+                onClose={closePopUpSuccess}
+            />}
 
             <div className={cardClass} onClick={() => redirectInformacoesVaga()}>
                 {props.status === "ENCERRADA" && (
