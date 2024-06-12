@@ -2,7 +2,7 @@ import styles from './PublicarVaga.module.css'
 import SidebarCollapsed from "../../../components/Sidebar/SidebarCollapsed/SidebarCollapsed";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react"; 
-import api from '../../../api'
+import axios from "axios";
 
 export default function PublicarVaga() {
 
@@ -19,6 +19,8 @@ export default function PublicarVaga() {
     const [cargaHoraria, setCargaHoraria] = useState("");
     const [dtCriacao, setDtCriacao] = useState("");
     const [dtExpiracao, setExpiracao] = useState("");
+    const empresaLogadaJSON = sessionStorage.getItem('user');
+    var user = JSON.parse(empresaLogadaJSON);
 
     const handleSave = async () => {
         const vagaCadastrada = {
@@ -36,16 +38,13 @@ export default function PublicarVaga() {
         };
     
         try {
-            const response = await api.post('/vagas/1', vagaCadastrada);
+            await axios.post(`/vagas/${user.id}`, vagaCadastrada);
             alert("Vaga Cadastrada");
-            const dadosRetornados = response.data;
-            console.log(dadosRetornados)
-            sessionStorage.setItem("vaga", JSON.stringify(vagaCadastrada));
             navigate("/dashboard");
         } catch (err) {
             console.error(err);
             console.log(vagaCadastrada);
-            alert("deu ruim");
+            alert("deu ruim", err);
         }
     };
 
@@ -64,7 +63,7 @@ export default function PublicarVaga() {
                     <div className={styles["titulo"]}>
                         <span>Publicar Vaga </span>
                         <button onClick={handleSave}>
-                            Salvar Como Rascunho
+                            Salvar Vaga
                         </button>
                     </div>
                     <div className={styles["caixaFormulario"]}>
@@ -139,7 +138,7 @@ export default function PublicarVaga() {
                                 <input type="" className={styles["input"]} style={{ width: "85%" }} placeholder="Escolha o periodo de trabalho" list="CargaHoraria" value={cargaHoraria} onChange={(e) => handleInputChange(e, setCargaHoraria)}/>
                                 <datalist id="CargaHoraria">
                                     <option value="">carga horaria:</option>
-                                    <option value="Quatro Horas">Quatro Horas - 4h</option>
+                                    <option value="QUATRO_HORAS">Quatro Horas - 4h</option>
                                     <option value="Seis Horas">Seis Horas - 4h</option>
                                     <option value="Oito Horas">Oito Horas - 4h</option>
                                     <option value="Dez Horas">Dez Horas - 4h</option>

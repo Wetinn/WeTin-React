@@ -12,29 +12,32 @@ import Overlay from "../../../components/Overlay/Overlay";
 import Loading from "../../../components/Loading/Loading";
 
 export default function EditarEmpresa() {
+    const empresaLogadaJSON = sessionStorage.getItem('user');
+    var user = JSON.parse(empresaLogadaJSON);
 
     const [empresa, setEmpresa] = useState(null);
     const [ExpandirSideBar, setExpandirSideBar] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [nome, setNome] = useState("");
+    const [email, setEmail] = useState("");
+    const [telefone, setTelefone] = useState("");
+    const [cep, setCep] = useState("");
+    const [descricao, setDescricao] = useState("");
+    const [linkedin, setLinkedin] = useState("");
+    const [cnpj, setCNPJ] = useState("");
 
-    const toggleExpandirSideBar = () => {
-        setExpandirSideBar(!ExpandirSideBar)
-    }
-    //Faz a requisição para o backend
+    
+    
+    //To buscando a empresa pra prencher as inputs
     useEffect(() => {
         const buscarEmpresa = async () => {
             try {
-                const empresaLogadaJSON = sessionStorage.getItem('user');
-                var user = JSON.parse(empresaLogadaJSON);
 
-                console.log('ID do usuário:', user.id);
-    
                 const response = await axios.get(`/empresas/${user.id}`);
                 var empresaData = response.data;
 
-                console.log('Dados da empresa:', empresaData);
+                console.log('Aqui ta a empresaa', empresaData);
 
                 setEmpresa(empresaData);
                 setLoading(false);
@@ -44,21 +47,48 @@ export default function EditarEmpresa() {
                 console.log(err);
             }
         };
-    
+
         buscarEmpresa();
     }, []);
 
-    useEffect(() => {
-        console.log("Mostrando a empresa",empresa);
-    }, [empresa]);
+   
 
     if (!empresa) {
         return <>
-        {loading && <Loading />}
+            {loading && <Loading />}
         </>;
     }
 
-   
+    // agr sim que vou atualizar
+    const atualizarEmpresa = async () => {
+        const empresaEditada = {
+            nome,
+            telefone,
+            cep,
+            email,
+            descricao,
+            linkedin,
+            cnpj
+        }
+
+        try {
+            await axios.put(`/empresas/${user.id}`, empresaEditada);
+            alert("Atualizado");
+
+            sessionStorage.setItem("cepEmpresa", empresaEditada.cep);
+        } catch (err) {
+            console.error(err);
+            console.log(empresaEditada);
+            alert("deu ruim");
+        }
+    };
+
+
+    const toggleExpandirSideBar = () => {
+        setExpandirSideBar(!ExpandirSideBar)
+    }
+
+
 
     const handleInputChange = (event, setStateFunction) => {
         setStateFunction(event.target.value);
@@ -70,7 +100,7 @@ export default function EditarEmpresa() {
             {ExpandirSideBar && <Overlay />}
             {ExpandirSideBar && <SidebarExtended funcaoColapsar={toggleExpandirSideBar} />}
             <div style={{ height: "100vh", width: "100vw", gap: '8px', display: 'flex', flexDirection: 'row', alignItems: "center" }}>
-                <SidebarCollapsed funcaoExpandir={toggleExpandirSideBar}/>
+                <SidebarCollapsed funcaoExpandir={toggleExpandirSideBar} />
                 <div className="deixaEuVer" style={{ width: "90vw", height: "97vh", display: "flex", alignItems: "center", flexDirection: "column", borderRadius: "20px", backgroundColor: "#F2F2F2" }}>
                     <div className={styles["titulo"]}>
                         <span>Editar perfil da Empresa</span>
@@ -94,53 +124,54 @@ export default function EditarEmpresa() {
                                         <label htmlFor="">Nome da Empresa: </label>
                                         <span>*</span>
                                     </div>
-                                    <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o nome da empresa"  value={empresa.nome} onChange={(e) => handleInputChange(e, setNome)}/>
+                                    <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o nome da empresa"
+                                        defaultValue={empresa.nome} onChange={(e) => handleInputChange(e, setNome)} />
                                 </div>
                                 <div className={styles["InputDiv"]}>
                                     <div className={styles["labelDiv"]}>
                                         <label htmlFor="">E-Mail: </label>
                                         <span>*</span>
                                     </div>
-                                    <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o e-mail da empresa"  value={empresa.email}/>
+                                    <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o e-mail da empresa" defaultValue={empresa.email} onChange={(e) => handleInputChange(e, setEmail)} />
                                 </div>
                                 <div className={styles["InputDiv"]}>
                                     <div className={styles["labelDiv"]}>
                                         <label htmlFor="">Telefone: </label>
                                         <span>*</span>
                                     </div>
-                                    <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o telefone da empresa" value={empresa.telefone}/>
+                                    <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o telefone da empresa" defaultValue={empresa.telefone} onChange={(e) => handleInputChange(e, setTelefone)} />
                                 </div>
                                 <div className={styles["InputDiv"]}>
                                     <div className={styles["labelDiv"]}>
                                         <label htmlFor="">CEP: </label>
                                         <span>*</span>
                                     </div>
-                                    <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o CEP da empresa" value={empresa.cep}/>
+                                    <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o CEP da empresa" defaultValue={empresa.cep} onChange={(e) => handleInputChange(e, setCep)} />
                                 </div>
                                 <div className={styles["InputDiv"]}>
                                     <div className={styles["labelDiv"]}>
                                         <label htmlFor="">Descrição: </label>
                                         <span>*</span>
                                     </div>
-                                    <textarea type="text" className={styles["textArea"]} style={{ width: "85%", height: "30vh" }} placeholder="Descreva sobre sua empresa" value={empresa.descricao}/>
+                                    <textarea type="text" className={styles["textArea"]} style={{ width: "85%", height: "30vh" }} placeholder="Descreva sobre sua empresa" defaultValue={empresa.descricao} onChange={(e) => handleInputChange(e, setDescricao)} />
                                 </div>
                                 <div className={styles["InputDiv"]}>
                                     <div className={styles["labelDiv"]}>
                                         <label htmlFor="">Linkedin: </label>
                                         <span>*</span>
                                     </div>
-                                    <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Cole aqui o link do linkedin" value={empresa.linkedin}/>
+                                    <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Cole aqui o link do linkedin" defaultValue={empresa.linkedin} onChange={(e) => handleInputChange(e, setLinkedin)} />
                                 </div>
                                 <div className={styles["InputDiv"]}>
                                     <div className={styles["labelDiv"]}>
                                         <label htmlFor="">CNPJ: </label>
                                         <span>*</span>
                                     </div>
-                                    <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o CNPJ da empresa" value={empresa.cnpj}/>
+                                    <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o CNPJ da empresa" defaultValue={empresa.cnpj} onChange={(e) => handleInputChange(e, setCNPJ)} />
                                 </div>
                             </form>
                             <div className={styles["botaoSalvar"]}>
-                                <button>Salvar Alterações</button>
+                                <button onClick={atualizarEmpresa}>Salvar Alterações</button>
                             </div>
                         </div>
                     </div>

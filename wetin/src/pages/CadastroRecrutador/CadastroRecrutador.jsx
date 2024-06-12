@@ -99,7 +99,7 @@ export default function CadastroRecrutador() {
         <>
             <div className={styles["fundoPag"]}>
                 <Header textoBotao1={"Ir para Página Inicial"} Logo={Logo} pagDesejada="/" />
-                <Navegador ativa="#025373" textoAtivo="#F2F2F2" descricao1="Criando Perfil" descricao2="Endereço" descricao3="Pagamento" bolinha1="/recrutador" bolinha2="/recrutadorEndereco" bolinha3="/recutadorPagamento" />
+                <Navegador ativa="#025373" textoAtivo="#F2F2F2" descricao1="Criando Perfil" descricao2="Descrição" descricao3="Pagamento" bolinha1="#025373" bolinha2="#F2B705" bolinha3="#F2B705" />
 
                 <div className={styles["container"]}>
                     <div className={styles["blocoCadastro"]}>

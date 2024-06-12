@@ -12,7 +12,10 @@ import axios from "axios";
 export default function Login() {
     const notify = () => {
         toast("Login ralizado com sucesso!");
-      };
+    };
+    const notifyRuim = () => {
+        toast("Email ou senha invalidos!");
+    };
 
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
@@ -41,7 +44,7 @@ export default function Login() {
         } catch (err) {
             console.error(err);
             console.log(usuario);
-            alert("deu ruim");
+            notifyRuim()
         }
     }
 
