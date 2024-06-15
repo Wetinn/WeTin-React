@@ -10,6 +10,7 @@ import axios from "axios";
 
 export default function PerfilEmpresa() {
 
+    const cep = sessionStorage.cep;
     const [ExpandirSideBar, setExpandirSideBar] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -26,7 +27,7 @@ export default function PerfilEmpresa() {
         const fetchPerfilEmpresa = async () => {
             try {
                 const response = await axios.get(`/empresas/${idEmpresa}`);
-                const endereco = await buscarCidadePorCep(response.data.cep);
+                const endereco = await buscarCidadePorCep(cep);
                 const perfilEmpresaComEndereco = { ...response.data, endereco};
                 console.log(perfilEmpresaComEndereco)
 
