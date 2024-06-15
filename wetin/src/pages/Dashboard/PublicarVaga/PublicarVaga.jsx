@@ -2,7 +2,7 @@ import styles from './PublicarVaga.module.css'
 import SidebarCollapsed from "../../../components/Sidebar/SidebarCollapsed/SidebarCollapsed";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react"; 
-import api from '../../../api'
+import axios from "axios";
 
 export default function PublicarVaga() {
 
@@ -19,8 +19,10 @@ export default function PublicarVaga() {
     const [cargaHoraria, setCargaHoraria] = useState("");
     const [dtCriacao, setDtCriacao] = useState("");
     const [dtExpiracao, setExpiracao] = useState("");
+    const empresaLogadaJSON = sessionStorage.getItem('user');
+    var user = JSON.parse(empresaLogadaJSON);
 
-    const handleSave = () => {
+    const handleSave = async () => {
         const vagaCadastrada = {
             titulo,
             descricao,
@@ -34,30 +36,16 @@ export default function PublicarVaga() {
             dtCriacao,
             dtExpiracao
         };
-
-        api.post(`/vagas/1`, {
-            titulo,
-            descricao,
-            cep,
-            pretensaoSalarial,
-            especialidade,
-            requisitos,
-            beneficios,
-            periodo,
-            cargaHoraria,
-            dtCriacao,
-            dtExpiracao
-        }).then(() => {
-            // toast.success("Novo Card criado com sucesso!");
-            alert("Vaga Cadastrada")
-            sessionStorage.setItem("vaga",
-                JSON.stringify(vagaCadastrada));
-            navigate("/login")
-        }).catch(() => {
-            console.log(vagaCadastrada)
-            // toast.error("Ocorreu um erro ao salvar os dados, por favor, tente novamente.");
-            alert("deu ruim")
-        })
+    
+        try {
+            await axios.post(`/vagas/${user.id}`, vagaCadastrada);
+            alert("Vaga Cadastrada");
+            navigate("/dashboard");
+        } catch (err) {
+            console.error(err);
+            console.log(vagaCadastrada);
+            alert("deu ruim", err);
+        }
     };
 
     const handleInputChange = (event, setStateFunction) => {
@@ -75,7 +63,7 @@ export default function PublicarVaga() {
                     <div className={styles["titulo"]}>
                         <span>Publicar Vaga </span>
                         <button onClick={handleSave}>
-                            Salvar Como Rascunho
+                            Salvar Vaga
                         </button>
                     </div>
                     <div className={styles["caixaFormulario"]}>
@@ -137,8 +125,8 @@ export default function PublicarVaga() {
                                 <input type="" className={styles["input"]} style={{ width: "85%" }} placeholder="Escolha o periodo de trabalho" list="faixa" value={periodo} onChange={(e) => handleInputChange(e, setPeriodo)}/>
                                 <datalist id="faixa">
                                     <option value="">horarios:</option>
-                                    <option value="Manhã">Periodo Manhã (7h - 13h)</option>
-                                    <option value="Tarde">Periodo Tarde (12h - 18h)</option>
+                                    <option value="MANHA">Periodo Manhã (7h - 13h)</option>
+                                    <option value="TARDE">Periodo Tarde (12h - 18h)</option>
                                     <option value="Noite">Periodo Noite (18h - 23h)</option>
                                 </datalist>
                             </div>
@@ -150,7 +138,7 @@ export default function PublicarVaga() {
                                 <input type="" className={styles["input"]} style={{ width: "85%" }} placeholder="Escolha o periodo de trabalho" list="CargaHoraria" value={cargaHoraria} onChange={(e) => handleInputChange(e, setCargaHoraria)}/>
                                 <datalist id="CargaHoraria">
                                     <option value="">carga horaria:</option>
-                                    <option value="Quatro Horas">Quatro Horas - 4h</option>
+                                    <option value="QUATRO_HORAS">Quatro Horas - 4h</option>
                                     <option value="Seis Horas">Seis Horas - 4h</option>
                                     <option value="Oito Horas">Oito Horas - 4h</option>
                                     <option value="Dez Horas">Dez Horas - 4h</option>

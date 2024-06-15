@@ -18,28 +18,73 @@ export default function CadastroRecrutador() {
     const [telefone, setTelefone] = useState("");
     const [senha, setSenha] = useState("");
     const [confirmarSenha, setConfirmarSenha] = useState("");
+    const [errorMessages, setErrorMessages] = useState({
+        nome: "",
+        cnpj: "",
+        email: "",
+        telefone: "",
+        senha: "",
+        confirmarSenha: ""
+    });
+    
+    const validarInputs = () => {
+        var naoTemErro = true;
+        var errors = {
+            nome: "",
+            cnpj: "",
+            email: "",
+            telefone: "",
+            senha: "",
+            confirmarSenha: ""
+        };
+    
+        if (!nome) {
+            errors.nome = "Nome da empresa é obrigatório";
+            naoTemErro = false;
+        }
+        if (!cnpj) {
+            errors.cnpj = "CNPJ é obrigatório";
+            naoTemErro = false;
+        }
+        if (!email) {
+            errors.email = "Email é obrigatório";
+            naoTemErro = false;
+        }
+        if (!telefone) {
+            errors.telefone = "Telefone é obrigatório";
+            naoTemErro = false;
+        }
+        if (senha < 6) {
+            errors.senha = "Senha deve ter mais de 6 caracteres";
+            naoTemErro = false;
+        }
+        if (!senha) {
+            errors.senha = "Senha é obrigatória";
+            naoTemErro = false;
+        }
+        if (senha !== confirmarSenha) {
+            errors.confirmarSenha = "As senhas não coincidem";
+            naoTemErro = false;
+        }
+    
+        setErrorMessages(errors);
+        return naoTemErro;
+    }
+    
 
     const handleSave = () => {
-        const cadastroRecrutador = {
-            nome,
-            cnpj,
-            email,
-            telefone,
-            senha
-        };
-
-        if (senha === confirmarSenha) {
-            // Atribuindo o valor de 'senha' à propriedade 'senha' do objeto 'continuacao'
-            cadastroRecrutador.senha = senha;
-
-            console.log(cadastroRecrutador)
+        if (validarInputs()) {
+            const cadastroRecrutador = {
+                nome,
+                cnpj,
+                email,
+                telefone,
+                senha
+            };
+    
             sessionStorage.setItem("editado", JSON.stringify(cadastroRecrutador));
             navigate("/recrutadorDescricao");
-        } else {
-            alert("Senhas não coincidem");
         }
-
-
     };
 
     const handleInputChange = (event, setStateFunction) => {
@@ -54,7 +99,7 @@ export default function CadastroRecrutador() {
         <>
             <div className={styles["fundoPag"]}>
                 <Header textoBotao1={"Ir para Página Inicial"} Logo={Logo} pagDesejada="/" />
-                <Navegador ativa="#025373" textoAtivo="#F2F2F2" descricao1="Criando Perfil" descricao2="Endereço" descricao3="Pagamento" bolinha1="/recrutador" bolinha2="/recrutadorEndereco" bolinha3="/recutadorPagamento" />
+                <Navegador ativa="#025373" textoAtivo="#F2F2F2" descricao1="Criando Perfil" descricao2="Descrição" descricao3="Pagamento" bolinha1="#025373" bolinha2="#F2B705" bolinha3="#F2B705" />
 
                 <div className={styles["container"]}>
                     <div className={styles["blocoCadastro"]}>
@@ -67,14 +112,14 @@ export default function CadastroRecrutador() {
                                     <div className={styles["InputDiv"]}>
                                         <div className={styles["labelDiv"]}>
                                             <label htmlFor="">Nome da empresa: </label>
-                                            <span>*</span>
+                                            {errorMessages.nome && <span className={styles["error"]}>* {errorMessages.nome}</span>}
                                         </div>
                                         <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o nome da empresa" value={nome} onChange={(e) => handleInputChange(e, setNome)} />
                                     </div>
                                     <div className={styles["InputDiv"]}>
                                         <div className={styles["labelDiv"]}>
                                             <label htmlFor="">CNPJ: </label>
-                                            <span>*</span>
+                                            {errorMessages.cnpj && <span className={styles["error"]}>* {errorMessages.cnpj}</span>}
                                         </div>
                                         <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o CNPJ da empresa" value={cnpj} onChange={(e) => handleInputChange(e, setCnpj)} />
                                     </div>
@@ -84,14 +129,14 @@ export default function CadastroRecrutador() {
                                     <div className={styles["InputDiv"]}>
                                         <div className={styles["labelDiv"]}>
                                             <label htmlFor="">E-mail: </label>
-                                            <span>*</span>
+                                            {errorMessages.email && <span className={styles["error"]}>* {errorMessages.email}</span>}
                                         </div>
                                         <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o e-mail da empresa" value={email} onChange={(e) => handleInputChange(e, setEmail)} />
                                     </div>
                                     <div className={styles["InputDiv"]}>
                                         <div className={styles["labelDiv"]}>
                                             <label htmlFor="">Telefone: </label>
-                                            <span>*</span>
+                                            {errorMessages.telefone && <span className={styles["error"]}>* {errorMessages.telefone}</span>}
                                         </div>
                                         <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o telefone da empresa" value={telefone} onChange={(e) => handleInputChange(e, setTelefone)} />
                                     </div>
@@ -101,14 +146,14 @@ export default function CadastroRecrutador() {
                                     <div className={styles["InputDiv"]}>
                                         <div className={styles["labelDiv"]}>
                                             <label htmlFor="">Senha: </label>
-                                            <span>*</span>
+                                            {errorMessages.senha && <span className={styles["error"]}>* {errorMessages.senha}</span>}
                                         </div>
                                         <input type="password" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui a senha" value={senha} onChange={(e) => handleInputChange(e, setSenha)} />
                                     </div>
                                     <div className={styles["InputDiv"]}>
                                         <div className={styles["labelDiv"]}>
                                             <label htmlFor="">Confirmar Senha: </label>
-                                            <span>*</span>
+                                            {errorMessages.confirmarSenha && <span className={styles["error"]}>* {errorMessages.confirmarSenha}</span>}
                                         </div>
                                         <input type="password" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite sua senha novamente" value={confirmarSenha} onChange={(e) => handleInputChange(e, setConfirmarSenha)} />
                                     </div>
