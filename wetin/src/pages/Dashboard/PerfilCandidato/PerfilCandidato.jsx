@@ -56,8 +56,6 @@ export default function PerfilCandidato() {
             } catch (err) {
                 setError(true);
                 setLoading(false);
-                console.log(err);
-
             }
         };
 

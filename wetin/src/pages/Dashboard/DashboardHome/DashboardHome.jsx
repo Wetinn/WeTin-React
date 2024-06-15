@@ -32,7 +32,12 @@ export default function DashboardHome() {
             try {
                 const candRecomendadosRes = await axios.get(`/candidatos/candidatos-proximos/`, {params: {cep}})
                 const candidatosResponse = await axios.get('/candidatos');
-                const aderenciaResponse = await axios.get(`/empresas/${idEmpresa}/consultar-visibilidade`);
+                try{
+                    const aderenciaResponse = await axios.get(`/empresas/${idEmpresa}/consultar-visibilidade`);
+                    setAderenciaVagasDados(aderenciaResponse.data)
+                } catch(e){
+                    setAderenciaVagasDados(0)
+                }
                 const candidatoVagaResponse = await axios.get(`/empresas/${idEmpresa}/consultar-relacao-vaga-candidato`);
                 const recomendacoes = [];
                 candidatosResponse.data.map(candidato => {
@@ -42,18 +47,15 @@ export default function DashboardHome() {
                     }
                     return true;
                 })
-                
 
 
                 setCandidatos(candidatosResponse.data) 
-                setCandidatosRecomendados(recomendacoes)
-                setAderenciaVagasDados(aderenciaResponse.data)
+                setCandidatosRecomendados(recomendacoes)          
                 setCandidatosVagaDados(candidatoVagaResponse.data)
                 setLoading(false);
             } catch (err) {
                 setError(true);
                 setLoading(false);
-                console.log(err)
             }
         };
 

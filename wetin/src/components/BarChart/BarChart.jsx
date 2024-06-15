@@ -12,11 +12,14 @@ ChartJS.register(
 
 export default function BarChart(props) {
 
+    const qtdVagas = props.qtdVagas === null ? 0 : props.qtdVagas;
+    const qtdCandidatos = props.qtdCandidatos === null ? 0 : props.qtdCandidatos; 
+
     const data = {
         labels: ["vagas", "candidatos"],
         datasets: [
             {
-                data: [props.qtdVagas, props.qtdCandidatos],
+                data: [qtdVagas, qtdCandidatos],
                 backgroundColor: ["#F2B705", "#025373"],
                 borderColor: ["#F2B705", "#025373"],
                 borderWidth: 1,

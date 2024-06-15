@@ -10,10 +10,9 @@ ChartJS.register(
 
 export default function HalfDoughnutChart(props){
 
-    let dado = Number(props.data).toFixed(2);
+    let dado = props.data === null ? 0 : Number(props.data).toFixed(2);
 
     const renderColor = () =>{
-
         if(dado >= 66){
             return "#02D977"
         } else if(dado >= 33 && dado <= 66){
