@@ -126,7 +126,7 @@ export default function PerfilCandidato() {
                     <div className={styles["caixa-conteudo"]}>
                         <div className={styles["caixa-barra-esquerda"]}>
                             <div className={styles["container-foto"]}>
-                                <img className={styles["foto-candidato"]} src="https://s2-gshow.glbimg.com/9SI_8Qwi1oxpktBiv2XtpeaKn9A=/0x0:1600x2218/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_e84042ef78cb4708aeebdf1c68c6cbd6/internal_photos/bs/2017/2/P/tYAvrrTACArtaZBZAQ1Q/20061006-a-grande-familia-jm-37.jpg" alt="Foto candidato" />
+                                <img className={styles["foto-candidato"]} src={PerfilCandidato?.imagem} alt="Foto candidato" />
                             </div>
                             {renderFavoritado && <ButtonFavorite favoritado={Favoritado} idCandidato={id} idEmpresa={idEmpresa} />}
                         </div>
@@ -141,7 +141,7 @@ export default function PerfilCandidato() {
                                     <h2 className={styles["subtitulo"]}>Informações</h2>
                                     <div className={styles["informacoes-icones"]}>
                                         <img className={styles["icone"]} src={LocalIcon} alt="Localização" />
-                                        <h4>{PerfilCandidato?.endereco.cidade} - Bairro {PerfilCandidato?.endereco.bairro}</h4>
+                                        <h4>{PerfilCandidato?.cep}</h4>
                                     </div>
                                     <div className={styles["informacoes-icones"]}>
                                         <img className={styles["icone"]} src={EmailIcon} alt="Email" />

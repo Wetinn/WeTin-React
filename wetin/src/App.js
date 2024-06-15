@@ -1,8 +1,10 @@
 import Rotas from "./routes";
 function App() {
-  const idEmpresa = "6653542ba7c08d5171246144"
+  const idEmpresa = "66536db3c884451828ff2284"
+  const cep = "09541-300"
 
-  sessionStorage.setItem("idEmpresa", idEmpresa)
+  sessionStorage.setItem("idEmpresa", idEmpresa)  
+  sessionStorage.setItem("cep", cep)
 
   return (
     <>

@@ -6,7 +6,6 @@ export default function ButtonFilled(props) {
     const navigate = useNavigate()
 
     const handleClick = () => {
-        console.log("Button clicked with props:", props);  // Log para debug
         if (props.path && typeof props.path === 'string') {
             navigate(props.path);
         } else if (typeof props.onClick === 'function') {

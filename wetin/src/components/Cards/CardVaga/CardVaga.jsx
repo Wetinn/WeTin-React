@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import PopUpConfirmation from "../../PopUps/PopUpConfirmation/PopUpConfirmation"
 import axios from "axios";
 import PopUpSuccess from "../../PopUps/PopUpSuccess/PopUpSuccess";
+import DeleteAnimation from '../../../utils/assets/gifs/DeleteAnimation.gif'
 
 export default function CardVaga(props) {
 
@@ -21,26 +22,26 @@ export default function CardVaga(props) {
     }
 
     const closePopUpSuccess = () => {
+        props.getObject([])
         setPopUpSuccess(false)
     }
     
 
 
     const cardClass = classNames(styles.card, {
-        [styles.rascunho]: props.status === "ENCERRADA",
+        [styles.rascunho]: props.status === "CANCELADA",
         }
     )
 
     const deleteCard = () => {
         const deleteVaga = async () => {
+            console.log(props.status)
             try {
                 setPopUpDelete(false)
-                await axios.delete(`/vagas/cancelar-vaga/${props.info.id}`);
+                await axios.delete(`/vagas/cancelar-vaga/${props.info.idVaga}`);
                 setPopUpSuccess(true)
             } catch (e){
                 console.log(e);
-                setPopUpDelete(false)
-                setPopUpSuccess(true)
             }
         }
         deleteVaga();
@@ -49,12 +50,12 @@ export default function CardVaga(props) {
     const navigate = useNavigate();
 
     const redirectInformacoesVaga = () =>{
-        navigate(`/dashboard/informacoes-vaga/${props.info.id}`)
+        navigate(`/dashboard/informacoes-vaga/${props.info.idVaga}`)
     }
 
     const redirectEdicaoVaga = (event) => {
         event.stopPropagation();
-        navigate(`/dashboard/editarVaga/${props.info.id}`)
+        navigate(`/dashboard/editarVaga/${props.info.idVaga}`)
     }
 
     return (
@@ -72,16 +73,16 @@ export default function CardVaga(props) {
             {popUpSuccess  && 
             <PopUpSuccess
                 texto="Vaga encerrada com sucesso"
-                imagem=""
+                imagem={DeleteAnimation}
                 textoBotao1="Fechar"
                 alt="Imagem encerramento efetuado"
                 onClose={closePopUpSuccess}
             />}
 
             <div className={cardClass} onClick={() => redirectInformacoesVaga()}>
-                {props.status === "ENCERRADA" && (
+                {props.status === "CANCELADA" && (
                     <div className={styles['textoRascunho']}>
-                        <h3>Encerrada</h3>
+                        <h3>Cancelada</h3>
                     </div>
                 )}
                 <img src={props.imagem} alt="Foto vaga" className={styles['fotoVaga']} />

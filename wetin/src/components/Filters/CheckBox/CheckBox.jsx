@@ -28,7 +28,7 @@ export default function CheckBox(props) {
     const renderCheckboxLists = () => filtros.map((value, index) => (
         <div className={styles['div-org']}>   
             <React.Fragment key={index}>
-                <span className={styles["span"]}>{value.valor}</span>
+                <span className={styles["span"]}>{value.topico}</span>
                 <Checkbox
                     className={styles["ant-checkbox-checked"]}
                     onChange={() => handleToggle(value)}

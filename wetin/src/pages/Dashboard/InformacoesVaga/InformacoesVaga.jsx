@@ -21,7 +21,7 @@ export default function InformacoesVaga() {
     const [error, setError] = useState(false);
     const [SectionOperator, setSectionOperator] = useState("detalhes");
     const [InformacoesVaga, setInformacoesVaga] = useState([]);   
-    const [Candidato, setCandidato] = useState(InformacoesVaga);
+    const [Candidato, setCandidato] = useState([]);
     const [Filtros, setFiltros] = useState([]);
 
     const toggleExpandirSideBar = () => {
@@ -41,7 +41,7 @@ export default function InformacoesVaga() {
     
     const fetchFiltros = async () => {
         try{
-            const response = await axios.get(`/api/filtros`)
+            const response = await axios.get(`/api/filtros/candidato`)
 
             return response.data;
         } catch(e){
@@ -51,14 +51,24 @@ export default function InformacoesVaga() {
         
     }
 
+    const downloadCsv = async () => {
+        try {
+            const response = await axios.get(`/vagas/GerarArquivoCSV/${id}`)
+            console.log(response)
+        } catch (e){
+            console.log(e)
+        }
+    }
+
     useEffect(() => {
         const fetchInformacoesVaga = async () => {
             try {
-                const response = await axios.get(`/vagas/${id}`);
+                const response = await axios.get(`/vagas/${id}/empresa`);
+                const candidatosResponse = await axios.get(`/vagas/consultar-candidatos/${id}`)
                 const filtrosResponse = await fetchFiltros()
 
                 setInformacoesVaga(response.data)
-                setCandidato(response.data.candidatos)
+                setCandidato(candidatosResponse.data)
                 setFiltros(filtrosResponse)
                 setLoading(false);
             } catch (err) {
@@ -108,7 +118,7 @@ export default function InformacoesVaga() {
             case "candidatos":
                 return (
                     <div style={{ gap: '8px', display: 'flex', flexDirection: 'column', margin: "8px 8px 8px 0px" }}>
-                        <ButtonFilled texto="Exportar candidatos para .csv" height="64" />
+                        <ButtonFilled texto="Exportar candidatos para .csv" height="64" onClick={downloadCsv}/>
                         {Filtros && (
                             <Filters getObjects={getCandidatos} tituloFiltros={Filtros.tituloFiltros} filtros={Filtros.filtros} />
                         )}
@@ -138,7 +148,7 @@ export default function InformacoesVaga() {
         const fetchCandidatoFiltros = async () => {
             if(variables.length !== 0){
                 try {
-                    const response = await axios.post(`/api/filtros`, variables) ;
+                    const response = await axios.post(`/api/filtros/candidato`, variables) ;
                     setCandidato(response.data)
 
                 } catch (e){
@@ -147,8 +157,8 @@ export default function InformacoesVaga() {
                 }
             } else {
                 try {
-                    setCandidato(InformacoesVaga.candidatos)
-                    setLoading(false);
+                    const response = await axios.get(`/vagas/consultar-candidatos/${id}`);
+                    setCandidato(response.data);
                 } catch (e) {
                     setLoading(false);
                     setError(true);
@@ -160,34 +170,12 @@ export default function InformacoesVaga() {
         fetchCandidatoFiltros();
     }
 
-    const fetchCandidatos = async () => {
-        setLoading(true);
-        try {
-            const aux = Candidato == null ? [] : Candidato;
-            const requests = aux.map(id => axios.get(`/candidatos/${id}`));
-            const responses = await Promise.all(requests);
-            const auxArray = responses.map(response => response.data);
-            setCandidato(auxArray);
-        } catch (e) {
-            console.log(e);
-            setError(true);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        if (SectionOperator === "candidatos") {
-            fetchCandidatos();
-        }
-    }, [SectionOperator, fetchCandidatos]);
-
 
 
     const renderCandidatos = () => {
         return Candidato.map(candidato => (
             <React.Fragment key={candidato.id}>
-                <CardCandidatoExtendido id={candidato.id} nome={candidato.nome} localizacao={candidato.cep} telefone={candidato.telefone} imagem="" email={candidato.email} />
+                <CardCandidatoExtendido id={candidato.id} nome={candidato.nome} localizacao={candidato.cep} telefone={candidato.telefone} imagem={candidato.imagem} email={candidato.email} />
             </React.Fragment>
         ))
     } 
