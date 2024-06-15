@@ -54,8 +54,8 @@ export default function CadastroRecrutador() {
             errors.telefone = "Telefone é obrigatório";
             naoTemErro = false;
         }
-        if (!senha) {
-            errors.senha = "Senha é obrigatória";
+        if (senha < 6) {
+            errors.senha = "Senha deve ter mais de 6 caracteres";
             naoTemErro = false;
         }
         if (!senha) {

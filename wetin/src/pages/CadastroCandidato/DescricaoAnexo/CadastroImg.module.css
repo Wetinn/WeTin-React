@@ -102,12 +102,13 @@ form{
     font-weight: 700;
     font-size: 1.1rem;
     display: flex;
+    flex-direction: column;
     gap: 5px;
 }
 
 .labelDiv span{
     color: red;
-    display: none;
+    font-size: 0.5rem;
 }
 
 .input{
@@ -177,26 +178,9 @@ form{
     cursor: pointer;
 }
 
-.caixaImagem{
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: space-around;
-}
-
-.iconeImg{
-    background-color: #a0a0a0;
-    height: 13vh;
-    width: 25%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-}
-
 
 .inputDescricao{
-    height: 12vh;
+    height: 15vh;
     background: #E2E2E2;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset; 
     border-radius: 5px;
@@ -212,7 +196,7 @@ form{
 
 .InputDesc{
     display: flex;
-    width: 60%;
+    width: 80%;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;

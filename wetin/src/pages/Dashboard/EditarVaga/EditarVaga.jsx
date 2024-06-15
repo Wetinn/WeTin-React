@@ -34,7 +34,7 @@ export default function PublicarVaga() {
         const buscarVaga = async () => {
             try {
 
-                const response = await axios.get(`/vagas/${"6651f949ed6c402513828585"}`);
+                const response = await axios.get(`/vagas/${"666cb6c26fc26a2110446fb4"}/empresa`);
                 var vagaData = response.data;
 
                 console.log('Aqui ta a vaga', vagaData);
@@ -74,7 +74,7 @@ export default function PublicarVaga() {
         };
     
         try {
-            await axios.put(`/vagas/${"6651f949ed6c402513828585"}`, vagaAtualizada);
+            await axios.put(`/vagas/${"666cb6c26fc26a2110446fb4"}`, vagaAtualizada);
             alert("Vaga Atualizada");
         } catch (err) {
             console.error(err);
@@ -116,7 +116,7 @@ export default function PublicarVaga() {
                                     <label htmlFor="">Descrição: </label>
                                     <span>*</span>
                                 </div>
-                                <input type="text" className={styles["input"]} style={{ width: "85%", height: "30vh" }} placeholder="Descreva sobre sua vaga" defaultValue={vaga.descricao} onChange={(e) => handleInputChange(e, setDescricao)} />
+                                <textarea type="text" className={styles["input"]} style={{ width: "85%", height: "30vh",border:"none",fontSize:"1rem",paddingTop:"3%" }} placeholder="Descreva sobre sua vaga" defaultValue={vaga.descricao} onChange={(e) => handleInputChange(e, setDescricao)} />
                             </div>
                             <div className={styles["InputDiv"]}>
                                 <div className={styles["labelDiv"]}>
@@ -137,21 +137,21 @@ export default function PublicarVaga() {
                                     <label htmlFor="">Especialidades Desejadas: </label>
                                     <span>*</span>
                                 </div>
-                                <input type="text" className={styles["input"]} style={{ width: "85%", height: "20vh" }} placeholder="Digite aqui as especialidades" defaultValue={vaga.especialidade} onChange={(e) => handleInputChange(e, setEspecialidade)} />
+                                <textarea type="text" className={styles["input"]} style={{ width: "85%", height: "30vh",border:"none",fontSize:"1rem",paddingTop:"3%" }} placeholder="Digite aqui as especialidades" defaultValue={vaga.especialidade} onChange={(e) => handleInputChange(e, setEspecialidade)} />
                             </div>
                             <div className={styles["InputDiv"]}>
                                 <div className={styles["labelDiv"]}>
                                     <label htmlFor="">Requisitos: </label>
                                     <span>*</span>
                                 </div>
-                                <input type="text" className={styles["input"]} style={{ width: "85%", height: "20vh" }} placeholder="Digite aqui os requisitos da vaga" defaultValue={vaga.requisitos} onChange={(e) => handleInputChange(e, setRequisitos)} />
+                                <textarea type="text" className={styles["input"]} style={{ width: "85%", height: "30vh",border:"none",fontSize:"1rem",paddingTop:"3%" }} placeholder="Digite aqui os requisitos da vaga" defaultValue={vaga.requisitos} onChange={(e) => handleInputChange(e, setRequisitos)} />
                             </div>
                             <div className={styles["InputDiv"]}>
                                 <div className={styles["labelDiv"]}>
                                     <label htmlFor="">Beneficios: </label>
                                     <span>*</span>
                                 </div>
-                                <input type="text" className={styles["input"]} style={{ width: "85%", height: "20vh" }} placeholder="Digite aqui os beneficios da vag" defaultValue={vaga.beneficios} onChange={(e) => handleInputChange(e, setBeneficios)} />
+                                <textarea type="text" className={styles["input"]} style={{ width: "85%", height: "30vh",border:"none",fontSize:"1rem",paddingTop:"3%" }} placeholder="Digite aqui os beneficios da vaga" defaultValue={vaga.beneficios} onChange={(e) => handleInputChange(e, setBeneficios)} />
                             </div>
                             <div className={styles["InputDiv"]}>
                                 <div className={styles["labelDiv"]}>

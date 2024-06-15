@@ -6,7 +6,6 @@ import Logo from "../../../utils/assets/imgLogoPreta.svg";
 import Navegador from "../../../components/NavegadorCadastro/NavegadorCadastro";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import IconImgAnexo from "../../../utils/assets/iconImagemAnexa.svg"
 
 
 
@@ -14,29 +13,69 @@ export default function CadastroRecrutador() {
 
     const navigate = useNavigate();
 
+    const [especialidades, setEspecialidades] = useState("");
     const [descricao, setDescricao] = useState("");
     const [linkedin, setLinkedin] = useState("");
     const [cep, setCep] = useState("");
+    const [errorMessages, setErrorMessages] = useState({
+        especialidades: "",
+        descricao: "",
+        linkedin: "",
+        cep: ""
+    });
+
+    const validarInputs = () => {
+        var naoTemErro = true;
+        var errors = {
+            descricao: "",
+            especialidades: "",
+            linkedin: "",
+            cep: ""
+        };
+
+        if (!descricao) {
+            errors.descricao = "Descrição é obrigatório";
+            naoTemErro = false;
+        }
+        if (!especialidades) {
+            errors.especialidades = "Especialidade é obrigatório";
+            naoTemErro = false;
+        }
+        if (!linkedin) {
+            errors.linkedin = "O link do Linkedin é obrigatório";
+            naoTemErro = false;
+        }
+        if (!cep) {
+            errors.cep = "CEP é obrigatório";
+            naoTemErro = false;
+        }
+        setErrorMessages(errors);
+        return naoTemErro;
+    }
 
     const handleSave = () => {
 
-        const continuacao = {
-            linkedin,
-            cep,
-            descricao
+        if (validarInputs()) {
+            const continuacao = {
+                linkedin,
+                cep,
+                especialidades,
+                descricao
+            }
+
+            sessionStorage.setItem("continuacao", JSON.stringify(continuacao));
+
+            navigate("/candidatoQuestionario");
         }
-
-        sessionStorage.setItem("continuacao", JSON.stringify(continuacao));
-
-        navigate("/experienciaCandidato");
     };
+
 
     const handleInputChange = (event, setStateFunction) => {
         setStateFunction(event.target.value);
     }
 
     const handleBack = () => {
-        navigate("/candidato");
+        navigate("/recrutador");
     };
 
 
@@ -44,7 +83,7 @@ export default function CadastroRecrutador() {
         <>
             <div className={styles["fundoPag"]}>
                 <Header textoBotao1={"Ir para Página Inicial"} Logo={Logo} pagDesejada="/" />
-                <Navegador ativa="#025373" textoAtivo="#F2F2F2" descricao1="Criando Perfil" descricao2="Endereço" descricao3="Pagamento" bolinha1="/recrutador" bolinha2="/recrutadorEndereco" bolinha3="/recutadorPagamento" />
+                <Navegador ativa="#025373" texto2="#F2F2F2" descricao1="Criando Perfil" descricao2="Descrição" descricao3="Quiz" bolinha1="#F2B705" bolinha2="#025373" bolinha3="#F2B705" />
 
                 <div className={styles["container"]}>
                     <div className={styles["blocoCadastro"]}>
@@ -54,31 +93,20 @@ export default function CadastroRecrutador() {
                         <div className={styles["inputsBloco"]}>
                             <form>
                                 <div className={styles["infosEmpresa"]}>
-                                    <div className={styles["alinhamento"]}>
-                                        <span className={styles["tiltAn"]}>
-                                            Anexe uma imagem:
-                                        </span>
-                                        <div className={styles["caixaImagem"]}>
-
-                                            <div className={styles["iconeImg"]}>
-                                                <img src={IconImgAnexo} alt="" />
+                                    <div className={styles["InputDesc"]}>
+                                        <div className={styles["InputDesc"]}>
+                                            <div className={styles["labelDiv"]}>
+                                                <label htmlFor="">Especialidades: </label>
+                                                {errorMessages.especialidades && <span className={styles["error"]}>* {errorMessages.especialidades}</span>}
                                             </div>
-
-                                            <div className={styles["arrastarArquivo"]}>
-                                                <div className={styles["texto"]}>
-                                                    <span>
-                                                        Arraste a imagem que você quer anexar ou clique aqui para escolher um arquivo do seu computador
-                                                    </span>
-                                                </div>
-                                            </div>
-
+                                            <textarea type="text" className={styles["inputDescricao"]} placeholder="Descreva suas especialidades" value={especialidades} onChange={(e) => handleInputChange(e, setEspecialidades)} />
                                         </div>
                                     </div>
                                     <div className={styles["InputDesc"]}>
                                         <div className={styles["InputDesc"]}>
                                             <div className={styles["labelDiv"]}>
                                                 <label htmlFor="">Descrição: </label>
-                                                <span>*</span>
+                                                {errorMessages.descricao && <span className={styles["error"]}>* {errorMessages.descricao}</span>}
                                             </div>
                                             <textarea type="text" className={styles["inputDescricao"]} placeholder="Descreva brevemente seu perfil" value={descricao} onChange={(e) => handleInputChange(e, setDescricao)} />
                                         </div>
@@ -89,14 +117,14 @@ export default function CadastroRecrutador() {
                                     <div className={styles["InputDiv"]}>
                                         <div className={styles["labelDiv"]}>
                                             <label htmlFor="">CEP: </label>
-                                            <span>*</span>
+                                            {errorMessages.cep && <span className={styles["error"]}>* {errorMessages.cep}</span>}
                                         </div>
                                         <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o CEP da empresa" value={cep} onChange={(e) => handleInputChange(e, setCep)} />
                                     </div>
                                     <div className={styles["InputDiv"]}>
                                         <div className={styles["labelDiv"]}>
                                             <label htmlFor="">Linkedin: </label>
-                                            <span>*</span>
+                                            {errorMessages.linkedin && <span className={styles["error"]}>* {errorMessages.linkedin}</span>}
                                         </div>
                                         <input type="text" className={styles["input"]} style={{ width: "100%" }} placeholder="Cole aqui o link do linkedin da empresa" value={linkedin} onChange={(e) => handleInputChange(e, setLinkedin)} />
                                     </div>
