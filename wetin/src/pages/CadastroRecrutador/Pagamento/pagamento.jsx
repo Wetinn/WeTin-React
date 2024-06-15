@@ -42,7 +42,7 @@ export default function Pagamento() {
         await axios.post('/empresas', recrutadorCadastrado);
         alert("Cadastrado");
         sessionStorage.clear();
-        sessionStorage.setItem("cepEmpresa", recrutadorCadastrado.cep);
+        sessionStorage.setItem("cep", recrutadorCadastrado.cep);
         navigate("/login");
     } catch (err) {
         console.error(err);

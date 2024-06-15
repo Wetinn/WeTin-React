@@ -74,7 +74,7 @@ export default function PerfilEmpresa() {
 
                         <div className={styles["foto-e-nome"]}>
                             <div className={styles["container-foto"]}>
-                                <img className={styles["foto-perfil"]} src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/PedroCardosoiPorAndreaFarias.jpg/200px-PedroCardosoiPorAndreaFarias.jpg" alt="Foto perfil" />
+                                <img className={styles["foto-perfil"]} src={PerfilEmpresa.imagem} alt="Foto perfil" />
                             </div>
                             <h1 className={styles["nome-empresa"]}>{PerfilEmpresa.nome}</h1>
                         </div>

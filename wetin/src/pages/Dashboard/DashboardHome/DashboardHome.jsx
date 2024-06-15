@@ -13,12 +13,15 @@ import HalfDoughnutChart from "../../../components/HalfDougnutChart/HalfDougnutC
 
 export default function DashboardHome() {
 
+    const cep = sessionStorage.cep;
+    const idEmpresa = sessionStorage.idEmpresa
     const [ExpandirSideBar, setExpandirSideBar] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
-    const [Candidato, setCandidato] = useState([])
+    const [Candidatos, setCandidatos] = useState([])
+    const [CandidatosRecomendados, setCandidatosRecomendados] = useState([])
     const [aderenciaVagasDados, setAderenciaVagasDados] = useState([]);
-    const [candidatoVagaDados, setCandidatoVagaDados] = useState([]);
+    const [candidatoVagaDados, setCandidatosVagaDados] = useState([]);
 
     const toggleExpandirSideBar = () => {
         setExpandirSideBar(!ExpandirSideBar)
@@ -27,20 +30,25 @@ export default function DashboardHome() {
     useEffect(() => {
         const fetchInformacoes = async () => {
             try {
+                const candRecomendadosRes = await axios.get(`/candidatos/candidatos-proximos/`, {params: {cep}})
                 const candidatosResponse = await axios.get('/candidatos');
-                const candidatosComCidade = await Promise.all(
-                    candidatosResponse.data.map(async candidato => {
-                        const cidade = await buscarCidadePorCep(candidato.cep);
-                        return { ...candidato, cidade };
-                    }))
-                setCandidato(candidatosComCidade) 
+                const aderenciaResponse = await axios.get(`/empresas/${idEmpresa}/consultar-visibilidade`);
+                const candidatoVagaResponse = await axios.get(`/empresas/${idEmpresa}/consultar-relacao-vaga-candidato`);
+                const recomendacoes = [];
+                candidatosResponse.data.map(candidato => {
+                    const recomendacao = buscarCandidatosRecomendados(candidato.id, candRecomendadosRes);
+                    if(recomendacao === true){
+                        recomendacoes.push(candidato)
+                    }
+                    return true;
+                })
+                
 
-                const aderenciaResponse = await axios.get('/empresas/6653542ba7c08d5171246144/consultar-visibilidade');
+
+                setCandidatos(candidatosResponse.data) 
+                setCandidatosRecomendados(recomendacoes)
                 setAderenciaVagasDados(aderenciaResponse.data)
-
-                const cadidatoVagaResponse = await axios.get('/empresas/6653542ba7c08d5171246144/consultar-relacao-vaga-candidato');
-                setCandidatoVagaDados(cadidatoVagaResponse.data)
-
+                setCandidatosVagaDados(candidatoVagaResponse.data)
                 setLoading(false);
             } catch (err) {
                 setError(true);
@@ -52,26 +60,24 @@ export default function DashboardHome() {
         fetchInformacoes();
     });
 
-    const buscarCidadePorCep = async (cep) => {
-        try {
-            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-
-            return response.data.localidade;
-        } catch (error) {
-            console.error('Erro ao buscar cidade pelo CEP:', error);
-            return 'Cidade desconhecida';
+    const buscarCandidatosRecomendados = (id, response) => {
+        for (let i = 0; i < response.data.length; i++) {
+            if (response.data[i].id === id && response.data[i].distancia < 10.0) {
+                return true;
+            }
         }
+        return false
     }
 
-    const renderCandidatosFavoritos = () => Candidato.map(candidato => (
+    const renderCandidatos = () => Candidatos.map(candidato => (
         <React.Fragment key={candidato.id}>
-            <CardCandidatoSimples nome={candidato.nome} localizacao={candidato.cidade} telefone={candidato.telefone} imagem={candidato.imagem} info={candidato} />
+            <CardCandidatoSimples nome={candidato.nome} localizacao={candidato.cep} telefone={candidato.telefone} imagem={candidato.imagem} info={candidato} />
         </React.Fragment>
     ))
 
-    const renderCandidatosRecomendados = () => Candidato.map(candidato => (
-        <React.Fragment key={candidato.id}>
-            <CardCandidatoSimples nome={candidato.nome} localizacao={candidato.cidade} telefone={candidato.telefone} imagem={candidato.imagem} info={candidato} recomendacao />
+    const renderCandidatosRecomendados = () => CandidatosRecomendados.map(candidato => (
+        <React.Fragment key={candidato.idCandidato}>
+            <CardCandidatoSimples nome={candidato.nome} localizacao={candidato.cep} telefone={candidato.telefone} imagem={candidato.imagem} info={candidato} recomendacao />
         </React.Fragment>
     ))
 
@@ -98,7 +104,7 @@ export default function DashboardHome() {
                             <ButtonGhosted texto="MAIS +" path={"/dashboard/candidatos-favoritos"} />
                         </div>
                         <div className={styles["caixa-cards"]}>
-                            {renderCandidatosFavoritos()}
+                            {renderCandidatos()}
                         </div>
                     </div>
                 </div>

@@ -29,7 +29,9 @@ export default function VagasPublicadas() {
 
     const fetchFiltros = async () => {
         try{
-            const response = await axios.get(`/api/filtros`)
+            const response = await axios.get(`/api/filtros/vaga`)
+
+            console.log(response.data)
 
             return response.data;
         } catch(e){
@@ -64,7 +66,7 @@ export default function VagasPublicadas() {
         const fetchVagasFiltros = async () => {
             if(variables.length !== 0){
                 try {
-                    const response = await axios.post(`/api/filtros`, variables) ;
+                    const response = await axios.post(`/api/filtros/vaga`, variables) ;
                     setVagas(response.data)
                     setTextoQuantidade(response.data.length + " Vagas publicadas")
                 } catch (e){
@@ -76,7 +78,6 @@ export default function VagasPublicadas() {
                     const response = await axios.get(`/vagas/${idEmpresa}/consultar-vagas`);
                     setVagas(response.data)
                     setTextoQuantidade(response.data.length + " Vagas publicadas")
-    
                     setLoading(false);
                 } catch (e) {
                     setLoading(false);
@@ -92,9 +93,22 @@ export default function VagasPublicadas() {
 
     const renderVagas = () => Vagas.map(vaga => (
         <React.Fragment key={vaga.id}>
-            <CardVaga titulo={vaga.titulo} descricao={vaga.descricao} imagem={vaga.imagem} info={vaga} status={vaga.statusVaga}/>
+            <CardVaga getObject={getVaga} titulo={vaga.titulo} descricao={vaga.descricao} imagem={vaga.imagem} info={vaga} status={vaga.statusVaga}/>
         </React.Fragment>
     ))
+
+    const handleSearch = async (stringDigitada) => {
+        try {
+            const response = await axios.get(`/vagas/pesquisa-vaga/${stringDigitada}`) ;
+            setVagas(response.data)
+            setTextoQuantidade(response.data.length + " Vagas publicadas")
+        } catch (e){
+            setVagas([]);
+            setTextoQuantidade("0    Vagas publicadas")
+            console.log(e)
+        }
+    }
+
 
     return (
         <>
@@ -105,7 +119,7 @@ export default function VagasPublicadas() {
             <div style={{ height: "100vh", width: "100vw", gap: '8px', display: 'flex', flexDirection: 'row', alignItems: "center" }}>
                 <SidebarCollapsed funcaoExpandir={toggleExpandirSideBar} />
                 <div style={{ gap: '8px', display: 'flex', flexDirection: 'column', height: "100%", width: "71.5vw" }}>
-                    <BarraPesquisa placeholder="Clique aqui para pesquisar uma vaga específica" />
+                    <BarraPesquisa placeholder="Clique aqui para pesquisar uma vaga específica" onSearch={handleSearch}/>
                     <div className={styles["caixa-vagas"]}>
                         <h3>{TextoQuantidade}</h3>
                         <div className={styles["caixa-cards"]}>

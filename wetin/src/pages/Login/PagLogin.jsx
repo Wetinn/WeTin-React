@@ -37,6 +37,7 @@ export default function Login() {
             const descriptografando = await axios.get(`/api/auth/descriptografar/${token}`);
             const idEmpresaDescriptografado = descriptografando.data;
             sessionStorage.setItem('user', JSON.stringify(idEmpresaDescriptografado));
+            sessionStorage.setItem('idEmpresa', idEmpresaDescriptografado.id);
             notify();
             setTimeout(() => {
                 navigate("/dashboard");

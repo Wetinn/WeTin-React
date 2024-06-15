@@ -1,6 +1,6 @@
 import styles from './EditarVaga.module.css'
 import SidebarCollapsed from "../../../components/Sidebar/SidebarCollapsed/SidebarCollapsed";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams} from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -28,13 +28,14 @@ export default function PublicarVaga() {
     const [cargaHoraria, setCargaHoraria] = useState("");
     const [dtCriacao, setDtCriacao] = useState("");
     const [dtExpiracao, setExpiracao] = useState("");
+    const { id } = useParams();
 
     //To buscando a vaga pra prencher as inputs
     useEffect(() => {
         const buscarVaga = async () => {
             try {
 
-                const response = await axios.get(`/vagas/${"666cb6c26fc26a2110446fb4"}/empresa`);
+                const response = await axios.get(`/vagas/${id}/empresa`);
                 var vagaData = response.data;
 
                 console.log('Aqui ta a vaga', vagaData);

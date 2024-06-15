@@ -4,6 +4,7 @@ export default function Teste() {
 
     const handleSearch = (term) => {
         console.log('Termo de pesquisa:', term);
+        
     }
 
     return (
