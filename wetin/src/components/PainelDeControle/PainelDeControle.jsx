@@ -11,7 +11,7 @@ export default function PainelDeControle() {
         <>
             <div className={styles["painel-de-controle"]}>
                 <h2>Painel de Controle</h2>
-                <ButtonFilled texto="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Editar Perfil&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" path="/dashboard/editarEmpresa" navigate={navigate}/>
+                <ButtonFilled texto="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Editar Perfil&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" path={`/dashboard/editarEmpresa`} navigate={navigate}/>
                 <ButtonOutline texto="Vagas Publicadas" path="/dashboard/vagas-publicadas"/>
             </div>
         </>

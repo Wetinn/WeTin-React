@@ -12,6 +12,8 @@ import Overlay from "../../../components/Overlay/Overlay";
 import Loading from "../../../components/Loading/Loading";
 
 export default function EditarEmpresa() {
+
+    const id = sessionStorage.idEmpresa;
     const empresaLogadaJSON = sessionStorage.getItem('user');
     var user = JSON.parse(empresaLogadaJSON);
 
@@ -34,7 +36,7 @@ export default function EditarEmpresa() {
         const buscarEmpresa = async () => {
             try {
 
-                const response = await axios.get(`/empresas/${user.id}`);
+                const response = await axios.get(`/empresas/${id}`);
                 var empresaData = response.data;
 
                 console.log('Aqui ta a empresaa', empresaData);
@@ -72,7 +74,7 @@ export default function EditarEmpresa() {
         }
 
         try {
-            await axios.put(`/empresas/${user.id}`, empresaEditada);
+            await axios.put(`/empresas/${id}`, empresaEditada);
             alert("Atualizado");
 
             sessionStorage.setItem("cepEmpresa", empresaEditada.cep);
