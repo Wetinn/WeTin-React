@@ -12,6 +12,7 @@ import Overlay from "../../../components/Overlay/Overlay";
 import Loading from "../../../components/Loading/Loading";
 
 export default function EditarEmpresa() {
+    const navigate = useNavigate();
 
     const id = sessionStorage.idEmpresa;
     const empresaLogadaJSON = sessionStorage.getItem('user');
@@ -19,7 +20,6 @@ export default function EditarEmpresa() {
 
     const [ExpandirSideBar, setExpandirSideBar] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [nome, setNome] = useState("");
     const [email, setEmail] = useState("");
     const [telefone, setTelefone] = useState("");
@@ -51,14 +51,13 @@ export default function EditarEmpresa() {
 
                 setLoading(false);
             } catch (err) {
-                setError(err);
                 setLoading(false);
                 console.log(err);
             }
         };
 
         buscarEmpresa();
-    }, []);
+    }, [user.id]);
 
     // agr sim que vou atualizar
     const atualizarEmpresa = async () => {
@@ -77,6 +76,7 @@ export default function EditarEmpresa() {
             alert("Atualizado");
 
             sessionStorage.setItem("cepEmpresa", empresaEditada.cep);
+            navigate("/dashboard/perfil-empresa")
         } catch (err) {
             console.error(err);
             console.log(empresaEditada);

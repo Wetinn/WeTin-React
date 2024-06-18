@@ -1,11 +1,20 @@
 import styles from './criarSenha.module.css';
 import Header from '../../../components/Header/Header';
 import Logo from "../../../utils/assets/imgLogoPreta.svg";
-import Senha from '../../../components/inputSenha/InputSenha';
 import BtLogin from '../../../components/botaoLogin/BtLogin';
+import iconOlho from "../../../utils/assets/iconOlho.png";
 
 export default function CriarSenha() {
-    
+    const mostrarSenha = () => {
+        const senhaInput = document.getElementById('inputLoginSenha');
+
+        if (senhaInput.type === "password") {
+            senhaInput.type = "text";
+        } else {
+            senhaInput.type = "password";
+        }
+    };
+
     return (
         <>
 
@@ -26,15 +35,30 @@ export default function CriarSenha() {
                         </div>
 
                         <div className={styles["inputsBloco"]}>
-                            <Senha textoLabel={"Nova Senha:"} />
+                            <div className={styles["inputSenha"]}>
+                                <label htmlFor="inputLoginSenha">Nova Senha:</label>
+                                <div className={styles["input"]}>
+                                    <input id="inputLoginSenha" type="password" className={styles["inputLoginSenha"]} placeholder="Digite aqui" maxLength={12} />
+                                    <div className={styles["divImg"]}>
+                                        <img src={iconOlho} alt="Mostrar senha" onClick={mostrarSenha} />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={styles["inputSenha"]}>
+                                <label htmlFor="inputLoginSenha">Confirmar Nova Senha:</label>
+                                <div className={styles["input"]}>
+                                    <input id="inputLoginSenha" type="password" className={styles["inputLoginSenha"]} placeholder="Digite aqui" maxLength={12} />
+                                    <div className={styles["divImg"]}>
+                                        <img src={iconOlho} alt="Mostrar senha"  />
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
 
-                            <Senha textoLabel={"Confirmar Nova Senha:"} />
+                            <BtLogin textoBotao="Trocar Senha" />
                         </div>
-                        
-                        <BtLogin textoBotao="Trocar Senha" />
                     </div>
                 </div>
-            </div>
-        </>
-    );
+            </>
+            );
 }
