@@ -1,21 +1,20 @@
 import styles from './EditarVaga.module.css'
 import SidebarCollapsed from "../../../components/Sidebar/SidebarCollapsed/SidebarCollapsed";
-import { useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import InputMask from 'react-input-mask';
 import SidebarExtended from "../../../components/Sidebar/SidebarExtended/SidebarExtended";
 import Overlay from "../../../components/Overlay/Overlay";
 import Loading from "../../../components/Loading/Loading";
 
-export default function PublicarVaga() {
+export default function EditarVaga() {
 
+    const { id } = useParams();
     const navigate = useNavigate();
-
-    const [vaga, setVaga] = useState(null);
-    const [ExpandirSideBar, setExpandirSideBar] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const [titulo, setTitulo] = useState("");
     const [descricao, setDescricao] = useState("");
@@ -27,39 +26,151 @@ export default function PublicarVaga() {
     const [periodo, setPeriodo] = useState("");
     const [cargaHoraria, setCargaHoraria] = useState("");
     const [dtCriacao, setDtCriacao] = useState("");
-    const [dtExpiracao, setExpiracao] = useState("");
-    const { id } = useParams();
+    const [dtExpiracao, setDtExpiracao] = useState("");
+    const periodoOptions = {
+        MANHA: "Período Manhã (7h - 13h)",
+        TARDE: "Período Tarde (12h - 18h)",
+        NOITE: "Período Noite (18h - 23h)"
+    };
+    const cargaHorariaOptions = {
+        QUATRO_HORAS: "Quatro Horas - 4h",
+        SEIS_HORAS: "Seis Horas - 6h",
+        OITO_HORAS: "Oito Horas - 8h",
+        DEZ_HORAS: "Dez Horas - 10h",
+        DOZE_HORAS: "Doze Horas - 12h"
+    };
+    const [expandirSideBar, setExpandirSideBar] = useState(false); // Corrigido para declarar setExpandirSideBar
+    const [errorMessages, setErrorMessages] = useState({
+        titulo: "",
+        descricao: "",
+        cep: "",
+        pretensaoSalarial: "",
+        especialidade: "",
+        requisitos: "",
+        beneficios: "",
+        periodo: "",
+        cargaHoraria: "",
+        dtCriacao: "",
+        dtExpiracao: ""
+    });
 
-    //To buscando a vaga pra prencher as inputs
+    const validarInputs = () => {
+        let naoTemErro = true;
+        const errors = {
+            titulo: "",
+            descricao: "",
+            cep: "",
+            pretensaoSalarial: "",
+            especialidade: "",
+            requisitos: "",
+            beneficios: "",
+            periodo: "",
+            cargaHoraria: "",
+            dtCriacao: "",
+            dtExpiracao: ""
+        };
+
+        if (!titulo) {
+            errors.titulo = "Título da vaga é obrigatório";
+            naoTemErro = false;
+        }
+        if (!descricao) {
+            errors.descricao = "Descrição da vaga é obrigatória";
+            naoTemErro = false;
+        }
+        if (!cep) {
+            errors.cep = "CEP é obrigatório";
+            naoTemErro = false;
+        }
+        if (!pretensaoSalarial) {
+            errors.pretensaoSalarial = "Pretensão salarial é obrigatória";
+            naoTemErro = false;
+        }
+        if (!especialidade) {
+            errors.especialidade = "Especialidade é obrigatória";
+            naoTemErro = false;
+        }
+        if (!requisitos) {
+            errors.requisitos = "Requisitos são obrigatórios";
+            naoTemErro = false;
+        }
+        if (!beneficios) {
+            errors.beneficios = "Benefícios são obrigatórios";
+            naoTemErro = false;
+        }
+        if (!periodo) {
+            errors.periodo = "Período é obrigatório";
+            naoTemErro = false;
+        }
+        if (!cargaHoraria) {
+            errors.cargaHoraria = "Carga horária é obrigatória";
+            naoTemErro = false;
+        }
+        if (!dtCriacao) {
+            errors.dtCriacao = "Data de criação é obrigatória";
+            naoTemErro = false;
+        }
+        if (!dtExpiracao) {
+            errors.dtExpiracao = "Data de expiração é obrigatória";
+            naoTemErro = false;
+        }
+
+        setErrorMessages(errors);
+        return naoTemErro;
+    };
+
+
     useEffect(() => {
         const buscarVaga = async () => {
             try {
-
+                setLoading(true);
+    
                 const response = await axios.get(`/vagas/${id}/empresa`);
-                var vagaData = response.data;
-
-                console.log('Aqui ta a vaga', vagaData);
-
-                setVaga(vagaData);
+                const vagaData = response.data;
+    
+                setTitulo(vagaData.titulo || "");
+                setDescricao(vagaData.descricao || "");
+                setCep(vagaData.cep || "");
+                setPretensaoSalarial(vagaData.pretensaoSalarial || "");
+                setEspecialidade(vagaData.especialidade || "");
+                setRequisitos(vagaData.requisitos || "");
+                setBeneficios(vagaData.beneficios || "");
+                setPeriodo(vagaData.periodo || "");
+                setCargaHoraria(vagaData.cargaHoraria || "");
+                setDtCriacao(vagaData.dtCriacao || "");
+                setDtExpiracao(vagaData.dtExpiracao || "");
+    
                 setLoading(false);
             } catch (err) {
-                alert("n achei pae")
-                setError(err);
+                toast.error("Não foi possível carregar a vaga");
                 setLoading(false);
-                console.log(err);
+                console.error(err);
             }
         };
+    
+        buscarVaga(); // Chamada inicial ao montar o componente
+    
+    }, [id]); 
 
-        buscarVaga();
-    }, []);
+    
 
-    if (!vaga) {
-        return <>
-            {loading && <Loading />}
-        </>;
-    }
+    const handleInputChange = (event, setStateFunction) => {
+        setStateFunction(event.target.value);
+    };
+
+    const handleSelectInputChange = (event, setStateFunction, options) => {
+        const inputValue = event.target.value;
+        const selectedValue = Object.keys(options).find(key => options[key] === inputValue);
+
+        if (selectedValue) {
+            setStateFunction(selectedValue);
+        } else {
+            setStateFunction(''); 
+        }
+    };
 
     const atualizarVaga = async () => {
+    if (validarInputs()) { 
         const vagaAtualizada = {
             titulo,
             descricao,
@@ -73,138 +184,152 @@ export default function PublicarVaga() {
             dtCriacao,
             dtExpiracao
         };
-    
+        
         try {
-            await axios.put(`/vagas/${"666cb6c26fc26a2110446fb4"}`, vagaAtualizada);
-            alert("Vaga Atualizada");
+            setLoading(true);
+            await axios.put(`/vagas/${id}`, vagaAtualizada);
+            setLoading(false);
+            toast.success('Vaga atualizada com sucesso');
+            navigate("/dashboard/vagas-publicadas");
         } catch (err) {
+            setLoading(false);
             console.error(err);
-            console.log(vagaAtualizada);
-            alert("deu ruim", err);
+            toast.error('Não foi possível atualizar a vaga');
         }
+    } 
+};
+    const toggleExpandirSideBar = () => {
+        setExpandirSideBar(!expandirSideBar);
     };
 
-    const handleInputChange = (event, setStateFunction) => {
-        setStateFunction(event.target.value);
-    }
-
-    const toggleExpandirSideBar = () => {
-        setExpandirSideBar(!ExpandirSideBar)
-    }
-
     return (
-
         <>
-        {ExpandirSideBar && <Overlay />}
-        {ExpandirSideBar && <SidebarExtended funcaoColapsar={toggleExpandirSideBar} />}
+            {loading && <Loading />}
+            {expandirSideBar && <Overlay />}
+            {expandirSideBar && <SidebarExtended funcaoColapsar={toggleExpandirSideBar} />}
             <div style={{ height: "100vh", width: "100vw", gap: '8px', display: 'flex', flexDirection: 'row', alignItems: "center" }}>
-                <SidebarCollapsed funcaoExpandir={toggleExpandirSideBar}/>
-                <div className={styles["deixaEuVer"]} style={{ width: "90vw", height: "97vh", display: "flex", alignItems: "center", flexDirection: "column", borderRadius:"20px",backgroundColor:"#F2F2F2" }}>
+                <SidebarCollapsed funcaoExpandir={toggleExpandirSideBar} />
+                <div className={styles["deixaEuVer"]} style={{ width: "90vw", height: "97vh", display: "flex", alignItems: "center", flexDirection: "column", borderRadius: "20px", backgroundColor: "#F2F2F2" }}>
                     <div className={styles["titulo"]}>
                         <span>Editar Vaga </span>
                     </div>
                     <div className={styles["caixaFormulario"]}>
-                        <form  className={styles['formEditarVaga']}>
+                        <form className={styles['formEditarVaga']}>
                             <div className={styles["InputDiv"]}>
                                 <div className={styles["labelDiv"]}>
                                     <label htmlFor="">Titulo da Vaga: </label>
-                                    <span>*</span>
+                                    {errorMessages.titulo && <span className={styles["error"]}>* {errorMessages.titulo}</span>}
                                 </div>
-                                <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o nome da empresa" defaultValue={vaga.titulo} onChange={(e) => handleInputChange(e, setTitulo)} />
+                                <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o nome da empresa" value={titulo} onChange={(e) => handleInputChange(e, setTitulo)} />
                             </div>
                             <div className={styles["InputDiv"]}>
                                 <div className={styles["labelDiv"]}>
                                     <label htmlFor="">Descrição: </label>
-                                    <span>*</span>
+                                    {errorMessages.descricao && <span className={styles["error"]}>* {errorMessages.descricao}</span>}
                                 </div>
-                                <textarea type="text" className={styles["input"]} style={{ width: "85%", height: "30vh",border:"none",fontSize:"1rem",paddingTop:"3%" }} placeholder="Descreva sobre sua vaga" defaultValue={vaga.descricao} onChange={(e) => handleInputChange(e, setDescricao)} />
+                                <textarea type="text" className={styles["input"]} style={{ width: "85%", height: "30vh", border: "none", fontSize: "1rem", paddingTop: "3%" }} placeholder="Descreva sobre sua vaga" value={descricao} onChange={(e) => handleInputChange(e, setDescricao)} />
                             </div>
                             <div className={styles["InputDiv"]}>
                                 <div className={styles["labelDiv"]}>
                                     <label htmlFor="">CEP: </label>
-                                    <span>*</span>
+                                    {errorMessages.cep && <span className={styles["error"]}>* {errorMessages.cep}</span>}
                                 </div>
-                                <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o CEP da vaga" defaultValue={vaga.cep} onChange={(e) => handleInputChange(e, setCep)} />
+                                <InputMask mask="99999-999" type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o CEP da vaga" value={cep} onChange={(e) => handleInputChange(e, setCep)} />
                             </div>
                             <div className={styles["InputDiv"]}>
                                 <div className={styles["labelDiv"]}>
                                     <label htmlFor="">Pretenção Salarial: </label>
-                                    <span>*</span>
+                                    {errorMessages.pretensaoSalarial && <span className={styles["error"]}>* {errorMessages.pretensaoSalarial}</span>}
                                 </div>
-                                <input type="number" className={styles["input"]} style={{ width: "85%" }} placeholder="Informe o salario desejado" defaultValue={vaga.pretensaoSalarial} onChange={(e) => handleInputChange(e, setPretensaoSalarial)} />
+                                <input type="number" className={styles["input"]} style={{ width: "85%" }} placeholder="Informe o salario desejado" value={pretensaoSalarial} onChange={(e) => handleInputChange(e, setPretensaoSalarial)} />
                             </div>
                             <div className={styles["InputDiv"]}>
                                 <div className={styles["labelDiv"]}>
                                     <label htmlFor="">Especialidades Desejadas: </label>
-                                    <span>*</span>
+                                    {errorMessages.especialidade && <span className={styles["error"]}>* {errorMessages.especialidade}</span>}
                                 </div>
-                                <textarea type="text" className={styles["input"]} style={{ width: "85%", height: "30vh",border:"none",fontSize:"1rem",paddingTop:"3%" }} placeholder="Digite aqui as especialidades" defaultValue={vaga.especialidade} onChange={(e) => handleInputChange(e, setEspecialidade)} />
+                                <textarea type="text" className={styles["input"]} style={{ width: "85%", height: "30vh", border: "none", fontSize: "1rem", paddingTop: "3%" }} placeholder="Digite aqui as especialidades" value={especialidade} onChange={(e) => handleInputChange(e, setEspecialidade)} />
                             </div>
                             <div className={styles["InputDiv"]}>
                                 <div className={styles["labelDiv"]}>
                                     <label htmlFor="">Requisitos: </label>
-                                    <span>*</span>
+                                    {errorMessages.requisitos && <span className={styles["error"]}>* {errorMessages.requisitos}</span>}
                                 </div>
-                                <textarea type="text" className={styles["input"]} style={{ width: "85%", height: "30vh",border:"none",fontSize:"1rem",paddingTop:"3%" }} placeholder="Digite aqui os requisitos da vaga" defaultValue={vaga.requisitos} onChange={(e) => handleInputChange(e, setRequisitos)} />
+                                <textarea type="text" className={styles["input"]} style={{ width: "85%", height: "30vh", border: "none", fontSize: "1rem", paddingTop: "3%" }} placeholder="Digite aqui os requisitos da vaga" value={requisitos} onChange={(e) => handleInputChange(e, setRequisitos)} />
                             </div>
                             <div className={styles["InputDiv"]}>
                                 <div className={styles["labelDiv"]}>
                                     <label htmlFor="">Beneficios: </label>
-                                    <span>*</span>
+                                    {errorMessages.beneficios && <span className={styles["error"]}>* {errorMessages.beneficios}</span>}
                                 </div>
-                                <textarea type="text" className={styles["input"]} style={{ width: "85%", height: "30vh",border:"none",fontSize:"1rem",paddingTop:"3%" }} placeholder="Digite aqui os beneficios da vaga" defaultValue={vaga.beneficios} onChange={(e) => handleInputChange(e, setBeneficios)} />
+                                <textarea type="text" className={styles["input"]} style={{ width: "85%", height: "30vh", border: "none", fontSize: "1rem", paddingTop: "3%" }} placeholder="Digite aqui os beneficios da vaga" value={beneficios} onChange={(e) => handleInputChange(e, setBeneficios)} />
                             </div>
                             <div className={styles["InputDiv"]}>
                                 <div className={styles["labelDiv"]}>
-                                    <label htmlFor="">Periodo: </label>
-                                    <span>*</span>
+                                    <label htmlFor="">Período: </label>
+                                    {errorMessages.periodo && <span className={styles["error"]}>* {errorMessages.periodo}</span>}
                                 </div>
-                                <input type="" className={styles["input"]} style={{ width: "85%" }} placeholder="Escolha o periodo de trabalho" list="faixa" defaultValue={vaga.periodo} onChange={(e) => handleInputChange(e, setPeriodo)} />
+                                <input
+                                    type="text"
+                                    className={styles["input"]}
+                                    style={{ width: "85%" }}
+                                    placeholder="Escolha o período de trabalho"
+                                    list="faixa"
+                                    value={periodoOptions[periodo] || ""}
+                                    onChange={(e) => handleSelectInputChange(e, setPeriodo, periodoOptions)}
+                                />
                                 <datalist id="faixa">
-                                    <option value="">horarios:</option>
-                                    <option value="Manhã">Periodo Manhã (7h - 13h)</option>
-                                    <option value="Tarde">Periodo Tarde (12h - 18h)</option>
-                                    <option value="Noite">Periodo Noite (18h - 23h)</option>
+                                    <option value="">horários:</option>
+                                    {Object.values(periodoOptions).map((option, index) => (
+                                        <option key={index} value={option}>{option}</option>
+                                    ))}
                                 </datalist>
                             </div>
+
                             <div className={styles["InputDiv"]}>
                                 <div className={styles["labelDiv"]}>
-                                    <label htmlFor="">Carga Horaria: </label>
-                                    <span>*</span>
+                                    <label htmlFor="">Carga Horária: </label>
+                                    {errorMessages.cargaHoraria && <span className={styles["error"]}>* {errorMessages.cargaHoraria}</span>}
                                 </div>
-                                <input type="" className={styles["input"]} style={{ width: "85%" }} placeholder="Escolha o periodo de trabalho" list="CargaHoraria" defaultValue={vaga.cargaHoraria} onChange={(e) => handleInputChange(e, setCargaHoraria)} />
+                                <input
+                                    type="text"
+                                    className={styles["input"]}
+                                    style={{ width: "85%" }}
+                                    placeholder="Escolha a carga horária"
+                                    list="CargaHoraria"
+                                    value={cargaHorariaOptions[cargaHoraria] || ""}
+                                    onChange={(e) => handleSelectInputChange(e, setCargaHoraria, cargaHorariaOptions)}
+                                />
                                 <datalist id="CargaHoraria">
-                                    <option value="">carga horaria:</option>
-                                    <option value="Quatro Horas">Quatro Horas - 4h</option>
-                                    <option value="Seis Horas">Seis Horas - 4h</option>
-                                    <option value="Oito Horas">Oito Horas - 4h</option>
-                                    <option value="Dez Horas">Dez Horas - 4h</option>
-                                    <option value="Doze Horas">Doze Horas - 4h</option>
+                                    <option value="">carga horária:</option>
+                                    {Object.values(cargaHorariaOptions).map((option, index) => (
+                                        <option key={index} value={option}>{option}</option>
+                                    ))}
                                 </datalist>
                             </div>
                             <div className="caixaData" style={{ display: "flex", width: "60%", justifyContent: "space-between", alignItems: "center", marginTop: "20px" }}>
                                 <div className={styles["InputDiv"]}>
                                     <div className={styles["labelDiv"]}>
                                         <label htmlFor="">Data de Criação da Vaga: </label>
-                                        <span>*</span>
+                                        {errorMessages.dtCriacao && <span className={styles["error"]}>* {errorMessages.dtCriacao}</span>}
                                     </div>
-                                    <input type="date" className={styles["input"]} style={{ width: "50%" }} defaultValue={vaga.dtCriacao} onChange={(e) => handleInputChange(e, setDtCriacao)} />
+                                    <input type="date" className={styles["input"]} style={{ width: "50%" }} value={dtCriacao} onChange={(e) => handleInputChange(e, setDtCriacao)} />
                                 </div>
                                 <div className={styles["InputDiv"]}>
                                     <div className={styles["labelDiv"]}>
                                         <label htmlFor="">Data de Expiração da Vaga: </label>
-                                        <span>*</span>
+                                        {errorMessages.dtExpiracao && <span className={styles["error"]}>* {errorMessages.dtExpiracao}</span>}
                                     </div>
-                                    <input type="date" className={styles["input"]} style={{ width: "50%" }} defaultValue={vaga.dtExpiracao} onChange={(e) => handleInputChange(e, setExpiracao)} />
+                                    <input type="date" className={styles["input"]} style={{ width: "50%" }} value={dtExpiracao} onChange={(e) => handleInputChange(e, setDtExpiracao)} />
                                 </div>
                             </div>
-                            <div style={{marginTop:"15px",width:"90%",display:"flex",flexDirection:"row-reverse"}}>
+                            <div style={{ marginTop: "15px", width: "90%", display: "flex", flexDirection: "row-reverse" }}>
                                 <button onClick={atualizarVaga} className={styles["button"]}>
                                     Salvar
                                 </button>
                             </div>
                         </form>
-                        
+
                     </div>
                 </div>
             </div>

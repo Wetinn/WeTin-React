@@ -81,3 +81,28 @@
     font-weight: 700;
     font-size: 1.3rem;
 }
+
+.error{
+    color: red;
+    font-size: 0.8rem;
+}
+
+
+.btLogin{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btLogin button{
+    border: none;
+    border-radius: 20px;
+    background-color: #025373;
+    height: 8vh;
+    color: #F2F2F2;
+    font-weight: 600;
+    font-size: 20px;
+    padding: 0 8% 0 8%;
+    cursor: pointer;
+}

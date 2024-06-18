@@ -4,8 +4,7 @@ import Logo from "../../../utils/assets/imgLogoPreta.svg";
 import Navegador from "../../../components/NavegadorCadastro/NavegadorCadastro"
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-
-
+import InputMask from 'react-input-mask';
 
 export default function Perfil() {
     const navigate = useNavigate();
@@ -130,7 +129,7 @@ export default function Perfil() {
                                             <label htmlFor="">Telefone: </label>
                                             {errorMessages.telefone && <span className={styles["error"]}>* {errorMessages.telefone}</span>}
                                         </div>
-                                        <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui seu telefone" value={telefone} onChange={(e) => handleInputChange(e, setTelefone)} />
+                                        <InputMask mask="(99) 99999-9999" type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui seu telefone" value={telefone} onChange={(e) => handleInputChange(e, setTelefone)} />
                                     </div>
                                     <div className={styles["InputDiv"]}>
                                         <div className={styles["labelDiv"]}>

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import IconImgAnexo from "../../../utils/assets/iconImagemAnexa.svg"
 import DragAndDrop from "../../../components/BoxImagemCadastro/DragAndDrop";
+import InputMask from 'react-input-mask';
 
 
 export default function CadastroRecrutador() {
@@ -56,9 +57,9 @@ export default function CadastroRecrutador() {
                 cep,
                 descricao
             }
-    
+
             sessionStorage.setItem("continuacao", JSON.stringify(continuacao));
-    
+
             navigate("/recrutadorPagamento");
         }
     };
@@ -116,7 +117,7 @@ export default function CadastroRecrutador() {
                                             <label htmlFor="">CEP: </label>
                                             {errorMessages.cep && <span className={styles["error"]}>* {errorMessages.cep}</span>}
                                         </div>
-                                        <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o CEP da empresa" value={cep} onChange={(e) => handleInputChange(e, setCep)} />
+                                        <InputMask mask="99999-999" type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o CEP da empresa" value={cep} onChange={(e) => handleInputChange(e, setCep)} />
                                     </div>
                                     <div className={styles["InputDiv"]}>
                                         <div className={styles["labelDiv"]}>

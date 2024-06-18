@@ -2,33 +2,27 @@ import styles from "./Login.module.css";
 import Header from "../../components/Header/Header";
 import Logo from "../../utils/assets/imgLogoPreta.svg";
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import iconOlho from "../../utils/assets/iconOlho.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import Loading from "../../components/Loading/Loading";
 
 
 
 export default function Login() {
-    const notify = () => {
-        toast("Login ralizado com sucesso!");
-    };
-    const notifyRuim = () => {
-        toast("Email ou senha invalidos!");
-    };
-
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
 
     const verificarLogin = async () => {
-        const usuario = {
-            email,
-            senha
-        }
+        const usuario = { email, senha };
 
+        setLoading(true);
         try {
             const loginResponse = await axios.post('/api/auth/login', usuario);
             const token = loginResponse.data.token;
@@ -38,16 +32,19 @@ export default function Login() {
             const idEmpresaDescriptografado = descriptografando.data;
             sessionStorage.setItem('user', JSON.stringify(idEmpresaDescriptografado));
             sessionStorage.setItem('idEmpresa', idEmpresaDescriptografado.id);
-            notify();
+
+            toast.success("Login realizado com sucesso!");
+
             setTimeout(() => {
                 navigate("/dashboard");
-              }, 3000);
+            }, 3000);
         } catch (err) {
             console.error(err);
-            console.log(usuario);
-            notifyRuim()
+            toast.error("Email ou senha inválidos!");
+        }finally {
+            setLoading(false); 
         }
-    }
+    };
 
     const handleInputChange = (event, setStateFunction) => {
         setStateFunction(event.target.value);
@@ -67,6 +64,7 @@ export default function Login() {
     return (
 
         <>
+            {loading && <Loading />}
             <div className={styles["fundoPag"]}>
                 <Header textoBotao1={"Ir para Página Inicial"} Logo={Logo} pagDesejada="/" />
 

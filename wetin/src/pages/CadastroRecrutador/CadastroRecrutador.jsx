@@ -6,6 +6,7 @@ import Logo from "../../utils/assets/imgLogoPreta.svg";
 import Navegador from "../../components/NavegadorCadastro/NavegadorCadastro"
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
+import InputMask from 'react-input-mask';
 
 
 
@@ -26,7 +27,7 @@ export default function CadastroRecrutador() {
         senha: "",
         confirmarSenha: ""
     });
-    
+
     const validarInputs = () => {
         var naoTemErro = true;
         var errors = {
@@ -37,7 +38,7 @@ export default function CadastroRecrutador() {
             senha: "",
             confirmarSenha: ""
         };
-    
+
         if (!nome) {
             errors.nome = "Nome da empresa é obrigatório";
             naoTemErro = false;
@@ -66,11 +67,11 @@ export default function CadastroRecrutador() {
             errors.confirmarSenha = "As senhas não coincidem";
             naoTemErro = false;
         }
-    
+
         setErrorMessages(errors);
         return naoTemErro;
     }
-    
+
 
     const handleSave = () => {
         if (validarInputs()) {
@@ -81,7 +82,7 @@ export default function CadastroRecrutador() {
                 telefone,
                 senha
             };
-    
+
             sessionStorage.setItem("editado", JSON.stringify(cadastroRecrutador));
             navigate("/recrutadorDescricao");
         }
@@ -121,7 +122,7 @@ export default function CadastroRecrutador() {
                                             <label htmlFor="">CNPJ: </label>
                                             {errorMessages.cnpj && <span className={styles["error"]}>* {errorMessages.cnpj}</span>}
                                         </div>
-                                        <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o CNPJ da empresa" value={cnpj} onChange={(e) => handleInputChange(e, setCnpj)} />
+                                        <InputMask mask="99.999.999/9999-99" type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o CNPJ da empresa" value={cnpj} onChange={(e) => handleInputChange(e, setCnpj)} />
                                     </div>
                                 </div>
 
@@ -138,7 +139,7 @@ export default function CadastroRecrutador() {
                                             <label htmlFor="">Telefone: </label>
                                             {errorMessages.telefone && <span className={styles["error"]}>* {errorMessages.telefone}</span>}
                                         </div>
-                                        <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o telefone da empresa" value={telefone} onChange={(e) => handleInputChange(e, setTelefone)} />
+                                        <InputMask mask="(99) 99999-9999" type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o telefone da empresa" value={telefone} onChange={(e) => handleInputChange(e, setTelefone)} />
                                     </div>
                                 </div>
 

@@ -2,14 +2,34 @@ import styles from "./questionario.module.css";
 import Header from "../../../components/Header/Header";
 import Logo from "../../../utils/assets/imgLogoPreta.svg";
 import Navegador from "../../../components/NavegadorCadastro/NavegadorCadastro";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Loading from "../../../components/Loading/Loading";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Questionario() {
     const navigate = useNavigate();
 
     const [respostas, setRespostas] = useState({});
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        // Recuperar respostas da página anterior do sessionStorage
+        const quizRespostasJSON = sessionStorage.getItem('quiz');
+        if (quizRespostasJSON) {
+          const quizRespostas = JSON.parse(quizRespostasJSON);
+          // Combina respostas do sessionStorage com as respostas atuais
+          setRespostas(prevRespostas => ({
+            ...prevRespostas,
+            ...quizRespostas.reduce((acc, { pergunta, resposta }) => ({
+              ...acc,
+              [pergunta]: resposta,
+            }), {})
+          }));
+        }
+      }, []);
 
     const handleAnswer = (pergunta, resposta) => {
         console.log(`Pergunta: ${pergunta}, Resposta: ${resposta}`);
@@ -35,35 +55,37 @@ export default function Questionario() {
     var especialidades = continuacao.especialidades
     var linkedin = continuacao.linkedin
     const handleSave = async () => {
-        const formattedRespostas2 = Object.entries(respostas).map(([pergunta, resposta]) => ({
+        const formattedRespostas = Object.entries(respostas).map(([pergunta, resposta]) => ({
             pergunta,
             resposta,
-        }));
-
+          }));
 
         const candidatoCadastrado = {
             nome,
             email,
             telefone,
             senha,
-            dtNascimento: dataNascimento, // Renomeando para corresponder ao esperado
+            dtNascimento: dataNascimento, 
             cep,
             descricao,
-            especialidade: especialidades, // Renomeando para corresponder ao esperado
+            especialidade: especialidades, 
             linkedin,
-            quizz: formattedRespostas2, // Utilizando diretamente formattedRespostas como quizz
+            quizz: formattedRespostas, 
         };
 
+        setLoading(true);
         try {
             await axios.post('/candidatos', candidatoCadastrado);
-            alert("Cadastrado");
+            toast.success("Cadastro realizado com sucesso!");
             sessionStorage.clear();
             sessionStorage.setItem("cepCandidato", candidatoCadastrado.cep);
             navigate("/login");
         } catch (err) {
             console.error(err);
             console.log(candidatoCadastrado);
-            alert("deu ruim");
+            toast.error("Cadastro não realizado!");
+        }finally {
+            setLoading(false); 
         }
     };
 
@@ -81,6 +103,7 @@ export default function Questionario() {
 
     return (
         <>
+            {loading && <Loading />}
             <div className={styles["fundoPag"]}>
                 <Header textoBotao1={"Ir para Página Inicial"} Logo={Logo} pagDesejada="/" />
                 <Navegador ativa="#025373" texto3="#F2F2F2" descricao1="Criando Perfil" descricao2="Descrição" descricao3="Quiz" bolinha1="#025373" bolinha2="#F2B705" bolinha3="#F2B705" />
