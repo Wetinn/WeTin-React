@@ -128,7 +128,7 @@ export default function VagasPublicadas() {
                     </div>
                 </div>
                 <div style={{ gap: '8px', display: 'flex', flexDirection: 'column' }}>
-                    <ButtonFilled texto="Adicionar vaga" height="64" path="/dashboard/vagas-publicadas" onClick={() => console.log("ih")}/>
+                    <ButtonFilled texto="Adicionar vaga" height="64" path="/dashboard/publicarVaga"/>
                     {Filtros && (
                         <Filters getObjects={getVaga} tituloFiltros={Filtros.tituloFiltros} filtros={Filtros.filtros} />
                     )}

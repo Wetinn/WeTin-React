@@ -31,6 +31,7 @@ export default function Login() {
             const descriptografando = await axios.get(`/api/auth/descriptografar/${token}`);
             const idEmpresaDescriptografado = descriptografando.data;
             sessionStorage.setItem('user', JSON.stringify(idEmpresaDescriptografado));
+            sessionStorage.setItem('cep', JSON.stringify(idEmpresaDescriptografado.cep));
             sessionStorage.setItem('idEmpresa', idEmpresaDescriptografado.id);
 
             toast.success("Login realizado com sucesso!");
