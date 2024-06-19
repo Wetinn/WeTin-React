@@ -29,7 +29,7 @@ export default function Questionario() {
     };
 
     const handleBack = () => {
-        navigate("/descricaoCandidato");
+        navigate("/fotoCandidato");
     };
 
     const opcoes = [

@@ -35,6 +35,7 @@ import Questionario from "./pages/CadastroCandidato/Questionario/questionario";
 import Questionario2 from "./pages/CadastroCandidato/Questionario/questionario2";
 import DescricaoCandidato from "./pages/CadastroCandidato/DescricaoAnexo/CadastroImg"
 import ExperienciaCandidato from "./pages/CadastroCandidato/Experiencia/PagExperiencia"
+import FotoCandidato from "./pages/CadastroCandidato/PagImagem/ImagemCandidato"
 
 //pags dashboard 
 import DashboardHome from "./pages/Dashboard/DashboardHome/DashboardHome";
@@ -83,6 +84,7 @@ function Rotas() {
                     <Route path="/candidatoQuestionario" element={<Questionario/>} />
                     <Route path="/candidatoQuestionario2" element={<Questionario2/>} />
                     <Route path="/descricaoCandidato" element={<DescricaoCandidato/>} />
+                    <Route path="/fotoCandidato" element={<FotoCandidato/>} />
                     <Route path="/experienciaCandidato" element={<ExperienciaCandidato/>} />
 
                     <Route path="/dashboard" element={<DashboardHome/>}/>

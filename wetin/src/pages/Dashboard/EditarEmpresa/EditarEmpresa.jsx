@@ -13,7 +13,6 @@ import Loading from "../../../components/Loading/Loading";
 export default function EditarEmpresa() {
     const navigate = useNavigate();
 
-    const id = sessionStorage.idEmpresa;
     const empresaLogadaJSON = sessionStorage.getItem('user');
     var user = JSON.parse(empresaLogadaJSON);
 
@@ -39,6 +38,8 @@ export default function EditarEmpresa() {
 
                 const response = await axios.get(`/empresas/${user.id}`);
                 var empresaData = response.data;
+
+                console.log(empresaData)
 
                 setNome(empresaData.nome || "");
                 setEmail(empresaData.email || "");
@@ -74,7 +75,7 @@ export default function EditarEmpresa() {
         }
 
         try {
-            await axios.put(`/empresas/${id}`, empresaEditada);
+            await axios.put(`/empresas/${user.id}`, empresaEditada);
             alert("Atualizado");
 
             sessionStorage.setItem("cepEmpresa", empresaEditada.cep);

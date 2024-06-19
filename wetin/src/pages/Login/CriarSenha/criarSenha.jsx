@@ -34,7 +34,14 @@ export default function CriarSenha() {
             const url = `/recuperacoes/${encodedEmail}`;
             console.log(`Sending request to URL: ${url}`);
 
-            const response = await axios.put(url, senha);
+            const data = { senha: senha };
+            console.log('Request body:', data);
+
+            const response = await axios.put(url, data, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
             console.log('Server response:', response.data);
 
             toast.success("Senha atualizada com sucesso!");

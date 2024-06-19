@@ -232,7 +232,11 @@ export default function EditarVaga() {
                                     <label htmlFor="">Descrição: </label>
                                     {errorMessages.descricao && <span className={styles["error"]}>* {errorMessages.descricao}</span>}
                                 </div>
-                                <textarea type="text" className={styles["input"]} style={{ width: "85%", height: "30vh", border: "none", fontSize: "1rem", paddingTop: "3%" }} placeholder="Descreva sobre sua vaga" value={descricao} onChange={(e) => handleInputChange(e, setDescricao)} />
+                                <textarea type="text" className={styles["input"]} style={{
+                                    width: "85%", height: "30vh", border: "none", fontSize: "1rem", paddingTop: "3%", backgroundColor: "#E2E2E2",
+                                    boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset",
+                                    borderRadius: "5px"
+                                }} placeholder="Descreva sobre sua vaga" value={descricao} onChange={(e) => handleInputChange(e, setDescricao)} />
                             </div>
                             <div className={styles["InputDiv"]}>
                                 <div className={styles["labelDiv"]}>
@@ -253,21 +257,33 @@ export default function EditarVaga() {
                                     <label htmlFor="">Especialidades Desejadas: </label>
                                     {errorMessages.especialidade && <span className={styles["error"]}>* {errorMessages.especialidade}</span>}
                                 </div>
-                                <textarea type="text" className={styles["input"]} style={{ width: "85%", height: "30vh", border: "none", fontSize: "1rem", paddingTop: "3%" }} placeholder="Digite aqui as especialidades" value={especialidade} onChange={(e) => handleInputChange(e, setEspecialidade)} />
+                                <textarea type="text" className={styles["input"]} style={{
+                                    width: "85%", height: "30vh", border: "none", fontSize: "1rem", paddingTop: "3%", backgroundColor: "#E2E2E2",
+                                    boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset",
+                                    borderRadius: "5px"
+                                }} placeholder="Digite aqui as especialidades" value={especialidade} onChange={(e) => handleInputChange(e, setEspecialidade)} />
                             </div>
                             <div className={styles["InputDiv"]}>
                                 <div className={styles["labelDiv"]}>
                                     <label htmlFor="">Requisitos: </label>
                                     {errorMessages.requisitos && <span className={styles["error"]}>* {errorMessages.requisitos}</span>}
                                 </div>
-                                <textarea type="text" className={styles["input"]} style={{ width: "85%", height: "30vh", border: "none", fontSize: "1rem", paddingTop: "3%" }} placeholder="Digite aqui os requisitos da vaga" value={requisitos} onChange={(e) => handleInputChange(e, setRequisitos)} />
+                                <textarea type="text" className={styles["input"]} style={{
+                                    width: "85%", height: "30vh", border: "none", fontSize: "1rem", paddingTop: "3%", backgroundColor: "#E2E2E2",
+                                    boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset",
+                                    borderRadius: "5px"
+                                }} placeholder="Digite aqui os requisitos da vaga" value={requisitos} onChange={(e) => handleInputChange(e, setRequisitos)} />
                             </div>
                             <div className={styles["InputDiv"]}>
                                 <div className={styles["labelDiv"]}>
                                     <label htmlFor="">Beneficios: </label>
                                     {errorMessages.beneficios && <span className={styles["error"]}>* {errorMessages.beneficios}</span>}
                                 </div>
-                                <textarea type="text" className={styles["input"]} style={{ width: "85%", height: "30vh", border: "none", fontSize: "1rem", paddingTop: "3%" }} placeholder="Digite aqui os beneficios da vaga" value={beneficios} onChange={(e) => handleInputChange(e, setBeneficios)} />
+                                <textarea type="text" className={styles["input"]} style={{
+                                    width: "85%", height: "30vh", border: "none", fontSize: "1rem", paddingTop: "3%", backgroundColor: "#E2E2E2",
+                                    boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset",
+                                    borderRadius: "5px"
+                                }} placeholder="Digite aqui os beneficios da vaga" value={beneficios} onChange={(e) => handleInputChange(e, setBeneficios)} />
                             </div>
                             <div className={styles["InputDiv"]}>
                                 <div className={styles["labelDiv"]}>
