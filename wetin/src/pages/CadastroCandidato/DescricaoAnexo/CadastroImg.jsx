@@ -66,7 +66,7 @@ export default function CadastroRecrutador() {
 
             sessionStorage.setItem("continuacao", JSON.stringify(continuacao));
 
-            navigate("/candidatoQuestionario");
+            navigate("/fotoCandidato");
         }
     };
 

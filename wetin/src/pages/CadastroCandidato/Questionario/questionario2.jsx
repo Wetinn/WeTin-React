@@ -19,17 +19,17 @@ export default function Questionario() {
         // Recuperar respostas da página anterior do sessionStorage
         const quizRespostasJSON = sessionStorage.getItem('quiz');
         if (quizRespostasJSON) {
-          const quizRespostas = JSON.parse(quizRespostasJSON);
-          // Combina respostas do sessionStorage com as respostas atuais
-          setRespostas(prevRespostas => ({
-            ...prevRespostas,
-            ...quizRespostas.reduce((acc, { pergunta, resposta }) => ({
-              ...acc,
-              [pergunta]: resposta,
-            }), {})
-          }));
+            const quizRespostas = JSON.parse(quizRespostasJSON);
+            // Combina respostas do sessionStorage com as respostas atuais
+            setRespostas(prevRespostas => ({
+                ...prevRespostas,
+                ...quizRespostas.reduce((acc, { pergunta, resposta }) => ({
+                    ...acc,
+                    [pergunta]: resposta,
+                }), {})
+            }));
         }
-      }, []);
+    }, []);
 
     const handleAnswer = (pergunta, resposta) => {
         console.log(`Pergunta: ${pergunta}, Resposta: ${resposta}`);
@@ -41,7 +41,6 @@ export default function Questionario() {
 
     var editadoJSON = sessionStorage.getItem('editado');
     var continuacaoJSON = sessionStorage.getItem('continuacao');
-
     var editado = JSON.parse(editadoJSON);
     var continuacao = JSON.parse(continuacaoJSON);
 
@@ -54,29 +53,42 @@ export default function Questionario() {
     var descricao = continuacao.descricao
     var especialidades = continuacao.especialidades
     var linkedin = continuacao.linkedin
+   
     const handleSave = async () => {
         const formattedRespostas = Object.entries(respostas).map(([pergunta, resposta]) => ({
             pergunta,
             resposta,
-          }));
+        }));
+
+        var fotoJSON = sessionStorage.getItem('fotoCandidato');
+        var foto = JSON.parse(fotoJSON);
+        var imagem = foto.imagem
+
+        console.log(foto)
+
+        console.log(imagem)
 
         const candidatoCadastrado = {
             nome,
             email,
             telefone,
-            senha,
-            dtNascimento: dataNascimento, 
             cep,
-            descricao,
-            especialidade: especialidades, 
+            senha,
             linkedin,
-            quizz: formattedRespostas, 
+            imagem,
+            descricao,
+            dtNascimento: dataNascimento,
+            especialidade: especialidades,
+            quizz: formattedRespostas
         };
+
+        console.log(candidatoCadastrado)
 
         setLoading(true);
         try {
             await axios.post('/candidatos', candidatoCadastrado);
             toast.success("Cadastro realizado com sucesso!");
+            console.log(candidatoCadastrado)
             sessionStorage.clear();
             sessionStorage.setItem("cepCandidato", candidatoCadastrado.cep);
             navigate("/login");
@@ -84,8 +96,8 @@ export default function Questionario() {
             console.error(err);
             console.log(candidatoCadastrado);
             toast.error("Cadastro não realizado!");
-        }finally {
-            setLoading(false); 
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -106,7 +118,7 @@ export default function Questionario() {
             {loading && <Loading />}
             <div className={styles["fundoPag"]}>
                 <Header textoBotao1={"Ir para Página Inicial"} Logo={Logo} pagDesejada="/" />
-                <Navegador ativa="#025373" texto3="#F2F2F2" descricao1="Criando Perfil" descricao2="Descrição" descricao3="Quiz" bolinha1="#025373" bolinha2="#F2B705" bolinha3="#F2B705" />
+                <Navegador texto3="#F2F2F2" descricao1="Criando Perfil" descricao2="Descrição" descricao3="Quiz" bolinha1="#F2B705" bolinha2="#F2B705" bolinha3="#025373" />
 
                 <div className={styles["container"]}>
                     <div className={styles["blocoCadastro"]}>

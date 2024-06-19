@@ -4,17 +4,17 @@ import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import iconDeletar from "../../../utils/assets/icons/DeleteIconBlue.svg"
 import iconEditar from "../../../utils/assets/icons/EditIcon.png"
-import fotoEmpresa from "../../../utils/assets/ftEmpresa.png"
 import axios from "axios";
 import InputMask from 'react-input-mask';
 import SidebarExtended from "../../../components/Sidebar/SidebarExtended/SidebarExtended";
 import Overlay from "../../../components/Overlay/Overlay";
 import Loading from "../../../components/Loading/Loading";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function EditarEmpresa() {
     const navigate = useNavigate();
 
-    const id = sessionStorage.idEmpresa;
     const empresaLogadaJSON = sessionStorage.getItem('user');
     var user = JSON.parse(empresaLogadaJSON);
 
@@ -27,6 +27,7 @@ export default function EditarEmpresa() {
     const [descricao, setDescricao] = useState("");
     const [linkedin, setLinkedin] = useState("");
     const [cnpj, setCnpj] = useState("");
+    const [imagem, setImagem] = useState("");
 
 
 
@@ -40,18 +41,22 @@ export default function EditarEmpresa() {
                 const response = await axios.get(`/empresas/${user.id}`);
                 var empresaData = response.data;
 
+                console.log(empresaData)
+
                 setNome(empresaData.nome || "");
                 setEmail(empresaData.email || "");
                 setTelefone(empresaData.telefone || "");
-                setCep(empresaData.cep || "");
+                setCep(empresaData.cep.cep || "");
                 setDescricao(empresaData.descricao || "");
                 setLinkedin(empresaData.linkedin || "");
                 setCnpj(empresaData.cnpj || "");
+                setImagem(empresaData.imagem);
 
-
+                console.log(empresaData);
                 setLoading(false);
             } catch (err) {
                 setLoading(false);
+
                 console.log(err);
             }
         };
@@ -70,17 +75,19 @@ export default function EditarEmpresa() {
             linkedin,
             cnpj
         }
-
+        setLoading(true);
         try {
-            await axios.put(`/empresas/${id}`, empresaEditada);
-            alert("Atualizado");
-
+            await axios.put(`/empresas/${user.id}`, empresaEditada);
+            setLoading(false);
+            toast.success("Empresa Atualizada")
             sessionStorage.setItem("cepEmpresa", empresaEditada.cep);
             navigate("/dashboard/perfil-empresa")
         } catch (err) {
             console.error(err);
+            setLoading(false);
+            toast.error("Não foi possivel atualizar a empresa")
+            
             console.log(empresaEditada);
-            alert("deu ruim");
         }
     };
 
@@ -111,9 +118,7 @@ export default function EditarEmpresa() {
                     <div className={styles["caixaEditarEmpresa"]}>
                         <div className={styles["editarImagem"]}>
                             <div className={styles["fotoEmpresa"]}>
-                                <img src={fotoEmpresa} alt="" className={styles["foto"]} />
-
-
+                                <img className={styles["foto-perfil"]} src={imagem} alt="Foto perfil" />
                             </div>
                             <img src={iconEditar} alt="" className={styles["iconEditar"]} />
 

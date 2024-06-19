@@ -29,6 +29,11 @@
     align-items: center;
 }
 
+.foto-perfil {
+    width: 175px;
+    max-width: 100%;
+}
+
 
 .foto{
     z-index: -1;

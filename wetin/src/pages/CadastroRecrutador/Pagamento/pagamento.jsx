@@ -28,7 +28,7 @@ export default function Pagamento() {
     var telefone = editado.telefone
     var cep = continuacao.cep
     var senha = editado.senha
-    var imagem = "testeImagem"
+    var imagem = continuacao.imagem
     var cnpj = editado.cnpj
     var descricao = continuacao.descricao
     var linkedin = continuacao.linkedin
@@ -71,7 +71,7 @@ export default function Pagamento() {
             {loading && <Loading />}
             <div className={styles["fundoPag"]}>
                 <Header textoBotao1={"Ir para Página Inicial"} Logo={Logo} pagDesejada="/" />
-                <Navegador ativa="#025373" textoAtivo="#F2F2F2" descricao1="Criando Perfil" descricao2="Descrição" descricao3="Pagamento" bolinha1="#F2B705" bolinha2="#F2B705" bolinha3="#025373" />
+                <Navegador texto3="#F2F2F2" ativa="#025373" textoAtivo="#F2F2F2" descricao1="Criando Perfil" descricao2="Descrição" descricao3="Pagamento" bolinha1="#F2B705" bolinha2="#F2B705" bolinha3="#025373" />
 
                 <div className={styles["container"]}>
                     <div className={styles["blocoCadastro"]}>

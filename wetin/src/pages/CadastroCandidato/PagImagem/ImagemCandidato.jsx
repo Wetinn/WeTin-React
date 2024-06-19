@@ -1,80 +1,28 @@
-// import api from "../../api";
-//import { toast } from "react-toastify";
-import styles from "./CadastroImg.module.css";
+import styles from "./ImagemCandidato.module.css";
 import Header from "../../../components/Header/Header";
 import Logo from "../../../utils/assets/imgLogoPreta.svg";
 import Navegador from "../../../components/NavegadorCadastro/NavegadorCadastro";
 import { useNavigate } from "react-router-dom";
 import IconImgAnexo from "../../../utils/assets/iconImagemAnexa.svg"
-// import DragAndDrop from "../../../components/BoxImagemCadastro/DragAndDrop";
-import InputMask from 'react-input-mask';
 import React, { useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
 
 
-export default function CadastroRecrutador() {
+export default function CadastroImagem() {
 
     const navigate = useNavigate();
 
-    const [descricao, setDescricao] = useState("");
-    const [linkedin, setLinkedin] = useState("");
-    const [cep, setCep] = useState("");
-    const [errorMessages, setErrorMessages] = useState({
-        descricao: "",
-        linkedin: "",
-        cep: ""
-    });
     const [fileLoaded, setFileLoaded] = useState(false);
     const [dragging, setDragging] = useState(false);
     const [fileUrl, setFileUrl] = useState(null);
     const fileInputRef = useRef(null);
 
-    const validarInputs = () => {
-        let naoTemErro = true;
-        const errors = {
-            descricao: "",
-            linkedin: "",
-            cep: ""
-        };
-
-        if (!descricao) {
-            errors.descricao = "Descrição é obrigatória";
-            naoTemErro = false;
-        }
-        if (!linkedin) {
-            errors.linkedin = "O link do Linkedin é obrigatório";
-            naoTemErro = false;
-        }
-        if (!cep) {
-            errors.cep = "CEP é obrigatório";
-            naoTemErro = false;
-        }
-        setErrorMessages(errors);
-        return naoTemErro;
-    };
-
-    const handleSave = () => {
-        if (validarInputs()) {
-            const continuacao = {
-                linkedin,
-                cep,
-                descricao,
-                imagem: fileUrl // Inclui a URL da imagem
-            };
-            console.log(continuacao)
-            sessionStorage.setItem("continuacao", JSON.stringify(continuacao));
-            navigate("/recrutadorPagamento");
-        }
-    };
-
-    const handleInputChange = (event, setStateFunction) => {
-        setStateFunction(event.target.value);
-    };
+   
 
     const handleBack = () => {
-        navigate("/recrutador");
+        navigate("/descricaoCandidato");
     };
 
     const handleDragEnter = (e) => {
@@ -114,21 +62,31 @@ export default function CadastroRecrutador() {
         try {
             const formData = new FormData();
             formData.append('file', file);
-
+    
             const response = await axios.post('/api/files/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-
+    
             const fileUrl = response.data; // Supondo que o endpoint retorna a URL do arquivo
-            setFileUrl(fileUrl);
-
-            // Aqui você pode salvar a URL no estado ou fazer outra ação conforme necessário
+            setFileUrl(fileUrl); // Atualiza o estado com a URL da imagem
+    
+            // Debugging: Verifica se a URL da imagem está sendo corretamente definida
             console.log('File URL:', fileUrl);
+    
         } catch (error) {
             console.error('Error uploading file:', error);
         }
+    };
+
+    const handleSave = () => {
+        const fotoCandidato = {
+            imagem: fileUrl // Certifique-se de que fileUrl contém a URL correta da imagem
+        };
+        console.log("to mandando", fotoCandidato)
+        sessionStorage.setItem("fotoCandidato", JSON.stringify(fotoCandidato));
+        navigate("/candidatoQuestionario");
     };
 
     const handleClick = () => {
@@ -155,7 +113,7 @@ export default function CadastroRecrutador() {
                 <div className={styles["container"]}>
                     <div className={styles["blocoCadastro"]}>
                         <div className={styles["tituloBloco"]}>
-                            <span>Preencha os campos adicionais para concluir o cadastro</span>
+                            <span>Anexe uma imagem para o seu perfi</span>
                         </div>
                         <div className={styles["inputsBloco"]}>
                             <form>
@@ -181,11 +139,11 @@ export default function CadastroRecrutador() {
                                                         border: dragging ? '2px dashed #025373' : '2px dashed #025373',
                                                         width: "90%",
                                                         borderRadius: "5px",
-                                                        height: "11vh",
+                                                        height: "16vh",
                                                         display: "flex",
                                                         justifyContent: "center",
                                                         alignItems: "center",
-                                                        fontSize: "0.7rem",
+                                                        fontSize: "0.9rem",
                                                         paddingLeft: "10px",
                                                         cursor: "pointer"
                                                     }}
@@ -207,30 +165,6 @@ export default function CadastroRecrutador() {
                                                 </div >
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className={styles["InputDesc"]}>
-                                        <div className={styles["labelDiv"]}>
-                                            <label htmlFor="">Descrição: </label>
-                                            {errorMessages.descricao && <span className={styles["error"]}>* {errorMessages.descricao}</span>}
-                                        </div>
-                                        <textarea type="text" className={styles["inputDescricao"]} placeholder="Digite uma descrição sobre a empresa" value={descricao} onChange={(e) => handleInputChange(e, setDescricao)} />
-                                    </div>
-                                </div>
-
-                                <div className={styles["informacoesContatoEmpresa"]}>
-                                    <div className={styles["InputDiv"]}>
-                                        <div className={styles["labelDiv"]}>
-                                            <label htmlFor="">CEP: </label>
-                                            {errorMessages.cep && <span className={styles["error"]}>* {errorMessages.cep}</span>}
-                                        </div>
-                                        <InputMask mask="99999-999" type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o CEP da empresa" value={cep} onChange={(e) => handleInputChange(e, setCep)} />
-                                    </div>
-                                    <div className={styles["InputDiv"]}>
-                                        <div className={styles["labelDiv"]}>
-                                            <label htmlFor="">Linkedin: </label>
-                                            {errorMessages.linkedin && <span className={styles["error"]}>* {errorMessages.linkedin}</span>}
-                                        </div>
-                                        <input type="text" className={styles["input"]} style={{ width: "100%" }} placeholder="Cole aqui o link do linkedin da empresa" value={linkedin} onChange={(e) => handleInputChange(e, setLinkedin)} />
                                     </div>
                                 </div>
                             </form>

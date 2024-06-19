@@ -15,7 +15,7 @@ export default function EditarVaga() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
-
+    const [isUpdating, setIsUpdating] = useState(false);
     const [titulo, setTitulo] = useState("");
     const [descricao, setDescricao] = useState("");
     const [cep, setCep] = useState("");
@@ -122,12 +122,14 @@ export default function EditarVaga() {
 
     useEffect(() => {
         const buscarVaga = async () => {
+            if (isUpdating) return; // Se estiver atualizando, não buscar a vaga
+
             try {
                 setLoading(true);
-    
+
                 const response = await axios.get(`/vagas/${id}/empresa`);
                 const vagaData = response.data;
-    
+
                 setTitulo(vagaData.titulo || "");
                 setDescricao(vagaData.descricao || "");
                 setCep(vagaData.cep || "");
@@ -139,7 +141,7 @@ export default function EditarVaga() {
                 setCargaHoraria(vagaData.cargaHoraria || "");
                 setDtCriacao(vagaData.dtCriacao || "");
                 setDtExpiracao(vagaData.dtExpiracao || "");
-    
+
                 setLoading(false);
             } catch (err) {
                 toast.error("Não foi possível carregar a vaga");
@@ -147,12 +149,12 @@ export default function EditarVaga() {
                 console.error(err);
             }
         };
-    
-        buscarVaga(); // Chamada inicial ao montar o componente
-    
-    }, [id]); 
 
-    
+        buscarVaga(); // Chamada inicial ao montar o componente
+
+    }, [id, isUpdating]);
+
+
 
     const handleInputChange = (event, setStateFunction) => {
         setStateFunction(event.target.value);
@@ -165,39 +167,42 @@ export default function EditarVaga() {
         if (selectedValue) {
             setStateFunction(selectedValue);
         } else {
-            setStateFunction(''); 
+            setStateFunction('');
         }
     };
 
     const atualizarVaga = async () => {
-    if (validarInputs()) { 
-        const vagaAtualizada = {
-            titulo,
-            descricao,
-            cep,
-            pretensaoSalarial,
-            especialidade,
-            requisitos,
-            beneficios,
-            periodo,
-            cargaHoraria,
-            dtCriacao,
-            dtExpiracao
-        };
-        
-        try {
-            setLoading(true);
-            await axios.put(`/vagas/${id}`, vagaAtualizada);
-            setLoading(false);
-            toast.success('Vaga atualizada com sucesso');
-            navigate("/dashboard/vagas-publicadas");
-        } catch (err) {
-            setLoading(false);
-            console.error(err);
-            toast.error('Não foi possível atualizar a vaga');
+        if (validarInputs()) {
+            const vagaAtualizada = {
+                titulo,
+                descricao,
+                cep,
+                pretensaoSalarial,
+                especialidade,
+                requisitos,
+                beneficios,
+                periodo,
+                cargaHoraria,
+                dtCriacao,
+                dtExpiracao
+            };
+
+            try {
+                setLoading(true);
+                setIsUpdating(true); // Indicar que a atualização está em andamento
+                await axios.put(`/vagas/${id}`, vagaAtualizada);
+                setLoading(false);
+                toast.success('Vaga atualizada com sucesso');
+                navigate("/dashboard/vagas-publicadas");
+            } catch (err) {
+                setLoading(false);
+                setIsUpdating(false); // Atualização concluída (com erro)
+                console.error(err);
+                toast.error('Não foi possível atualizar a vaga');
+            }
         }
-    } 
-};
+    };
+
     const toggleExpandirSideBar = () => {
         setExpandirSideBar(!expandirSideBar);
     };
@@ -227,7 +232,11 @@ export default function EditarVaga() {
                                     <label htmlFor="">Descrição: </label>
                                     {errorMessages.descricao && <span className={styles["error"]}>* {errorMessages.descricao}</span>}
                                 </div>
-                                <textarea type="text" className={styles["input"]} style={{ width: "85%", height: "30vh", border: "none", fontSize: "1rem", paddingTop: "3%" }} placeholder="Descreva sobre sua vaga" value={descricao} onChange={(e) => handleInputChange(e, setDescricao)} />
+                                <textarea type="text" className={styles["input"]} style={{
+                                    width: "85%", height: "30vh", border: "none", fontSize: "1rem", paddingTop: "3%", backgroundColor: "#E2E2E2",
+                                    boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset",
+                                    borderRadius: "5px"
+                                }} placeholder="Descreva sobre sua vaga" value={descricao} onChange={(e) => handleInputChange(e, setDescricao)} />
                             </div>
                             <div className={styles["InputDiv"]}>
                                 <div className={styles["labelDiv"]}>
@@ -248,21 +257,33 @@ export default function EditarVaga() {
                                     <label htmlFor="">Especialidades Desejadas: </label>
                                     {errorMessages.especialidade && <span className={styles["error"]}>* {errorMessages.especialidade}</span>}
                                 </div>
-                                <textarea type="text" className={styles["input"]} style={{ width: "85%", height: "30vh", border: "none", fontSize: "1rem", paddingTop: "3%" }} placeholder="Digite aqui as especialidades" value={especialidade} onChange={(e) => handleInputChange(e, setEspecialidade)} />
+                                <textarea type="text" className={styles["input"]} style={{
+                                    width: "85%", height: "30vh", border: "none", fontSize: "1rem", paddingTop: "3%", backgroundColor: "#E2E2E2",
+                                    boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset",
+                                    borderRadius: "5px"
+                                }} placeholder="Digite aqui as especialidades" value={especialidade} onChange={(e) => handleInputChange(e, setEspecialidade)} />
                             </div>
                             <div className={styles["InputDiv"]}>
                                 <div className={styles["labelDiv"]}>
                                     <label htmlFor="">Requisitos: </label>
                                     {errorMessages.requisitos && <span className={styles["error"]}>* {errorMessages.requisitos}</span>}
                                 </div>
-                                <textarea type="text" className={styles["input"]} style={{ width: "85%", height: "30vh", border: "none", fontSize: "1rem", paddingTop: "3%" }} placeholder="Digite aqui os requisitos da vaga" value={requisitos} onChange={(e) => handleInputChange(e, setRequisitos)} />
+                                <textarea type="text" className={styles["input"]} style={{
+                                    width: "85%", height: "30vh", border: "none", fontSize: "1rem", paddingTop: "3%", backgroundColor: "#E2E2E2",
+                                    boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset",
+                                    borderRadius: "5px"
+                                }} placeholder="Digite aqui os requisitos da vaga" value={requisitos} onChange={(e) => handleInputChange(e, setRequisitos)} />
                             </div>
                             <div className={styles["InputDiv"]}>
                                 <div className={styles["labelDiv"]}>
                                     <label htmlFor="">Beneficios: </label>
                                     {errorMessages.beneficios && <span className={styles["error"]}>* {errorMessages.beneficios}</span>}
                                 </div>
-                                <textarea type="text" className={styles["input"]} style={{ width: "85%", height: "30vh", border: "none", fontSize: "1rem", paddingTop: "3%" }} placeholder="Digite aqui os beneficios da vaga" value={beneficios} onChange={(e) => handleInputChange(e, setBeneficios)} />
+                                <textarea type="text" className={styles["input"]} style={{
+                                    width: "85%", height: "30vh", border: "none", fontSize: "1rem", paddingTop: "3%", backgroundColor: "#E2E2E2",
+                                    boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset",
+                                    borderRadius: "5px"
+                                }} placeholder="Digite aqui os beneficios da vaga" value={beneficios} onChange={(e) => handleInputChange(e, setBeneficios)} />
                             </div>
                             <div className={styles["InputDiv"]}>
                                 <div className={styles["labelDiv"]}>
