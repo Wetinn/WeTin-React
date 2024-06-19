@@ -1,10 +1,7 @@
 import IconNavegacao from "./SecaoCadastro";
 import styles from "./MenuCadastro.module.css"
-import { useNavigate } from "react-router-dom";
 
 export default function Navegador(props) {
-    const navigate = useNavigate();
-
     return (
         <div className={styles["container_menu"]}>
             <div className={styles["menu"]}>
