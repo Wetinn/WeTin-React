@@ -9,6 +9,8 @@ import InputMask from 'react-input-mask';
 import SidebarExtended from "../../../components/Sidebar/SidebarExtended/SidebarExtended";
 import Overlay from "../../../components/Overlay/Overlay";
 import Loading from "../../../components/Loading/Loading";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function EditarEmpresa() {
     const navigate = useNavigate();
@@ -51,10 +53,10 @@ export default function EditarEmpresa() {
                 setImagem(empresaData.imagem);
 
                 console.log(empresaData);
-
                 setLoading(false);
             } catch (err) {
                 setLoading(false);
+
                 console.log(err);
             }
         };
@@ -73,17 +75,19 @@ export default function EditarEmpresa() {
             linkedin,
             cnpj
         }
-
+        setLoading(true);
         try {
             await axios.put(`/empresas/${user.id}`, empresaEditada);
-            alert("Atualizado");
-
+            setLoading(false);
+            toast.success("Empresa Atualizada")
             sessionStorage.setItem("cepEmpresa", empresaEditada.cep);
             navigate("/dashboard/perfil-empresa")
         } catch (err) {
             console.error(err);
+            setLoading(false);
+            toast.error("Não foi possivel atualizar a empresa")
+            
             console.log(empresaEditada);
-            alert("deu ruim");
         }
     };
 
