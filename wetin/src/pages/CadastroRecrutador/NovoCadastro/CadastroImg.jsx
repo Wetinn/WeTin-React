@@ -5,10 +5,13 @@ import Header from "../../../components/Header/Header";
 import Logo from "../../../utils/assets/imgLogoPreta.svg";
 import Navegador from "../../../components/NavegadorCadastro/NavegadorCadastro";
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
 import IconImgAnexo from "../../../utils/assets/iconImagemAnexa.svg"
-import DragAndDrop from "../../../components/BoxImagemCadastro/DragAndDrop";
+// import DragAndDrop from "../../../components/BoxImagemCadastro/DragAndDrop";
 import InputMask from 'react-input-mask';
+import React, { useState, useRef } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import axios from "axios";
 
 
 export default function CadastroRecrutador() {
@@ -23,61 +26,131 @@ export default function CadastroRecrutador() {
         linkedin: "",
         cep: ""
     });
+    const [fileLoaded, setFileLoaded] = useState(false);
+    const [dragging, setDragging] = useState(false);
+    const [fileUrl, setFileUrl] = useState(null);
+    const fileInputRef = useRef(null);
 
     const validarInputs = () => {
-        var naoTemErro = true;
-        var errors = {
+        let naoTemErro = true;
+        const errors = {
             descricao: "",
             linkedin: "",
             cep: ""
         };
 
         if (!descricao) {
-            errors.nome = "Descrição é obrigatório";
+            errors.descricao = "Descrição é obrigatória";
             naoTemErro = false;
         }
         if (!linkedin) {
-            errors.cnpj = "O link do Linkedin é obrigatório";
+            errors.linkedin = "O link do Linkedin é obrigatório";
             naoTemErro = false;
         }
         if (!cep) {
-            errors.email = "CEP é obrigatório";
+            errors.cep = "CEP é obrigatório";
             naoTemErro = false;
         }
         setErrorMessages(errors);
         return naoTemErro;
-    }
-
-
+    };
 
     const handleSave = () => {
         if (validarInputs()) {
             const continuacao = {
                 linkedin,
                 cep,
-                descricao
-            }
-
+                descricao,
+                imagem: fileUrl // Inclui a URL da imagem
+            };
+            console.log(continuacao)
             sessionStorage.setItem("continuacao", JSON.stringify(continuacao));
-
             navigate("/recrutadorPagamento");
         }
     };
 
     const handleInputChange = (event, setStateFunction) => {
         setStateFunction(event.target.value);
-    }
+    };
 
     const handleBack = () => {
         navigate("/recrutador");
     };
 
+    const handleDragEnter = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDragging(true);
+    };
+
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDragging(false);
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDragging(true);
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDragging(false);
+
+        const files = e.dataTransfer.files;
+        if (files && files.length > 0) {
+            const file = files[0];
+            if (file.type.startsWith('image/')) {
+                setFileLoaded(true);
+                uploadFile(file);
+            }
+        }
+    };
+
+    const uploadFile = async (file) => {
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const response = await axios.post('/api/files/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            const fileUrl = response.data; // Supondo que o endpoint retorna a URL do arquivo
+            setFileUrl(fileUrl);
+
+            // Aqui você pode salvar a URL no estado ou fazer outra ação conforme necessário
+            console.log('File URL:', fileUrl);
+        } catch (error) {
+            console.error('Error uploading file:', error);
+        }
+    };
+
+    const handleClick = () => {
+        fileInputRef.current.click();
+    };
+
+    const handleFileChange = (e) => {
+        const files = e.target.files;
+        if (files && files.length > 0) {
+            const file = files[0];
+            if (file.type.startsWith('image/')) {
+                setFileLoaded(true);
+                uploadFile(file);
+            }
+        }
+    };
 
     return (
         <>
             <div className={styles["fundoPag"]}>
                 <Header textoBotao1={"Ir para Página Inicial"} Logo={Logo} pagDesejada="/" />
-                <Navegador ativa="#025373" textoAtivo="#F2F2F2" descricao1="Criando Perfil" descricao2="Descrição" descricao3="Pagamento" bolinha1="#F2B705" bolinha2="#025373" bolinha3="#F2B705" />
+                <Navegador texto2="#F2F2F2" ativa="#025373" textoAtivo="#F2F2F2" descricao1="Criando Perfil" descricao2="Descrição" descricao3="Pagamento" bolinha1="#F2B705" bolinha2="#025373" bolinha3="#F2B705" />
 
                 <div className={styles["container"]}>
                     <div className={styles["blocoCadastro"]}>
@@ -98,7 +171,40 @@ export default function CadastroRecrutador() {
                                             </div>
 
                                             <div className={styles["arrastarArquivo"]}>
-                                                <DragAndDrop />
+                                                <div
+                                                    onDragEnter={handleDragEnter}
+                                                    onDragLeave={handleDragLeave}
+                                                    onDragOver={handleDragOver}
+                                                    onDrop={handleDrop}
+                                                    onClick={handleClick}
+                                                    style={{
+                                                        border: dragging ? '2px dashed #025373' : '2px dashed #025373',
+                                                        width: "90%",
+                                                        borderRadius: "5px",
+                                                        height: "11vh",
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                        fontSize: "0.7rem",
+                                                        paddingLeft: "10px",
+                                                        cursor: "pointer"
+                                                    }}
+                                                    className={styles['arrasteAqui']}
+                                                >
+                                                    <input
+                                                        type="file"
+                                                        ref={fileInputRef}
+                                                        style={{ display: 'none' }}
+                                                        onChange={handleFileChange}
+                                                    />
+                                                    {
+                                                        fileLoaded ? (
+                                                            <FontAwesomeIcon icon={faCheckCircle} size="3x" color="green" />
+                                                        ) : (
+                                                            <p>Arraste e solte uma imagem aqui, ou clique para selecionar</p>
+                                                        )
+                                                    }
+                                                </div >
                                             </div>
                                         </div>
                                     </div>

@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import iconDeletar from "../../../utils/assets/icons/DeleteIconBlue.svg"
 import iconEditar from "../../../utils/assets/icons/EditIcon.png"
-import fotoEmpresa from "../../../utils/assets/ftEmpresa.png"
 import axios from "axios";
 import InputMask from 'react-input-mask';
 import SidebarExtended from "../../../components/Sidebar/SidebarExtended/SidebarExtended";
@@ -27,6 +26,7 @@ export default function EditarEmpresa() {
     const [descricao, setDescricao] = useState("");
     const [linkedin, setLinkedin] = useState("");
     const [cnpj, setCnpj] = useState("");
+    const [imagem, setImagem] = useState("");
 
 
 
@@ -43,11 +43,13 @@ export default function EditarEmpresa() {
                 setNome(empresaData.nome || "");
                 setEmail(empresaData.email || "");
                 setTelefone(empresaData.telefone || "");
-                setCep(empresaData.cep || "");
+                setCep(empresaData.cep.cep || "");
                 setDescricao(empresaData.descricao || "");
                 setLinkedin(empresaData.linkedin || "");
                 setCnpj(empresaData.cnpj || "");
+                setImagem(empresaData.imagem);
 
+                console.log(empresaData);
 
                 setLoading(false);
             } catch (err) {
@@ -111,9 +113,7 @@ export default function EditarEmpresa() {
                     <div className={styles["caixaEditarEmpresa"]}>
                         <div className={styles["editarImagem"]}>
                             <div className={styles["fotoEmpresa"]}>
-                                <img src={fotoEmpresa} alt="" className={styles["foto"]} />
-
-
+                                <img className={styles["foto-perfil"]} src={imagem} alt="Foto perfil" />
                             </div>
                             <img src={iconEditar} alt="" className={styles["iconEditar"]} />
 

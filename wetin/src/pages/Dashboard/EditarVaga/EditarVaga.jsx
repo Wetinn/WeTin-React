@@ -15,7 +15,7 @@ export default function EditarVaga() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
-
+    const [isUpdating, setIsUpdating] = useState(false);
     const [titulo, setTitulo] = useState("");
     const [descricao, setDescricao] = useState("");
     const [cep, setCep] = useState("");
@@ -122,12 +122,14 @@ export default function EditarVaga() {
 
     useEffect(() => {
         const buscarVaga = async () => {
+            if (isUpdating) return; // Se estiver atualizando, não buscar a vaga
+
             try {
                 setLoading(true);
-    
+
                 const response = await axios.get(`/vagas/${id}/empresa`);
                 const vagaData = response.data;
-    
+
                 setTitulo(vagaData.titulo || "");
                 setDescricao(vagaData.descricao || "");
                 setCep(vagaData.cep || "");
@@ -139,7 +141,7 @@ export default function EditarVaga() {
                 setCargaHoraria(vagaData.cargaHoraria || "");
                 setDtCriacao(vagaData.dtCriacao || "");
                 setDtExpiracao(vagaData.dtExpiracao || "");
-    
+
                 setLoading(false);
             } catch (err) {
                 toast.error("Não foi possível carregar a vaga");
@@ -147,12 +149,12 @@ export default function EditarVaga() {
                 console.error(err);
             }
         };
-    
-        buscarVaga(); // Chamada inicial ao montar o componente
-    
-    }, [id]); 
 
-    
+        buscarVaga(); // Chamada inicial ao montar o componente
+
+    }, [id, isUpdating]);
+
+
 
     const handleInputChange = (event, setStateFunction) => {
         setStateFunction(event.target.value);
@@ -165,39 +167,42 @@ export default function EditarVaga() {
         if (selectedValue) {
             setStateFunction(selectedValue);
         } else {
-            setStateFunction(''); 
+            setStateFunction('');
         }
     };
 
     const atualizarVaga = async () => {
-    if (validarInputs()) { 
-        const vagaAtualizada = {
-            titulo,
-            descricao,
-            cep,
-            pretensaoSalarial,
-            especialidade,
-            requisitos,
-            beneficios,
-            periodo,
-            cargaHoraria,
-            dtCriacao,
-            dtExpiracao
-        };
-        
-        try {
-            setLoading(true);
-            await axios.put(`/vagas/${id}`, vagaAtualizada);
-            setLoading(false);
-            toast.success('Vaga atualizada com sucesso');
-            navigate("/dashboard/vagas-publicadas");
-        } catch (err) {
-            setLoading(false);
-            console.error(err);
-            toast.error('Não foi possível atualizar a vaga');
+        if (validarInputs()) {
+            const vagaAtualizada = {
+                titulo,
+                descricao,
+                cep,
+                pretensaoSalarial,
+                especialidade,
+                requisitos,
+                beneficios,
+                periodo,
+                cargaHoraria,
+                dtCriacao,
+                dtExpiracao
+            };
+
+            try {
+                setLoading(true);
+                setIsUpdating(true); // Indicar que a atualização está em andamento
+                await axios.put(`/vagas/${id}`, vagaAtualizada);
+                setLoading(false);
+                toast.success('Vaga atualizada com sucesso');
+                navigate("/dashboard/vagas-publicadas");
+            } catch (err) {
+                setLoading(false);
+                setIsUpdating(false); // Atualização concluída (com erro)
+                console.error(err);
+                toast.error('Não foi possível atualizar a vaga');
+            }
         }
-    } 
-};
+    };
+
     const toggleExpandirSideBar = () => {
         setExpandirSideBar(!expandirSideBar);
     };
