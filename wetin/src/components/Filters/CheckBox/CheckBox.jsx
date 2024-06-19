@@ -23,7 +23,7 @@ export default function CheckBox(props) {
         props.handleFilters(newChecked);
     }
 
-    var filtros = props.filtro;
+    var filtros = props.filtro === undefined ? []: props.filtro;
     
     const renderCheckboxLists = () => filtros.map((value, index) => (
         <div className={styles['div-org']}>   

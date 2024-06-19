@@ -13,7 +13,8 @@ import axios from "axios";
 
 export default function CandidatosFavoritos() {
 
-    const cep = sessionStorage.cep;
+    const user = JSON.parse(sessionStorage.user);
+    const cep = user.cep;
     const idEmpresa = sessionStorage.idEmpresa
     const [candidatos, setCandidatos] = useState([])
     const [recomendados, setRecomendados] = useState([])
@@ -43,6 +44,8 @@ export default function CandidatosFavoritos() {
         const fetchCandidatosFavoritos = async () => {
             try {
                 const candidatosResponse = await axios.get(`/candidatos`);
+                
+                console.log(candidatosResponse.data)
                 const favoritosResponse = await axios.get(`/empresas/${idEmpresa}/consultar-candidatos-favoritos`);
                 const recomendadosResponse = await axios.get(`/candidatos/candidatos-proximos/`, { params: { cep } });
     
@@ -85,7 +88,7 @@ export default function CandidatosFavoritos() {
 
     const buscarCandidatosRecomendados = (id, response) => {
         for (let i = 0; i < response.length; i++) {
-            if (response[i].id === id && response[i].distancia < 50.0) {
+            if (response[i].id === id && response[i].distancia < 25.0) {
                 return true;
             }
         }
@@ -98,6 +101,7 @@ export default function CandidatosFavoritos() {
             if (variables.length !== 0) {
                 try {
                     const response = await axios.post(`/api/filtros/candidato`, variables);
+
                     const candidatosComCidade = await Promise.all(
                         response.data.map(async (candidato) => {
                             const favoritado = buscarCandidatosFavoritados(candidato.id, favoritados);

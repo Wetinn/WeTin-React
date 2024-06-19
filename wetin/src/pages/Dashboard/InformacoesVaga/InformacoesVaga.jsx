@@ -12,6 +12,7 @@ import ButtonFilled from "../../../components/Buttons/ButtonFilled/ButtonFilled"
 import { useParams } from "react-router-dom";
 import Loading from "../../../components/Loading/Loading";
 import ErrorWarning from "../../../components/ErrorWarning/ErrorWarning";
+//import fileDownload from 'js-file-download'
 
 export default function InformacoesVaga() {
 
@@ -52,10 +53,19 @@ export default function InformacoesVaga() {
     }
 
     const downloadCsv = async () => {
+        setLoading(true)
         try {
-            const response = await axios.get(`/vagas/GerarArquivoCSV/${id}`)
-            console.log(response)
+            const response = await axios.get(`/vagas/GerarArquivoCSV/66730ee28d3ea43854676c05`)
+            console.log(response.data)
+            const link = document.createElement('a')
+            document.body.appendChild(link)
+            link.href = response.data.body
+            link.click();
+
+            setLoading(false)
         } catch (e){
+            setLoading(false)     
+            setError(true)
             console.log(e)
         }
     }

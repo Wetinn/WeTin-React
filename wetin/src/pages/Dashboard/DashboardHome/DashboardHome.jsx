@@ -13,7 +13,9 @@ import HalfDoughnutChart from "../../../components/HalfDougnutChart/HalfDougnutC
 
 export default function DashboardHome() {
 
-    const cep = sessionStorage.cep;
+    const user = JSON.parse(sessionStorage.user);
+    const cep = user.cep;
+    console.log(cep)
     const idEmpresa = sessionStorage.idEmpresa
     const [ExpandirSideBar, setExpandirSideBar] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -64,7 +66,7 @@ export default function DashboardHome() {
 
     const buscarCandidatosRecomendados = (id, response) => {
         for (let i = 0; i < response.data.length; i++) {
-            if (response.data[i].id === id && response.data[i].distancia < 10.0) {
+            if (response.data[i].id === id && response.data[i].distancia < 25.0) {
                 return true;
             }
         }

@@ -44,7 +44,7 @@ export default function PerfilCandidato() {
         const fetchPerfilCandidato = async () => {
             try {
                 const response = await axios.get(`/candidatos/${id}`);
-                const endereco = await buscarCidadePorCep(response.data.cep);
+                const endereco = JSON.parse(response.data.cep);
                 const favoritado = await verificarFavoritos(id, idEmpresa);
                 const perfilCandidatoCompleto = { ...response.data, endereco, favoritado };
 
@@ -62,22 +62,6 @@ export default function PerfilCandidato() {
         fetchPerfilCandidato();
     }, [id, idEmpresa]);
 
-    const buscarCidadePorCep = async (cep) => {
-        try {
-            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-            console.log(response)
-
-            return {
-                "cidade": response.data.localidade,
-                "bairro": response.data.bairro,
-                "logradouro": response.data.logradouro,
-                "uf": response.data.uf
-            };
-        } catch (error) {
-            console.error('Erro ao buscar cidade pelo CEP:', error);
-            return 'Cidade desconhecida';
-        }
-    }
 
 
     // Renderização experiencias
@@ -139,7 +123,7 @@ export default function PerfilCandidato() {
                                     <h2 className={styles["subtitulo"]}>Informações</h2>
                                     <div className={styles["informacoes-icones"]}>
                                         <img className={styles["icone"]} src={LocalIcon} alt="Localização" />
-                                        <h4>{PerfilCandidato?.cep}</h4>
+                                        <h4>{PerfilCandidato?.endereco.address}, {PerfilCandidato?.endereco.district} - {PerfilCandidato?.endereco.city}, {PerfilCandidato?.endereco.state} </h4>
                                     </div>
                                     <div className={styles["informacoes-icones"]}>
                                         <img className={styles["icone"]} src={EmailIcon} alt="Email" />

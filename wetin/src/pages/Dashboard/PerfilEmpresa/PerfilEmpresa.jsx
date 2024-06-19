@@ -14,6 +14,12 @@ export default function PerfilEmpresa() {
     const [ExpandirSideBar, setExpandirSideBar] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [endereco, setEndereco] = useState({
+        "city": "",
+        "address": "",
+        "state": "",
+        "district": ""
+    });
 
     const toggleExpandirSideBar = () => {
         setExpandirSideBar(!ExpandirSideBar)
@@ -27,10 +33,10 @@ export default function PerfilEmpresa() {
         const fetchPerfilEmpresa = async () => {
             try {
                 const response = await axios.get(`/empresas/${idEmpresa}`);
-                const endereco = await buscarCidadePorCep(cep);
+                setEndereco(JSON.parse(response.data.cep))
                 const perfilEmpresaComEndereco = { ...response.data, endereco};
                 console.log(perfilEmpresaComEndereco)
-
+                console.log()
                 setPerfilEmpresa(perfilEmpresaComEndereco)
                 setLoading(false);
             } catch (err) {
@@ -41,25 +47,8 @@ export default function PerfilEmpresa() {
         };
 
         fetchPerfilEmpresa();
-    }, [idEmpresa, cep]);
+    }, [idEmpresa, cep, endereco]);
 
-
-    const buscarCidadePorCep = async (cep) => {
-        try {
-            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-            console.log(response)
-
-            return {
-                "cidade": response.data.localidade,
-                "bairro": response.data.bairro,
-                "rua": response.data.logradouro,
-                "uf": response.data.uf
-            };
-        } catch (error) {
-            console.error('Erro ao buscar cidade pelo CEP:', error);
-            return 'Cidade desconhecida';
-        }
-    }
 
 
     return (
@@ -84,11 +73,11 @@ export default function PerfilEmpresa() {
                         <p className={styles["corpo"]}>{PerfilEmpresa.descricao}</p>
 
                         <h2 className={styles["subtopico"]}>Localização</h2>
-                        <p className={styles["corpo"]}>{PerfilEmpresa?.endereco?.cidade}, {PerfilEmpresa?.endereco?.uf} - Brasil.</p>
+                        <p className={styles["corpo"]}>{endereco.city || ""} - Brasil.</p>
 
                         <h2 className={styles["subtopico"]}>Contato</h2>
                         <p className={styles["corpo"]}>
-                            Endereço: {PerfilEmpresa?.endereco?.rua}, {PerfilEmpresa?.endereco?.bairro}, {PerfilEmpresa?.endereco?.cidade}, {PerfilEmpresa?.endereco?.uf}.
+                            Endereço: {endereco.address || ""}, {endereco.district || ""} - {endereco.city || ""}, {endereco.state || ""}  
                             <br />Telefone: {PerfilEmpresa.telefone}
                             <br />E-mail: {PerfilEmpresa.email}</p>
 

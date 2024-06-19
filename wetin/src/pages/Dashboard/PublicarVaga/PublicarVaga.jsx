@@ -140,6 +140,7 @@ export default function PublicarVaga() {
             setLoading(true);
             try {
                 await axios.post(`/vagas/${user.id}`, vagaCadastrada);
+                console.log("Estou aqui")
                 setLoading(false);
                 toast.success('Vaga cadastrada com sucesso');
                 navigate("/dashboard/vagas-publicadas");
