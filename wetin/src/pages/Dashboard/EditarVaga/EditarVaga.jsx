@@ -12,13 +12,16 @@ import Loading from "../../../components/Loading/Loading";
 
 export default function EditarVaga() {
 
+    const empresaLogadaJSON = sessionStorage.getItem('user');
+    var user = JSON.parse(empresaLogadaJSON);
+
     const { id } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
     const [titulo, setTitulo] = useState("");
     const [descricao, setDescricao] = useState("");
-    const [cep, setCep] = useState("");
+    const [cep, setCep] = useState();
     const [pretensaoSalarial, setPretensaoSalarial] = useState("");
     const [especialidade, setEspecialidade] = useState("");
     const [requisitos, setRequisitos] = useState("");
@@ -27,6 +30,10 @@ export default function EditarVaga() {
     const [cargaHoraria, setCargaHoraria] = useState("");
     const [dtCriacao, setDtCriacao] = useState("");
     const [dtExpiracao, setDtExpiracao] = useState("");
+    const [statusVaga, setStatusVaga] = useState("");
+    const [cadandidatos, setCandidatos] = useState([]);
+    const [visualizacoes, setVisualizacoes] = useState(0);
+    const fkEmpresa = user.id
     const periodoOptions = {
         MANHA: "Período Manhã (7h - 13h)",
         TARDE: "Período Tarde (12h - 18h)",
@@ -129,10 +136,12 @@ export default function EditarVaga() {
 
                 const response = await axios.get(`/vagas/${id}/empresa`);
                 const vagaData = response.data;
+                const novoCep = JSON.parse(vagaData.cep);
+                console.log(novoCep)
 
                 setTitulo(vagaData.titulo || "");
                 setDescricao(vagaData.descricao || "");
-                setCep(vagaData.cep || "");
+                setCep("09541-300");
                 setPretensaoSalarial(vagaData.pretensaoSalarial || "");
                 setEspecialidade(vagaData.especialidade || "");
                 setRequisitos(vagaData.requisitos || "");
@@ -141,6 +150,10 @@ export default function EditarVaga() {
                 setCargaHoraria(vagaData.cargaHoraria || "");
                 setDtCriacao(vagaData.dtCriacao || "");
                 setDtExpiracao(vagaData.dtExpiracao || "");
+                setStatusVaga(vagaData.statusVaga || "ABERTA");
+                setCandidatos(["6672fb8173f2836362c76786"]);
+                setVisualizacoes(vagaData.visualizacoes || 0);
+
 
                 setLoading(false);
             } catch (err) {
@@ -184,13 +197,17 @@ export default function EditarVaga() {
                 periodo,
                 cargaHoraria,
                 dtCriacao,
-                dtExpiracao
+                dtExpiracao,
+                statusVaga,
+                fkEmpresa,
+                cadandidatos,
+                visualizacoes
             };
 
             try {
                 setLoading(true);
-                setIsUpdating(true); // Indicar que a atualização está em andamento
                 await axios.put(`/vagas/${id}`, vagaAtualizada);
+                setIsUpdating(true); // Indicar que a atualização está em andamento
                 setLoading(false);
                 toast.success('Vaga atualizada com sucesso');
                 navigate("/dashboard/vagas-publicadas");

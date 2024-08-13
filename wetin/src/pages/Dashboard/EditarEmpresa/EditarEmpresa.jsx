@@ -28,7 +28,7 @@ export default function EditarEmpresa() {
     const [linkedin, setLinkedin] = useState("");
     const [cnpj, setCnpj] = useState("");
     const [imagem, setImagem] = useState("");
-
+    
 
 
     //To buscando a empresa pra prencher as inputs
@@ -40,13 +40,14 @@ export default function EditarEmpresa() {
 
                 const response = await axios.get(`/empresas/${user.id}`);
                 var empresaData = response.data;
-
+                const novoCep = JSON.parse(empresaData.cep);
+                console.log(novoCep)
                 console.log(empresaData)
 
                 setNome(empresaData.nome || "");
                 setEmail(empresaData.email || "");
                 setTelefone(empresaData.telefone || "");
-                setCep(empresaData.cep.cep || "");
+                setCep(novoCep.cep || "");
                 setDescricao(empresaData.descricao || "");
                 setLinkedin(empresaData.linkedin || "");
                 setCnpj(empresaData.cnpj || "");
@@ -153,7 +154,7 @@ export default function EditarEmpresa() {
                                         <label htmlFor="">CEP: </label>
                                         <span>*</span>
                                     </div>
-                                    <input type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o CEP da empresa" value={cep} onChange={(e) => handleInputChange(e, setCep)} />
+                                    <InputMask mask="99999-999" type="text" className={styles["input"]} style={{ width: "85%" }} placeholder="Digite aqui o CEP da empresa" value={cep} onChange={(e) => handleInputChange(e, setCep)} />
                                 </div>
                                 <div className={styles["InputDiv"]}>
                                     <div className={styles["labelDiv"]}>
