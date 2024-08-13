@@ -55,7 +55,7 @@ export default function InformacoesVaga() {
     const downloadCsv = async () => {
         setLoading(true)
         try {
-            const response = await axios.get(`/vagas/GerarArquivoCSV/66730ee28d3ea43854676c05`)
+            const response = await axios.get(`/vagas/GerarArquivoCSV/${id}`)
             console.log(response.data)
             const link = document.createElement('a')
             document.body.appendChild(link)
@@ -209,7 +209,7 @@ export default function InformacoesVaga() {
                                 Candidatos <span className={styles["contador-candidatos"]}>{InformacoesVaga.candidatos?.length || 0}</span>
                             </div>
                         </div>
-                        <h1 className={styles["titulo-vaga"]}>Estagiário de Marketing Digital</h1>
+                        <h1 className={styles["titulo-vaga"]}>{InformacoesVaga.titulo}</h1>
                         <div className={styles["caixa-conteudo"]}>
                             {renderSectionConteudo()}
                         </div>
