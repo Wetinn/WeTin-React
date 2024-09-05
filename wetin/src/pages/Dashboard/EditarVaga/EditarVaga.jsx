@@ -134,7 +134,7 @@ export default function EditarVaga() {
             try {
                 setLoading(true);
 
-                const response = await axios.get(`/vagas/${id}/empresa`);
+                const response = await axios.get(`/consultar-vagas/${id}`, );
                 const vagaData = response.data;
                 const novoCep = JSON.parse(vagaData.cep);
                 console.log(novoCep)
@@ -148,12 +148,7 @@ export default function EditarVaga() {
                 setBeneficios(vagaData.beneficios || "");
                 setPeriodo(vagaData.periodo || "");
                 setCargaHoraria(vagaData.cargaHoraria || "");
-                setDtCriacao(vagaData.dtCriacao || "");
                 setDtExpiracao(vagaData.dtExpiracao || "");
-                setStatusVaga(vagaData.statusVaga || "ABERTA");
-                setCandidatos(["6672fb8173f2836362c76786"]);
-                setVisualizacoes(vagaData.visualizacoes || 0);
-
 
                 setLoading(false);
             } catch (err) {
@@ -196,12 +191,8 @@ export default function EditarVaga() {
                 beneficios,
                 periodo,
                 cargaHoraria,
-                dtCriacao,
                 dtExpiracao,
-                statusVaga,
                 fkEmpresa,
-                cadandidatos,
-                visualizacoes
             };
 
             try {
@@ -346,13 +337,6 @@ export default function EditarVaga() {
                                 </datalist>
                             </div>
                             <div className="caixaData" style={{ display: "flex", width: "60%", justifyContent: "space-between", alignItems: "center", marginTop: "20px" }}>
-                                <div className={styles["InputDiv"]}>
-                                    <div className={styles["labelDiv"]}>
-                                        <label htmlFor="">Data de Criação da Vaga: </label>
-                                        {errorMessages.dtCriacao && <span className={styles["error"]}>* {errorMessages.dtCriacao}</span>}
-                                    </div>
-                                    <input type="date" className={styles["input"]} style={{ width: "50%" }} value={dtCriacao} onChange={(e) => handleInputChange(e, setDtCriacao)} />
-                                </div>
                                 <div className={styles["InputDiv"]}>
                                     <div className={styles["labelDiv"]}>
                                         <label htmlFor="">Data de Expiração da Vaga: </label>
