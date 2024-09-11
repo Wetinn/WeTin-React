@@ -33,5 +33,6 @@ jobs:
             cd /home/ubuntu/WeTin-React/wetin/ || exit
             npm install
           fi
+          exit
 
 
