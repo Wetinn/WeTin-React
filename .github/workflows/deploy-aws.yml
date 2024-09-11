@@ -24,6 +24,7 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
         script: |
           if [ -d "/caminho/para/WeTin-React" ]; then
             cd /caminho/para/WeTin-React
