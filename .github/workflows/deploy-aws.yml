@@ -11,7 +11,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: multiple command
       uses: appleboy/ssh-action@v1.0.3
@@ -22,11 +22,11 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
       
-          if [ -d "/caminho/para/WeTin-React" ]; then
-            cd /caminho/para/WeTin-React
+          if [ -d "~/home/ubuntu/WeTin-React" ]; then
+            cd /WeTin-React
             git pull
           else
-            git clone https://seu-repo-url.git /caminho/para/WeTin-React
-            cd /caminho/para/WeTin-React
+            git clone https://github.com/Wetinn/WeTin-React.git
+            cd ./WeTin-React
           fi
           npm install
