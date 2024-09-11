@@ -22,11 +22,16 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
       
-          if [ -d "~/home/ubuntu/WeTin-React" ]; then
-            cd /WeTin-React
+          TARGET_DIR="/home/ubuntu/WeTin-React"
+          if [ -d "$TARGET_DIR" ]; then
+            cd "$TARGET_DIR" || exit
             git pull
+            cd ./wetin
+            npm install
           else
-            git clone https://github.com/Wetinn/WeTin-React.git
-            cd ./WeTin-React
+            git clone https://github.com/Wetinn/WeTin-React.git "$TARGET_DIR"
+            cd /home/ubuntu/WeTin-React/wetin/ || exit
+            npm install
           fi
-          npm install
+
+
