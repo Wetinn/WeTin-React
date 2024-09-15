@@ -77,7 +77,7 @@ export default function Pagamento() {
                     <div className={styles["blocoCadastro"]}>
                         <div className={styles["tituloBloco"]}>
                             <span>Cadastro de pagamento</span>
-                            <span className={styles["infos"]}>Para finalizar seu cadastro precisamos que você coloque as informações do seu melhor cartão de crédito onde será cobrada a mensalidade da nossa plataforma <b>(R$50,00)</b></span>
+                            <span className={styles["infos"]}>Para finalizar seu cadastro precisamos que você coloque as informações do seu melhor cartão de crédito onde será cobrada a mensalidade da nossa plataforma <b>(R$249,90)</b></span>
                         </div>
                         <div className={styles["inputsBloco"]}>
                             <form>
