@@ -22,8 +22,8 @@ FROM nginx:latest
 # Copiar os arquivos de build do front-end para o Nginx
 COPY --from=builder /app/build /usr/share/nginx/html
 
-# Copiar a configuração customizada do Nginx
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+# Copie o arquivo de configuração customizado para o container
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expor a porta 80
 EXPOSE 80
