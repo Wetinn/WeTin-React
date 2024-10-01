@@ -6,14 +6,14 @@ WORKDIR /app
 # Clonando o repositório do GitHub
 RUN git clone https://github.com/Wetinn/WeTin-React.git
 
-# Mudando para o diretório do repositório clonado
+# Mudando para o diretório do repositório clonado (ajuste conforme necessário)
 WORKDIR /app/WeTin-React/wetin
 
-# Instalação das dependências
-RUN npm install
+# Instalando as dependências e exibindo mensagens de conclusão
+RUN npm install && echo "NPM install concluído"
 
-# Build do projeto
-RUN npm run build
+# Fazendo o build do projeto
+RUN npm run build && echo "Build concluído"
 
 # Fase de produção (NGINX)
 FROM nginx:alpine
