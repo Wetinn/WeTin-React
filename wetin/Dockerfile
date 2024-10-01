@@ -14,8 +14,6 @@ RUN npm install
 # Build do projeto
 RUN npm run build
 
-WORKDIR /app
-
 # Fase de produção (NGINX)
 FROM nginx:alpine
 
