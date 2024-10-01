@@ -4,7 +4,7 @@ services:
   build-container:
     build:
       context: .
-      dockerfile: Dockerfile # Apontando para o Dockerfile atualizado
+      dockerfile: Dockerfile
     container_name: build-container
     working_dir: /app
     volumes:
@@ -22,4 +22,4 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - build-container # O nginx só começa após o build-container terminar
+      - build-container
