@@ -1,24 +1,20 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  build-container:
+  app:
     build:
       context: .
-      dockerfile: Dockerfile 
-    container_name: build-container
+      dockerfile: Dockerfile
     volumes:
-      - .:/app
-      - /app/node_modules
-    environment:
-      - CI=true
+      - ./WeTin-React:/app/WeTin-React 
 
-  nginx-container:
+  nginx:
     image: nginx:alpine
-    container_name: nginx-container
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./build:/usr/share/nginx/html 
     ports:
       - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf  
+      - ./default.conf:/etc/nginx/conf.d/default.conf 
+      - ./build:/usr/share/nginx/html
     depends_on:
-      - build-container
+      - app  
