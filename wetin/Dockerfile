@@ -7,8 +7,6 @@ WORKDIR /app
 # Clonando o repositório do GitHub
 RUN git clone https://github.com/Wetinn/WeTin-React.git
 
-WORKDIR /app/WeTin-React/wetin
-
 # Instalação das dependências
 RUN npm install
 
