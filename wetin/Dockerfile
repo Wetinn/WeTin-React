@@ -1,11 +1,25 @@
-# Usar a imagem oficial do Nginx como base
-FROM nginx:latest
+# Fase de build
+FROM node:20 AS builder
 
-# Copiar o arquivo de configuração do Nginx para o contêiner
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+# Definindo diretório de trabalho
+WORKDIR /app
 
-# Copiar os arquivos do build do React para o diretório padrão do Nginx
-COPY ./build /usr/share/nginx/html
+# Clonando o repositório do GitHub
+RUN git clone https://github.com/Wetinn/WeTin-React.git
 
-# Expor a porta 80
+WORKDIR /app/WeTin-React/wetin
+
+# Instalação das dependências
+RUN npm install
+
+# Build do projeto
+RUN npm run build
+
+# Fase de produção (NGINX)
+FROM nginx:alpine
+
+# Copiando arquivos do build gerado para o NGINX
+COPY --from=builder /app/WeTin-React/wetin/build /usr/share/nginx/html
+
+# Expondo a porta 80
 EXPOSE 80
