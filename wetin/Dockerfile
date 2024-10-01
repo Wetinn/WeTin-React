@@ -10,10 +10,10 @@ RUN git clone https://github.com/Wetinn/WeTin-React.git
 WORKDIR /app/WeTin-React/wetin
 
 # Instalando as dependências e exibindo mensagens de conclusão
-RUN npm install && echo "NPM install concluído"
+RUN npm install
 
 # Fazendo o build do projeto
-RUN npm run build && echo "Build concluído"
+RUN npm run build
 
 # Fase de produção (NGINX)
 FROM nginx:alpine

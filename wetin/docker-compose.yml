@@ -1,18 +1,26 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  app:
+  build-container:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile # Apontando para o Dockerfile atualizado
+    container_name: build-container
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - CI=true
+    # O build-container roda e finaliza após a construção
 
-  nginx:
+  nginx-container:
     image: nginx:alpine
+    container_name: nginx-container
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./build:/usr/share/nginx/html 
     ports:
       - "80:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf  
-      - ./default.conf:/etc/nginx/conf.d/default.conf 
-      - ./build:/usr/share/nginx/html
     depends_on:
-      - app
+      - build-container 
