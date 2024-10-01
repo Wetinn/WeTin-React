@@ -19,7 +19,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copiando arquivos do build gerado para o NGINX
-COPY --from=builder /app/WeTin-React/wetin/build /usr/share/nginx/html
+COPY --from=builder /app/build /usr/share/nginx/html
 
 # Expondo a porta 80
 EXPOSE 80
