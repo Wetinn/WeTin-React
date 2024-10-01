@@ -4,7 +4,7 @@ services:
   build-container:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile 
     container_name: build-container
     working_dir: /app
     volumes:

@@ -1,4 +1,3 @@
-# Fase de build
 FROM node:20 AS builder
 
 # Definindo diretório de trabalho
@@ -6,6 +5,8 @@ WORKDIR /app
 
 # Clonando o repositório do GitHub
 RUN git clone https://github.com/Wetinn/WeTin-React.git
+
+WORKDIR /app/WeTin-React/wetin
 
 # Instalação das dependências
 RUN npm install
@@ -17,7 +18,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copiando arquivos do build gerado para o NGINX
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder /app/WeTin-React/wetin/build /usr/share/nginx/html
 
 # Expondo a porta 80
 EXPOSE 80
