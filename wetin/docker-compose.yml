@@ -6,18 +6,17 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: build-container
-    working_dir: /app
     volumes:
-      - .:/app
-    environment:
-      - CI=true
+      - ./wetin/build:/app/WeTin-React/wetin/build 
+    working_dir: /app/WeTin-React/wetin
+    command: ["npm", "run", "build"] 
 
   nginx-container:
     image: nginx:alpine
     container_name: nginx-container
-    build:
-      context: .
     ports:
       - "80:80"
+    volumes:
+      - ./wetin/build:/usr/share/nginx/html
     depends_on:
-      - build-container 
+      - build-container
