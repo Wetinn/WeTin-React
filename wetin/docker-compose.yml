@@ -9,8 +9,6 @@ services:
     working_dir: /app
     volumes:
       - .:/app
-      - /app/node_modules
-      - /app/WeTin-React/wetin/build
     environment:
       - CI=true
 
