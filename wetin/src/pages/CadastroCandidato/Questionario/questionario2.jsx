@@ -41,8 +41,10 @@ export default function Questionario() {
 
     var editadoJSON = sessionStorage.getItem('editado');
     var continuacaoJSON = sessionStorage.getItem('continuacao');
+    var fotoCandidatoJson = sessionStorage.getItem('fotoCandidato')
     var editado = JSON.parse(editadoJSON);
     var continuacao = JSON.parse(continuacaoJSON);
+    var fotoCandidato = JSON.parse(fotoCandidatoJson)
 
     var nome = editado.nome;
     var email = editado.email
@@ -53,18 +55,13 @@ export default function Questionario() {
     var descricao = continuacao.descricao
     var especialidades = continuacao.especialidades
     var linkedin = continuacao.linkedin
+    var imagem = fotoCandidato.imagem
    
     const handleSave = async () => {
         const formattedRespostas = Object.entries(respostas).map(([pergunta, resposta]) => ({
             pergunta,
             resposta,
         }));
-
-        var fotoJSON = sessionStorage.getItem('fotoCandidato');
-        var foto = JSON.parse(fotoJSON);
-        var imagem = foto.imagem
-
-        console.log(foto)
 
         console.log(imagem)
 
@@ -75,11 +72,11 @@ export default function Questionario() {
             cep,
             senha,
             linkedin,
-            imagem,
             descricao,
             dtNascimento: dataNascimento,
             especialidade: especialidades,
-            quizz: formattedRespostas
+            quizz: formattedRespostas,
+            imagem
         };
 
         console.log(candidatoCadastrado)

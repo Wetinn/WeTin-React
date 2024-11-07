@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Teste from './pages/Teste/Teste'
@@ -54,6 +54,7 @@ function Rotas() {
     return (
         <>
             <BrowserRouter>
+              <Suspense fallback={<div>Carregando...</div>}>
                 <Routes>
                     <Route path="/testes" element={<Teste/>} />
                     <Route path="/" element={<Home />} />
@@ -98,6 +99,7 @@ function Rotas() {
                     <Route path="/dashboard/informacoes-vaga/:id" element={<InformacoesVaga/>}/>
                     <Route path="/dashboard/perfil-candidato/:id" element={<PerfilCandidato/>}/>
                 </Routes>
+              </Suspense>
             </BrowserRouter>
         </>
     )

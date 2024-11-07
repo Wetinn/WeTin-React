@@ -9,12 +9,13 @@ export default function ButtonFilled(props) {
         
         if (props.path && typeof props.path === 'string') {
             navigate(props.path);
-        } else if (typeof props.onClick === 'function') {
+        } else if (typeof props.onClick === 'function') { 
             props.onClick();
         } else {
             console.warn("Neither path nor valid onClick function provided.");
         }
     }
+
 
     return(
         <>

@@ -118,7 +118,7 @@ export default function VagasPublicadas() {
             {ExpandirSideBar && <SidebarExtended funcaoColapsar={toggleExpandirSideBar} />}
             <div style={{ height: "100vh", width: "100vw", gap: '8px', display: 'flex', flexDirection: 'row', alignItems: "center" }}>
                 <SidebarCollapsed funcaoExpandir={toggleExpandirSideBar} />
-                <div style={{ gap: '8px', display: 'flex', flexDirection: 'column', height: "100%", width: "71.5vw" }}>
+                <div style={{ gap: '8px', display: 'flex', flexDirection: 'column', height: "100%", width: "71.5vw", flex: "1"}}>
                     <BarraPesquisa placeholder="Clique aqui para pesquisar uma vaga específica" onSearch={handleSearch}/>
                     <div className={styles["caixa-vagas"]}>
                         <h3>{TextoQuantidade}</h3>

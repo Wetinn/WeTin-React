@@ -1,0 +1,68 @@
+.overlay{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1003;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.box{
+  width: 40%;
+  height: 40%;
+  background-color: #f2f2f2;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 32px ;
+}
+
+.header{
+  width: 100%;
+  height: 25%;
+  display: flex;
+  align-items: center;
+}
+
+.header h1{
+  font-size: 24px;
+}
+
+.body {
+  width: 100%;
+  height: fill;
+  display: flex;
+  align-items: center;
+}
+
+.body p {
+  width: 100%;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.button_box{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button_box button{
+  height: 6vh;
+  width: 8vw;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  background-color: #025373;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+

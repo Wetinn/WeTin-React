@@ -76,7 +76,7 @@ export default function InformacoesVaga() {
                 const response = await axios.get(`/vagas/${id}/empresa`);
                 const candidatosResponse = await axios.get(`/vagas/consultar-candidatos/${id}`)
                 const filtrosResponse = await fetchFiltros()
-
+                console.log(response.data)
                 setInformacoesVaga(response.data)
                 setCandidato(candidatosResponse.data)
                 setFiltros(filtrosResponse)
@@ -114,13 +114,13 @@ export default function InformacoesVaga() {
                         <div className={styles["informacoes"]}>
                             <h1>Informações</h1>
                             <h2>Localização</h2>
-                            <p>{InformacoesVaga.cidade}</p>
-                            <h2>Período e carga horária</h2>
-                            <p>{`${InformacoesVaga.periodo}, ${cargaHorariaFormatada} por dia`}</p>
+                            <p>{InformacoesVaga.tag?.valor}</p>
+                            <h2>Período e Jornada de trabalho</h2>
+                            <p>{`${InformacoesVaga.periodo}, ${InformacoesVaga?.jornada}`}</p>
                             <h2>Beneficios</h2>
                             <p>{InformacoesVaga.beneficios}</p>
                             <h2>Status</h2>
-                            <p>{InformacoesVaga.status}</p>
+                            <p>{InformacoesVaga.statusVaga}</p>
                         </div>
                         <ButtonFilled texto="Editar Vaga" path={`/dashboard/editarVaga/${id}`}/>
                     </div>)
@@ -140,13 +140,13 @@ export default function InformacoesVaga() {
                         <div className={styles["informacoes"]}>
                             <h1>Informações</h1>
                             <h2>Localização</h2>
-                            <p>{InformacoesVaga.cidade}</p>
-                            <h2>Período e carga horária</h2>
-                            <p>{`${InformacoesVaga.periodo}, ${InformacoesVaga.cargaHoraria} por dia`}</p>
+                            <p>{InformacoesVaga.tag?.valor}</p>
+                            <h2>Período e Jornada de trabalho</h2>
+                            <p>{`${InformacoesVaga.periodo}, ${InformacoesVaga?.jornada}`}</p>
                             <h2>Beneficios</h2>
                             <p>{InformacoesVaga.beneficios}</p>
                             <h2>Status</h2>
-                            <p>{InformacoesVaga.status}</p>
+                            <p>{InformacoesVaga.statusVaga}</p>
                         </div>
                         <ButtonFilled texto="Editar Vaga" path={`/dashboard/editarVaga/${id}`}/>
                     </div>

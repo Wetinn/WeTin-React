@@ -14,12 +14,6 @@ export default function PerfilEmpresa() {
     const [ExpandirSideBar, setExpandirSideBar] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
-    const [endereco, setEndereco] = useState({
-        "city": "",
-        "address": "",
-        "state": "",
-        "district": ""
-    });
 
     const toggleExpandirSideBar = () => {
         setExpandirSideBar(!ExpandirSideBar)
@@ -33,11 +27,8 @@ export default function PerfilEmpresa() {
         const fetchPerfilEmpresa = async () => {
             try {
                 const response = await axios.get(`/empresas/${idEmpresa}`);
-                setEndereco(JSON.parse(response.data.cep))
-                const perfilEmpresaComEndereco = { ...response.data, endereco};
-                console.log(perfilEmpresaComEndereco)
-                console.log()
-                setPerfilEmpresa(perfilEmpresaComEndereco)
+                console.log(response.data)
+                setPerfilEmpresa(response.data)
                 setLoading(false);
             } catch (err) {
                 console.log(err)
@@ -47,7 +38,8 @@ export default function PerfilEmpresa() {
         };
 
         fetchPerfilEmpresa();
-    }, [idEmpresa, cep, endereco]);
+    }, [idEmpresa, cep]);
+
 
 
 
@@ -64,22 +56,21 @@ export default function PerfilEmpresa() {
 
                         <div className={styles["foto-e-nome"]}>
                             <div className={styles["container-foto"]}>
-                                <img className={styles["foto-perfil"]} src={PerfilEmpresa.imagem} alt="Foto perfil" />
+                                <img className={styles["foto-perfil"]} src={PerfilEmpresa?.imagem} alt="Foto perfil" />
                             </div>
-                            <h1 className={styles["nome-empresa"]}>{PerfilEmpresa.nome}</h1>
+                            <h1 className={styles["nome-empresa"]}>{PerfilEmpresa?.nome}</h1>
                         </div>
 
                         <h2 className={styles["subtopico"]}>Sobre</h2>
-                        <p className={styles["corpo"]}>{PerfilEmpresa.descricao}</p>
+                        <p className={styles["corpo"]}>{PerfilEmpresa?.descricao}</p>
 
                         <h2 className={styles["subtopico"]}>Localização</h2>
-                        <p className={styles["corpo"]}>{endereco.city || ""} - Brasil.</p>
+                        <p className={styles["corpo"]}>{PerfilEmpresa?.tag?.valor} - Brasil.</p>
 
                         <h2 className={styles["subtopico"]}>Contato</h2>
-                        <p className={styles["corpo"]}>
-                            Endereço: {endereco.address || ""}, {endereco.district || ""} - {endereco.city || ""}, {endereco.state || ""}  
-                            <br />Telefone: {PerfilEmpresa.telefone}
-                            <br />E-mail: {PerfilEmpresa.email}</p>
+                        <p className={styles["corpo"]}>  
+                            <br />Telefone: {PerfilEmpresa?.telefone}
+                            <br />E-mail: {PerfilEmpresa?.email}</p>
 
                     </div>
                 </div>

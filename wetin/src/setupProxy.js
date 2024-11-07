@@ -32,6 +32,13 @@ module.exports = function(app) {
     })
   );
   app.use(
+    '/api/auth',
+    createProxyMiddleware({
+      target: process.env.REACT_APP_API_URL,
+      changeOrigin: true,
+    })
+  );
+  app.use(
     '/recuperacoes',
     createProxyMiddleware({
       target: process.env.REACT_APP_API_URL,
