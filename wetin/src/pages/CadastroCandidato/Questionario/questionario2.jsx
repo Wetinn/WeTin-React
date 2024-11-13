@@ -45,7 +45,6 @@ export default function Questionario() {
     var editado = JSON.parse(editadoJSON);
     var continuacao = JSON.parse(continuacaoJSON);
     var fotoCandidato = JSON.parse(fotoCandidatoJson)
-
     var nome = editado.nome;
     var email = editado.email
     var telefone = editado.telefone
@@ -56,6 +55,7 @@ export default function Questionario() {
     var especialidades = continuacao.especialidades
     var linkedin = continuacao.linkedin
     var imagem = fotoCandidato.imagem
+    var tag = continuacao.tag
    
     const handleSave = async () => {
         const formattedRespostas = Object.entries(respostas).map(([pergunta, resposta]) => ({
@@ -76,7 +76,8 @@ export default function Questionario() {
             dtNascimento: dataNascimento,
             especialidade: especialidades,
             quizz: formattedRespostas,
-            imagem
+            imagem,
+            tag
         };
 
         console.log(candidatoCadastrado)

@@ -56,7 +56,7 @@
 
 .banner {
     width: 100%;
-    background-color: #F2B705;
+    background-color: #A4D5E5;
     height: 30vh;
 }
 
@@ -212,4 +212,30 @@
     width: 750px;
     font-size:  18.35px;
     font-weight: 400;
+}
+.box_secao{
+  display: flex;
+  width: 100%;
+  padding: 16px 16px 24px 16px;
+  flex-direction: column;
+  align-items: flex-start;  
+  border-radius: 16px;
+  background: #F2F7FA; 
+  box-shadow: 0px 0.4px 1.5px 0.5px rgba(0, 0, 0, 0.11); 
+  gap: 12px;
+}
+
+.display_habilidades{
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.box_habilidade{
+  display: flex;
+  padding: var(--8pxGrid, 8px) 24px;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0.8px 3px 1px rgba(0, 0, 0, 0.12);
+  border-radius: 16px;
 }

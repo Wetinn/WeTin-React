@@ -15,10 +15,6 @@ export default function Detalhes(props) {
                     <h2>Requisitos</h2>
                     <p>{props.requisitos}</p>
                 </div>
-                <div className={styles["card"]}>
-                    <h2>Responsabilidades</h2>
-                    <p>{props.responsabilidades}</p>
-                </div>
             </div>
         </>
     );

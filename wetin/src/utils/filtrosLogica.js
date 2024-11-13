@@ -1,59 +1,55 @@
-
-
-
-const separarFiltros = (filtrosSemFormatacao) => {
-    return separarTopicos(filtrosSemFormatacao, 0);
+const separarFiltros = (filtrosSemFormatacao) => {  
+    return transformarFiltros(filtrosSemFormatacao)
 }
-
-const separarTopicos = (filtrosSemFormatacao, index) => {
-    var resposta = []
-    var topico = []
-    var indiceAtual = index
-    for(var i = index; i < filtrosSemFormatacao.length; i++){  
-        if(i === 0){
-            topico.push(filtrosSemFormatacao[0])
-        } else if(filtrosSemFormatacao[i].id <= filtrosSemFormatacao[i-1].id){
-            indiceAtual = i;
-            break;
-        } else {
-            topico.push(filtrosSemFormatacao[i])
-        }
-    }
-    if(indiceAtual === filtrosSemFormatacao.length - 1){
-        resposta.push(topico)
-        return resposta;
-    } else {
-        resposta.push(topico)
-        return separarTopicosComResposta(filtrosSemFormatacao, indiceAtual, resposta)
-    }
-};
-
-const separarTopicosComResposta = (filtrosSemFormatacao, index, resposta) => {
-    var topico = []
-    var indiceAtual = index
-    for(var i = index; i < filtrosSemFormatacao.length; i++){  
-        if(i === indiceAtual){
-            topico.push(filtrosSemFormatacao[i])
-        }else if(filtrosSemFormatacao[i].id < filtrosSemFormatacao[i-1].id){
-            indiceAtual = i;
-            break;
-        } else {
-            topico.push(filtrosSemFormatacao[i])
-        }
-
-        if(i === filtrosSemFormatacao.length - 1){
-            indiceAtual = i;
-        }
-    }
-    if(indiceAtual === filtrosSemFormatacao.length - 1){
-        resposta.push(topico)
-        return resposta;
-    } else {
-        resposta.push(topico)
-        return separarTopicosComResposta(filtrosSemFormatacao, index, resposta)
-    }
-};
 
 const filtrosLogica = { separarFiltros };
 
 export default filtrosLogica;
+
+const transformarFiltros = (filtros) => {
+  // Passo 1: Transformar objetos com `tipo` e `valor` para o novo formato
+  const filtrosTransformados = filtros.map((filtro) => {
+    if (filtro.tipo && filtro.valor) {
+      return {
+        id: null, // ID temporário, será ajustado no final
+        propriedade: filtro.tipo,
+        topico: filtro.valor,
+        valor: filtro.valor,
+      };
+    }
+    return { ...filtro, id: null }; // Definindo o ID como null temporariamente
+  });
+
+  // Passo 2: Remover duplicatas considerando `propriedade`, `topico` e `valor`
+  const filtrosUnicos = [];
+  const seen = new Set();
+  for (const filtro of filtrosTransformados) {
+    const uniqueKey = `${filtro.propriedade}-${filtro.topico}-${filtro.valor}`;
+    if (!seen.has(uniqueKey)) {
+      seen.add(uniqueKey);
+      filtrosUnicos.push(filtro);
+    }
+  }
+
+  // Passo 3: Agrupar objetos por `propriedade`
+  const filtrosAgrupados = {};
+  for (const filtro of filtrosUnicos) {
+    if (!filtrosAgrupados[filtro.propriedade]) {
+      filtrosAgrupados[filtro.propriedade] = [];
+    }
+    filtrosAgrupados[filtro.propriedade].push(filtro);
+  }
+
+  // Converte o objeto de grupos em um array de arrays
+  const agrupadosArray = Object.values(filtrosAgrupados);
+
+  // Passo 4: Atribuir IDs sequenciais começando de 1
+  let idCounter = 1;
+  agrupadosArray.forEach(grupo => {
+    grupo.forEach(filtro => {
+      filtro.id = idCounter++;
+    });
+  });
+
+  return agrupadosArray;
+};

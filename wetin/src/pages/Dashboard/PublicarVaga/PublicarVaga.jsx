@@ -8,10 +8,11 @@ import Loading from "../../../components/Loading/Loading";
 import SidebarExtended from "../../../components/Sidebar/SidebarExtended/SidebarExtended";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ButtonFilled from '../../../components/Buttons/ButtonFilled/ButtonFilled';
+import { salarioFormatado } from '../../../utils/numberUtils'
 import comparacaoDataAtual from '../../../utils/comparacaoDataAtual';
 import { geraTag, selectValueHandler } from '../../../utils/tagUtils';
 import Modal from '../../../components/Modal/Modal';
+import formatDateToISO from '../../../utils/dateUtils';
 
 export default function PublicarVaga() {
 
@@ -23,17 +24,14 @@ export default function PublicarVaga() {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [cep, setCep] = useState("");
-  const [responsabilidades, setResponsabilidades] = useState("");
   const [requisitos, setRequisitos] = useState("");
   const [beneficios, setBeneficios] = useState("");
   const [jornada, setJornada] = useState(0);
   const [regime, setRegime] = useState(0);
   const [dtExpiracao, setDtExpiracao] = useState("");
   const [salarioMinimo, setSalarioMinimo] = useState("");
-  const [salarioMaximo, setSalarioMaximo] = useState("");
-  const [endereco, setEndereco] = useState(null);
-  const [mensagemModal, setMensagemModal] = useState("");
-
+  const [salarioMaximo, setSalarioMaximo] = useState("")
+  const [especialidade, setEspecialidade] = useState("");
 
   const regimeOptions = [
     {
@@ -87,7 +85,6 @@ export default function PublicarVaga() {
     descricao: "",
     cep: "",
     pretensaoSalarial: "",
-    responsabilidades: "",
     requisitos: "",
     beneficios: "",
     periodo: "",
@@ -103,7 +100,6 @@ export default function PublicarVaga() {
       descricao: "",
       cep: "",
       pretensaoSalarial: "",
-      responsabilidades: "",
       requisitos: "",
       beneficios: "",
       periodo: "",
@@ -119,6 +115,11 @@ export default function PublicarVaga() {
     if (!descricao) {
       errors.descricao += "Descrição da vaga é obrigatória";
       naoTemErro += false;
+    }
+
+    if(!especialidade){
+      errors.especialidade = "Especialidade é obrigatória"
+      naoTemErro = false;
     }
 
     if (!cep) {
@@ -144,11 +145,6 @@ export default function PublicarVaga() {
     }
     if (salarioMinimo == "" || salarioMinimo == 0) {
       errors.pretensaoSalarial = "Salário mínimo é obrigatório";
-      naoTemErro = false;
-    }
-
-    if (!responsabilidades) {
-      errors.especialidade = "Responsabilidades é obrigatória";
       naoTemErro = false;
     }
     if (!requisitos) {
@@ -185,43 +181,45 @@ export default function PublicarVaga() {
   const handleSave = async (event) => {
     event.preventDefault();
     
-    // Aguarde a validação do CEP
+    setLoading(true)
+    const inputsValidados = await validarInputs();
+    if (inputsValidados) {
     const enderecoRetornado = await validaCep();
-    setEndereco(enderecoRetornado);
-    if (enderecoRetornado) {
-      const inputsValidados = await validarInputs();
-      if (inputsValidados) {
-        const vagaCadastrada = {
+        if (enderecoRetornado) {
+          const vagaCadastrada = {
           titulo,
           descricao,
-          cep,
-          pretensaoSalarial: salarioMinimo + " - " + salarioMaximo,
-          responsabilidades,
+          cep: handleCepFormatacao(),
+          pretensaoSalarial: `${salarioFormatado(salarioMinimo)} - ${salarioFormatado(salarioMaximo)}`,
           requisitos,
           beneficios,
           jornada,
           regime,
           statusVaga: "ABERTA",
           imagem: await fetchEmpresaImagem(),
-          dtCriacao: new Date().toLocaleDateString('pt-BR'),
-          dtExpiracao,
-          tag: geraTag("localizacao", endereco.localidade),
+          dtCriacao: formatDateToISO(`${new Date().toLocaleDateString('pt-BR')}`),
+          dtExpiracao: formatDateToISO(dtExpiracao),
+          tag: geraTag("localizacao", enderecoRetornado.localidade),
+          especialidade,
+          periodo: "MANHA"
         };
   
         setLoading(true);
         try {
           await axios.post(`/vagas/${user.id}`, vagaCadastrada);
-          setLoading(false);
-          toast.success('Vaga publicada com sucesso');
+          toast.success('Vaga publicada com sucesso!');
           navigate("/dashboard/vagas-publicadas");
         } catch (err) {
           console.error(err);
-          setLoading(false);
           toast.error('Não foi possível publicar a vaga');
+        } finally{
+          setLoading(false);
         }
+      } else {
+        setLoading(false)
       }
     } else {
-      toast.error('CEP inválido!');
+      setLoading(false)
     }
   };
   
@@ -239,6 +237,7 @@ export default function PublicarVaga() {
       }
 
     } catch (err) {
+      toast.error("CEP Inválido")
       return null;
     }
   }
@@ -250,6 +249,13 @@ export default function PublicarVaga() {
     } catch(err){
       console.log(err)
       return "";
+    }
+  }
+
+  const handleCepFormatacao = () => {
+    if(cep && cep.length === 8){
+      let cepFormatado = cep.slice(0, 6) + '-' + cep.slice(6)
+      setCep(cepFormatado)
     }
   }
 
@@ -305,6 +311,16 @@ export default function PublicarVaga() {
               </div>
 
               <div className={styles["textInput"]}>
+                <label htmlFor="">Especialidade: <span>*</span></label>
+                <input
+                  type='text'
+                  placeholder='Digite a especialidade solicitada pela vaga'
+                  onChange={(e) => setEspecialidade(e.target.value)}
+                  value={especialidade}
+                />
+              </div>
+
+              <div className={styles["textInput"]}>
                 <label htmlFor="">Descrição: <span>*</span></label>
                 <textarea
                   placeholder='Digite o título da vaga'
@@ -321,14 +337,7 @@ export default function PublicarVaga() {
                   value={requisitos}
                 />
               </div>
-              <div className={styles["textInput"]}>
-                <label htmlFor="">Responsabilidades: <span>*</span></label>
-                <textarea
-                  placeholder='Digite o título da vaga'
-                  onChange={(e) => setResponsabilidades(e.target.value)}
-                  value={responsabilidades}
-                />
-              </div>
+              
               <div className={styles["textInput"]}>
                 <label htmlFor="">Benefícios: <span>*</span></label>
                 <textarea

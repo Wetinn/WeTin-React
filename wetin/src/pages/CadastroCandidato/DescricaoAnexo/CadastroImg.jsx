@@ -60,31 +60,37 @@ export default function CadastroRecrutador() {
   const handleSave = async () => {
     setLoading(true)
     if (validarInputs()) {
-      try {
-        const responseCep = await handleCep();
-        if (responseCep != null) {
-          const continuacao = {
-            linkedin,
-            cep,
-            especialidades,
-            descricao,
-            tag: {
-              tipo: "localidade",
-              valor: responseCep.localidade
+      const responseCep = await handleCep();
+      if(responseCep){
+        try {
+          if (responseCep != null) {
+            const continuacao = {
+              linkedin,
+              cep,
+              especialidades,
+              descricao,
+              tag: {
+                tipo: "localizacao",
+                valor: responseCep.localidade
+              }
             }
+            sessionStorage.setItem("continuacao", JSON.stringify(continuacao));
+            navigate("/fotoCandidato");
+          } else {
+            toast.error("CEP inválido!");
           }
-          sessionStorage.setItem("continuacao", JSON.stringify(continuacao));
-          navigate("/fotoCandidato");
-        } else {
-          toast.error("CEP inválido!");
+        } catch (err) {
+          console.error("Erro inesperado:", err);
+          toast.error("Ocorreu um erro inesperado.");
+        } finally {
+          setLoading(false);
         }
-      } catch (err) {
-        console.error("Erro inesperado:", err);
-        toast.error("Ocorreu um erro inesperado.");
-      } finally {
-        setLoading(false);
+      } else {
+        toast.error("CEP Inválido")
+        setLoading(false)
       }
     }
+      
 
   };
 

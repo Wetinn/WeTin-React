@@ -62,6 +62,7 @@ export default function CandidatosFavoritos() {
                 setFavoritados(favoritosResponse.data);
                 setRecomendados(recomendadosResponse.data);
                 setCandidatos(candidatosComCidade);
+                console.log(filtrosResponse)
                 setFiltros(filtrosResponse);
                 setLoading(false);
                 setTextoQuantidade(`${candidatosResponse.data.length} candidato(s) pesquisados`);

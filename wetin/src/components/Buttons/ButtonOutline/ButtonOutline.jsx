@@ -7,13 +7,10 @@ export default function ButtonOutline(props) {
     const navigate = useNavigate()
 
     const handleClick = () => {
-        console.log(props.path)
         if (props.path != null) {
             navigate(props.path);
         } else if (typeof props.onClick === 'function') {
             props.onClick();
-        } else {
-            console.warn("Neither path nor valid onClick function provided.");
         }
     }
 

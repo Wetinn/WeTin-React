@@ -9,7 +9,7 @@ import axios from "axios";
 
 export default function Login() {
     const notify = () => {
-        toast("Login ralizado com sucesso!");
+        toast("Login realizado com sucesso!");
     };
     const notifyRuim = () => {
         toast("Email ou senha invalidos!");

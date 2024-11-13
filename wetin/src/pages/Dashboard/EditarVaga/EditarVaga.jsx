@@ -1,7 +1,7 @@
 import styles from './EditarVaga.module.css'
 import SidebarCollapsed from "../../../components/Sidebar/SidebarCollapsed/SidebarCollapsed";
 import { useNavigate, useParams } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Overlay from "../../../components/Overlay/Overlay";
 import Loading from "../../../components/Loading/Loading";
@@ -11,13 +11,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import comparacaoDataAtual from '../../../utils/comparacaoDataAtual';
 import { geraTag, selectValueHandler } from '../../../utils/tagUtils';
 import Modal from '../../../components/Modal/Modal';
+import formatDateToISO from '../../../utils/dateUtils';
+import { parsePretencaoSalarial, salarioFormatado } from '../../../utils/numberUtils';
 
 export default function EditarVaga() {
 
+  const { id } = useParams();
   const empresaLogadaJSON = sessionStorage.getItem('user');
   var user = JSON.parse(empresaLogadaJSON);
-
-  const { vagaId } = useParams();
 
   const [loading, setLoading] = useState(false);
   const [hasErrors, setHasErrors] = useState(false);
@@ -25,7 +26,6 @@ export default function EditarVaga() {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [cep, setCep] = useState("");
-  const [responsabilidades, setResponsabilidades] = useState("");
   const [requisitos, setRequisitos] = useState("");
   const [beneficios, setBeneficios] = useState("");
   const [jornada, setJornada] = useState(0);
@@ -33,8 +33,8 @@ export default function EditarVaga() {
   const [dtExpiracao, setDtExpiracao] = useState("");
   const [salarioMinimo, setSalarioMinimo] = useState(null);
   const [salarioMaximo, setSalarioMaximo] = useState(null);
-  const [endereco, setEndereco] = useState(null);
-
+  const [especialidade, setEspecialidade] = useState("");
+  const [periodo, setPeriodo] = useState("")
 
   const regimeOptions = [
     {
@@ -50,7 +50,7 @@ export default function EditarVaga() {
     {
       texto: "Temporário",
       valor: "TEMPORARIO",
-      id: 3 
+      id: 3
     },
     {
       texto: "Autônomo",
@@ -82,14 +82,11 @@ export default function EditarVaga() {
     }
   ];
 
-
-
   const [errorMessages, setErrorMessages] = useState({
     titulo: "",
     descricao: "",
     cep: "",
     pretensaoSalarial: "",
-    responsabilidades: "",
     requisitos: "",
     beneficios: "",
     periodo: "",
@@ -97,6 +94,38 @@ export default function EditarVaga() {
     dtCriacao: "",
     dtExpiracao: ""
   });
+
+  useEffect(() => {
+    const fetchDadosVaga = async () => {
+      setLoading(true)
+      try {
+        const response = await axios.get(`/vagas/${id}/empresa`)
+        handleSetDadosVaga(response.data)
+        setLoading(false)
+      } catch (error) {
+        toast.error("Não foi possível recuperar as informações dessa vaga, tente novamente mais tarde");
+        // setTimeout(() => {
+        //   setLoading(false)
+        //   navigate("/dashboard/vagas-publicadas")
+        // }, 2000)
+      }
+    }
+
+    const handleSetDadosVaga = (dadosVaga) => {
+      setTitulo(dadosVaga.titulo)
+      setDescricao(dadosVaga.descricao)
+      setCep(dadosVaga.cep)
+      setEspecialidade(dadosVaga.especialidade)
+      setSalarioMinimo(parsePretencaoSalarial(dadosVaga.pretensaoSalarial)[0])
+      setSalarioMaximo(parsePretencaoSalarial(dadosVaga.pretensaoSalarial)[1])
+      setRequisitos(dadosVaga.requisitos)
+      setBeneficios(dadosVaga.beneficios)
+      setPeriodo(dadosVaga.periodo)
+      setDtExpiracao(dadosVaga.dtExpiracao)
+    }
+
+    fetchDadosVaga()
+  }, [])
 
   const validarInputs = async () => {
     let naoTemErro = true;
@@ -123,14 +152,14 @@ export default function EditarVaga() {
       naoTemErro += false;
     }
 
+    if (!especialidade) {
+      errors.especialidade = "Especialidade é obrigatória"
+      naoTemErro = false;
+    }
+
     if (!cep) {
       errors.cep = "CEP é obrigatório";
       naoTemErro = false;
-    } else {
-      if(!endereco){
-        errors.cep = "O CEP Informado é inválido";
-        naoTemErro = false;
-      }
     }
 
     if (salarioMaximo < salarioMinimo) {
@@ -154,11 +183,6 @@ export default function EditarVaga() {
       errors.pretensaoSalarial = "Salário mínimo é obrigatório";
       naoTemErro = false;
     }
-
-    if (!responsabilidades) {
-      errors.especialidade = "Responsabilidades é obrigatória";
-      naoTemErro = false;
-    }
     if (!requisitos) {
       errors.requisitos = "Requisitos são obrigatórios";
       naoTemErro = false;
@@ -179,57 +203,59 @@ export default function EditarVaga() {
       errors.dtExpiracao = "Data de expiração é obrigatória";
       naoTemErro = false;
     } else {
-      if(!comparacaoDataAtual(dtExpiracao)){
+      if (!comparacaoDataAtual(dtExpiracao)) {
         errors.dtExpiracao = "Data de expiração é menor que a data atual";
-        naoTemErro = false; 
+        naoTemErro = false;
       }
     }
     setErrorMessages(errors);
     setHasErrors(!naoTemErro);
-    console.log(hasErrors)
     return naoTemErro;
   };
 
   const handleSave = async (event) => {
     event.preventDefault();
-    
+
     // Aguarde a validação do CEP
-    const enderecoRetornado = await validaCep();
-    setEndereco(enderecoRetornado);
-    if (enderecoRetornado) {
-      const inputsValidados = await validarInputs();
-      if (inputsValidados) {
+    setLoading(true)
+    const inputsValidados = await validarInputs();
+    if (inputsValidados) {
+      const enderecoRetornado = await validaCep();
+      if (enderecoRetornado) {
         const vagaCadastrada = {
           titulo,
           descricao,
-          cep,
-          pretensaoSalarial: salarioMinimo + " - " + salarioMaximo,
-          responsabilidades,
+          cep: handleCepFormatacao(),
+          pretensaoSalarial: `${salarioFormatado(salarioMinimo)} - ${salarioFormatado(salarioMaximo)}`,
           requisitos,
           beneficios,
           jornada,
           regime,
-          statusVaga: "ABERTA",
-          imagem: await fetchEmpresaImagem(),
-          dtCriacao: new Date().toLocaleDateString('pt-BR'),
-          dtExpiracao,
-          tag: geraTag("localizacao", endereco.localidade),
+          fkEmpresa: sessionStorage.getItem("idEmpresa"),
+          dtExpiracao: formatDateToISO(dtExpiracao),
+          tag: geraTag("localizacao", enderecoRetornado.localidade),
+          especialidade,
+          periodo: "MANHA"
         };
-  
+
         setLoading(true);
         try {
-          await axios.post(`/vagas/${user.id}`, vagaCadastrada);
-          setLoading(false);
-          toast.success('Vaga publicada com sucesso');
+          await axios.put(`/vagas/${id}`, vagaCadastrada);
+          toast.success('Vaga alterada   com sucesso');
           navigate("/dashboard/vagas-publicadas");
         } catch (err) {
           console.error(err);
-          setLoading(false);
           toast.error('Não foi possível publicar a vaga');
+        } finally {
+          setLoading(false);
         }
+      } else {
+        setLoading(false)
+        toast.error("Erro ao buscar o CEP, tente novamente mais tarde")
+
       }
     } else {
-      toast.error('CEP inválido!');
+      setLoading(false)
     }
   };
 
@@ -238,7 +264,7 @@ export default function EditarVaga() {
       const cepFormatado = cep.replace("-", "");
       const response = await axios.get(`https://viacep.com.br/ws/${cepFormatado}/json/`);
       const data = response.data;
-      
+
       if (data.erro) {
         return null;
       } else {
@@ -246,18 +272,8 @@ export default function EditarVaga() {
       }
 
     } catch (err) {
-      console.error("Erro na requisição do ViaCEP:", err);
+      toast.error("CEP Inválido")
       return null;
-    }
-  }
-
-  const fetchEmpresaImagem = async () => {
-    try{
-      const response = await axios.get(`/empresas/${user.id}`);
-      return response.data.imagem;
-    } catch(err){
-      console.log(err)
-      return "";
     }
   }
 
@@ -272,13 +288,20 @@ export default function EditarVaga() {
     e.target.value = value;
   }
 
+  const handleCepFormatacao = () => {
+    if(cep && cep.length == 8){
+      let cepFormatado = cep.slice(0, 6) + '-' + cep.slice(6)
+      setCep(cepFormatado)
+    }
+  }
+
   function obterPrimeiroErro() {
     for (let key in errorMessages) {
       if (errorMessages[key]) {
         return errorMessages[key];
       }
     }
-    return ""; 
+    return "";
   }
 
   const toggleExpandirSideBar = () => {
@@ -290,7 +313,7 @@ export default function EditarVaga() {
   return (
 
     <>
-      {hasErrors && <Modal titulo="Erro ao públicar a vaga" mensagem={obterPrimeiroErro()} onClick={() => setHasErrors(false)}/>}
+      {hasErrors && <Modal titulo="Erro ao públicar a vaga" mensagem={obterPrimeiroErro()} onClick={() => setHasErrors(false)} />}
       {loading && <Loading />}
       {expandirSideBar && <Overlay />}
       {expandirSideBar && <SidebarExtended funcaoColapsar={toggleExpandirSideBar} />}
@@ -313,6 +336,16 @@ export default function EditarVaga() {
               </div>
 
               <div className={styles["textInput"]}>
+                <label htmlFor="">Especialidade: <span>*</span></label>
+                <input
+                  type='text'
+                  placeholder='Digite a especialidade solicitada pela vaga'
+                  onChange={(e) => setEspecialidade(e.target.value)}
+                  value={especialidade}
+                />
+              </div>
+
+              <div className={styles["textInput"]}>
                 <label htmlFor="">Descrição: <span>*</span></label>
                 <textarea
                   placeholder='Digite o título da vaga'
@@ -329,14 +362,7 @@ export default function EditarVaga() {
                   value={requisitos}
                 />
               </div>
-              <div className={styles["textInput"]}>
-                <label htmlFor="">Responsabilidades: <span>*</span></label>
-                <textarea
-                  placeholder='Digite o título da vaga'
-                  onChange={(e) => setResponsabilidades(e.target.value)}
-                  value={responsabilidades}
-                />
-              </div>
+
               <div className={styles["textInput"]}>
                 <label htmlFor="">Benefícios: <span>*</span></label>
                 <textarea
