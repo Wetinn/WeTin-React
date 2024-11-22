@@ -120,11 +120,6 @@ export default function InformacoesVaga() {
     }
   }
   const renderColunaLateral = () => {
-    var cargaHorariaFormatada = InformacoesVaga.cargaHoraria;
-    if (typeof variable === 'string') {
-      cargaHorariaFormatada = InformacoesVaga.cargaHoraria.replace("_", " ")
-    }
-
     switch (SectionOperator) {
       case "detalhes":
         return (

@@ -11,7 +11,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { geraTag } from '../../../utils/tagUtils';
 import Modal from '../../../components/Modal/Modal';
 import { parsePretencaoSalarial, salarioFormatado } from '../../../utils/numberUtils';
-import { deParaComboBoxDadosBanco } from '../../../utils/globals';
 
 export default function EditarVaga() {
 
