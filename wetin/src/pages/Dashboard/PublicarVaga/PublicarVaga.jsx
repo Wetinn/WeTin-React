@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { salarioFormatado } from '../../../utils/numberUtils'
 import comparacaoDataAtual from '../../../utils/comparacaoDataAtual';
-import { geraTag, selectValueHandler } from '../../../utils/tagUtils';
+import { geraTag } from '../../../utils/tagUtils';
 import Modal from '../../../components/Modal/Modal';
 import formatDateToISO from '../../../utils/dateUtils';
 
@@ -139,11 +139,11 @@ export default function PublicarVaga() {
       naoTemErro = false;
     }
 
-    if (salarioMaximo == "" || salarioMaximo == 0) {
+    if (salarioMaximo === "" || salarioMaximo === 0) {
       errors.pretensaoSalarial = "Salário máximo é obrigatório";
       naoTemErro = false;
     }
-    if (salarioMinimo == "" || salarioMinimo == 0) {
+    if (salarioMinimo === "" || salarioMinimo === 0) {
       errors.pretensaoSalarial = "Salário mínimo é obrigatório";
       naoTemErro = false;
     }
@@ -418,7 +418,6 @@ export default function PublicarVaga() {
               </div>
 
             </form>
-            <h3></h3>
             <div >
             </div>
           </div>

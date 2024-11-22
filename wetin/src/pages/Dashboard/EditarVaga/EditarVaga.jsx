@@ -8,17 +8,14 @@ import Loading from "../../../components/Loading/Loading";
 import SidebarExtended from "../../../components/Sidebar/SidebarExtended/SidebarExtended";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import comparacaoDataAtual from '../../../utils/comparacaoDataAtual';
-import { geraTag, selectValueHandler } from '../../../utils/tagUtils';
+import { geraTag } from '../../../utils/tagUtils';
 import Modal from '../../../components/Modal/Modal';
-import formatDateToISO from '../../../utils/dateUtils';
 import { parsePretencaoSalarial, salarioFormatado } from '../../../utils/numberUtils';
+import { deParaComboBoxDadosBanco } from '../../../utils/globals';
 
 export default function EditarVaga() {
 
   const { id } = useParams();
-  const empresaLogadaJSON = sessionStorage.getItem('user');
-  var user = JSON.parse(empresaLogadaJSON);
 
   const [loading, setLoading] = useState(false);
   const [hasErrors, setHasErrors] = useState(false);
@@ -30,11 +27,9 @@ export default function EditarVaga() {
   const [beneficios, setBeneficios] = useState("");
   const [jornada, setJornada] = useState(0);
   const [regime, setRegime] = useState(0);
-  const [dtExpiracao, setDtExpiracao] = useState("");
   const [salarioMinimo, setSalarioMinimo] = useState(null);
   const [salarioMaximo, setSalarioMaximo] = useState(null);
   const [especialidade, setEspecialidade] = useState("");
-  const [periodo, setPeriodo] = useState("")
 
   const regimeOptions = [
     {
@@ -92,7 +87,6 @@ export default function EditarVaga() {
     periodo: "",
     cargaHoraria: "",
     dtCriacao: "",
-    dtExpiracao: ""
   });
 
   useEffect(() => {
@@ -101,13 +95,10 @@ export default function EditarVaga() {
       try {
         const response = await axios.get(`/vagas/${id}/empresa`)
         handleSetDadosVaga(response.data)
+        console.log(response.data)
         setLoading(false)
       } catch (error) {
         toast.error("Não foi possível recuperar as informações dessa vaga, tente novamente mais tarde");
-        // setTimeout(() => {
-        //   setLoading(false)
-        //   navigate("/dashboard/vagas-publicadas")
-        // }, 2000)
       }
     }
 
@@ -120,12 +111,12 @@ export default function EditarVaga() {
       setSalarioMaximo(parsePretencaoSalarial(dadosVaga.pretensaoSalarial)[1])
       setRequisitos(dadosVaga.requisitos)
       setBeneficios(dadosVaga.beneficios)
-      setPeriodo(dadosVaga.periodo)
-      setDtExpiracao(dadosVaga.dtExpiracao)
+      setRegime(dadosVaga.regime)
+      setJornada(dadosVaga.jornada)
     }
 
     fetchDadosVaga()
-  }, [])
+  }, [id])
 
   const validarInputs = async () => {
     let naoTemErro = true;
@@ -139,8 +130,7 @@ export default function EditarVaga() {
       beneficios: "",
       periodo: "",
       cargaHoraria: "",
-      dtCriacao: "",
-      dtExpiracao: ""
+      dtCriacao: ""
     };
 
     if (!titulo) {
@@ -175,11 +165,11 @@ export default function EditarVaga() {
       naoTemErro = false;
     }
 
-    if (salarioMaximo == null || salarioMaximo == 0) {
+    if (salarioMaximo === null || salarioMaximo === 0) {
       errors.pretensaoSalarial = "Salário máximo é obrigatório";
       naoTemErro = false;
     }
-    if (salarioMinimo == null || salarioMinimo == 0) {
+    if (salarioMinimo === null || salarioMinimo === 0) {
       errors.pretensaoSalarial = "Salário mínimo é obrigatório";
       naoTemErro = false;
     }
@@ -198,15 +188,6 @@ export default function EditarVaga() {
     if (!regime) {
       errors.regime = "Tipo de Regime é obrigatória";
       naoTemErro = false;
-    }
-    if (!dtExpiracao) {
-      errors.dtExpiracao = "Data de expiração é obrigatória";
-      naoTemErro = false;
-    } else {
-      if (!comparacaoDataAtual(dtExpiracao)) {
-        errors.dtExpiracao = "Data de expiração é menor que a data atual";
-        naoTemErro = false;
-      }
     }
     setErrorMessages(errors);
     setHasErrors(!naoTemErro);
@@ -232,7 +213,6 @@ export default function EditarVaga() {
           jornada,
           regime,
           fkEmpresa: sessionStorage.getItem("idEmpresa"),
-          dtExpiracao: formatDateToISO(dtExpiracao),
           tag: geraTag("localizacao", enderecoRetornado.localidade),
           especialidade,
           periodo: "MANHA"
@@ -277,22 +257,13 @@ export default function EditarVaga() {
     }
   }
 
-  const handleMascaraDataInput = (e) => {
-    let value = e.target.value.replace(/\D/g, '');
-    if (value.length > 2) {
-      value = value.slice(0, 2) + '/' + value.slice(2);
-    }
-    if (value.length > 5) {
-      value = value.slice(0, 5) + '/' + value.slice(5, 9);
-    }
-    e.target.value = value;
-  }
-
   const handleCepFormatacao = () => {
-    if(cep && cep.length == 8){
-      let cepFormatado = cep.slice(0, 6) + '-' + cep.slice(6)
+    if(cep && cep.length === 8){
+      let cepFormatado = cep.slice(0, 5) + '-' + cep.slice(5)
       setCep(cepFormatado)
+      return cepFormatado
     }
+    return cep
   }
 
   function obterPrimeiroErro() {
@@ -423,27 +394,11 @@ export default function EditarVaga() {
                   </select>
                 </div>
               </div>
-
-              <div className={styles["textInputCep"]}>
-                <label htmlFor="">Data expiração: <span>*</span></label>
-                <input
-                  id="dataInput"
-                  type='text'
-                  placeholder="DD/MM/AAAA"
-                  maxlength="10"
-                  onChange={(e) => {
-                    setDtExpiracao(e.target.value)
-                  }}
-                  onKeyPress={(e) => handleMascaraDataInput(e)}
-                  value={dtExpiracao}
-                />
-              </div>
               <div className={styles["button_box"]}>
                 <button className={styles["botao_atualizar"]} onClick={(e) => handleSave(e)}>Atualizar vaga</button>
               </div>
 
             </form>
-            <h3></h3>
             <div >
             </div>
           </div>

@@ -6,7 +6,7 @@ const geraTag = (tipo, valor) => {
 }
 
 const selectValueHandler = (valorSelect, opcoes) => 
-  (opcoes.find(option => option.valor == valorSelect) || { texto: "" }).texto;
+  (opcoes.find(option => option.valor === valorSelect) || { texto: "" }).texto;
 
 export {
   geraTag,

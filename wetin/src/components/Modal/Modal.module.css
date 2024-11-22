@@ -32,7 +32,7 @@
 
 .body {
   width: 100%;
-  height: fill;
+  height: stretch;
   display: flex;
   align-items: center;
 }
