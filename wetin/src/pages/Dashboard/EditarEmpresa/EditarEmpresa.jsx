@@ -129,6 +129,7 @@ export default function EditarEmpresa() {
       const enderecoRetornado = await validaCep();
       if (enderecoRetornado) {
         const empresaEditada = {
+          id: user.id,
           nome,
           telefone,
           cep,
