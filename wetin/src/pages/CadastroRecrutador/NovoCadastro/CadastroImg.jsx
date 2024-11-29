@@ -161,7 +161,7 @@ export default function CadastroRecrutador() {
       });
 
       const fileUrl = response.data; // Supondo que o endpoint retorna a URL do arquivo
-      setFileUrl(fileUrl);
+      setFileUrl(fileUrl.url);
 
       // Aqui você pode salvar a URL no estado ou fazer outra ação conforme necessário
       console.log('File URL:', fileUrl);

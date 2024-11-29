@@ -70,7 +70,7 @@ export default function CadastroImagem() {
             });
     
             const fileUrl = response.data; // Supondo que o endpoint retorna a URL do arquivo
-            setFileUrl(fileUrl); // Atualiza o estado com a URL da imagem
+            setFileUrl(fileUrl.url); // Atualiza o estado com a URL da imagem
     
             // Debugging: Verifica se a URL da imagem está sendo corretamente definida
             console.log('File URL:', fileUrl);
