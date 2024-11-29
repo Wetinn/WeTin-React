@@ -161,7 +161,12 @@ export default function CadastroRecrutador() {
       });
 
       const fileUrl = response.data; // Supondo que o endpoint retorna a URL do arquivo
-      setFileUrl(fileUrl.url);
+      setFileUrl(fileUrl);
+      const fotoRecrutador = {
+        imagem: fileUrl // Certifique-se de que fileUrl contém a URL correta da imagem
+    };
+    console.log("to mandando", fotoRecrutador)
+    sessionStorage.setItem("fotoRecrutador", JSON.stringify(fotoRecrutador))
 
       // Aqui você pode salvar a URL no estado ou fazer outra ação conforme necessário
       console.log('File URL:', fileUrl);

@@ -13,6 +13,10 @@ import InputMask from 'react-input-mask';
 export default function CadastroRecrutador() {
     const navigate = useNavigate();
 
+    var fotoRecrutadorJson = sessionStorage.getItem('fotoRecrutador')
+    var fotoRecrutador = JSON.parse(fotoRecrutadorJson)
+    var imagem = fotoRecrutador.imagem
+
     const [nome, setNome] = useState("");
     const [cnpj, setCnpj] = useState("");
     const [email, setEmail] = useState("");
@@ -77,6 +81,7 @@ export default function CadastroRecrutador() {
         if (validarInputs()) {
             const cadastroRecrutador = {
                 nome,
+                imagem,
                 cnpj,
                 email,
                 telefone,
