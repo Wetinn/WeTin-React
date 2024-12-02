@@ -117,7 +117,6 @@ export default function EditarEmpresa() {
     }
 
     setErrorMessages(errors);
-    console.log(naoTemErro)
     setHasErrors(!naoTemErro);
     return naoTemErro;
   };
@@ -139,7 +138,6 @@ export default function EditarEmpresa() {
           cnpj,
           tag: geraTag("localizacao", enderecoRetornado.localidade),
         }
-
         setLoading(true);
         try {
           await axios.put(`/empresas/${user.id}`, empresaEditada);
@@ -147,12 +145,14 @@ export default function EditarEmpresa() {
           toast.success("Empresa Atualizada")
           sessionStorage.setItem("cepEmpresa", empresaEditada.cep);
           navigate("/dashboard/perfil-empresa")
+          toast.success("Empresa atualizada com sucesso!")
         } catch (err) {
           toast.error("Não foi possivel atualizar a empresa")
         } finally {
           setLoading(false);
         }
       } else {
+        toast.error("Cep inválido")
         setLoading(false)
       }
     } else {
