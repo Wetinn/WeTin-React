@@ -18,7 +18,9 @@ export default function Pagamento() {
 
   var editadoJSON = sessionStorage.getItem('editado');
   var continuacaoJSON = sessionStorage.getItem('continuacao');
-
+  var fotoRecrutadorJson = sessionStorage.getItem('fotoRecrutador')
+  var fotoRecrutador = JSON.parse(fotoRecrutadorJson)
+  var imagem = fotoRecrutador.imagem
   var editado = JSON.parse(editadoJSON);
   var continuacao = JSON.parse(continuacaoJSON);
 
@@ -27,7 +29,6 @@ export default function Pagamento() {
   var telefone = editado.telefone
   var cep = continuacao.cep
   var senha = editado.senha
-  var imagem = continuacao.imagem
   var cnpj = editado.cnpj
   var descricao = continuacao.descricao
   var linkedin = continuacao.linkedin

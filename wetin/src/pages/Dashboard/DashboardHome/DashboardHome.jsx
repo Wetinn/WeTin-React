@@ -32,7 +32,6 @@ export default function DashboardHome() {
     useEffect(() => {
         const fetchInformacoes = async () => {
             try {
-                const candRecomendadosRes = await axios.get(`/candidatos/candidatos-proximos/`, {params: {cep}})
                 const candidatosResponse = await axios.get('/candidatos');
                 try{
                     const aderenciaResponse = await axios.get(`/empresas/${idEmpresa}/consultar-visibilidade`);
@@ -49,19 +48,22 @@ export default function DashboardHome() {
                         qtdVagas: 4
                     })
                 }
-                const recomendacoes = [];
-                candidatosResponse.data.map(candidato => {
-                    const recomendacao = buscarCandidatosRecomendados(candidato.id, candRecomendadosRes);
-                    if(recomendacao === true){
-                        recomendacoes.push(candidato)
-                    }
-                    return true;
-                })
 
-
+                try{
+                  const candRecomendadosRes = await axios.get(`/candidatos/candidatos-proximos/`, {params: {cep}})
+                  const recomendacoes = [];
+                  candidatosResponse.data.map(candidato => {
+                      const recomendacao = buscarCandidatosRecomendados(candidato.id, candRecomendadosRes);
+                      if(recomendacao === true){
+                          recomendacoes.push(candidato)
+                      }
+                      return true;
+                  })
+                  setCandidatosRecomendados(recomendacoes)  
+                }catch(err){
+                  setCandidatosRecomendados([])  
+                }
                 setCandidatos(candidatosResponse.data) 
-                setCandidatosRecomendados(recomendacoes)          
-                
                 setLoading(false);
             } catch (err) {
                 setError(true);

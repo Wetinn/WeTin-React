@@ -47,7 +47,12 @@ export default function CandidatosFavoritos() {
                 
                 console.log(candidatosResponse.data)
                 const favoritosResponse = await axios.get(`/empresas/${idEmpresa}/consultar-candidatos-favoritos`);
-                const recomendadosResponse = await axios.get(`/candidatos/candidatos-proximos/`, { params: { cep } });
+                var recomendadosResponse;
+                try{
+                  recomendadosResponse = await axios.get(`/candidatos/candidatos-proximos/`, { params: { cep } });
+                } catch(err){
+                  recomendadosResponse = {data:[]}
+                }
     
                 const candidatosComCidade = await Promise.all(
                     candidatosResponse.data.map(async (candidato) => {
